@@ -6,7 +6,7 @@
  */
 import type {
   Dataset, ProspectRow, ProspectFilters, Page, Review, Draft, Followup,
-  Opportunity, PaymentVerification, GoalProgress, AuditEvent, Freshness, ReviewState, Decision, FitAssessment, FitLevel, BudgetSignal, Offer, Stage,
+  Opportunity, PaymentVerification, GoalProgress, AuditEvent, Freshness, ReviewState, Decision, FitAssessment, FitLevel, BudgetSignal, Offer, Stage, AgentStep,
 } from './model';
 import { fixtures, DEMO_NOW, GOAL_WINDOW } from './fixtures';
 import type { Persistence, SavedState } from './persistence';
@@ -23,6 +23,10 @@ export interface DataAdapter {
   listProspects(filters: ProspectFilters, page: number, pageSize: number): Promise<Page<ProspectRow>>;
   getProspect(id: string): Promise<ProspectRow | null>;
   getAudit(prospectId: string): Promise<AuditEvent[]>;
+  /** Pasos del agente tras la aprobación (los escribe María). */
+  getAgentSteps(prospectId: string): Promise<AgentStep[]>;
+  /** Conteo de razones de descarte, de las decisiones de Adri. */
+  getDiscardReasons(): Promise<{ reason: string; count: number }[]>;
   saveReview(input: { prospectId: string; decision: Decision; reason?: string; revisitOn?: string }): Promise<Review>;
   saveFit(input: { prospectId: string; fit: FitLevel; services: Offer[]; budget: BudgetSignal; note?: string }): Promise<FitAssessment>;
   /** Hitos de una oportunidad Closed: anticipo 50%, entrega, saldo 50%. Cada uno con fecha. */
@@ -128,7 +132,7 @@ export class MockAdapter implements DataAdapter {
   }
   private get d(): Dataset {
     if (this.modeRef.current === 'empty') {
-      return { ...this.data, prospects: [], evidence: [], contacts: [], reviews: [], fits: [], opportunities: [], payments: [], drafts: [], followups: [], audit: [] };
+      return { ...this.data, prospects: [], evidence: [], contacts: [], reviews: [], fits: [], agentSteps: [], opportunities: [], payments: [], drafts: [], followups: [], audit: [] };
     }
     return this.data;
   }
@@ -158,9 +162,19 @@ export class MockAdapter implements DataAdapter {
       if (f.exclusion && f.exclusion !== 'all') {
         if (f.exclusion === 'none' ? r.prospect.exclusion !== null : r.prospect.exclusion !== f.exclusion) return false;
       }
+      if (f.fit && f.fit !== 'all') {
+        if (f.fit === 'none' ? r.fit !== null : r.fit?.fit !== f.fit) return false;
+      }
       return true;
     });
-    rows = rows.sort((a, b) => b.prospect.createdAt.localeCompare(a.prospect.createdAt));
+    const fitRank = { buen_fit: 0, fit_parcial: 1, no_fit: 3 } as const;
+    rows = rows.sort((a, b) => {
+      if (f.sort === 'fit') {
+        const ra = a.fit ? fitRank[a.fit.fit] : 2, rb = b.fit ? fitRank[b.fit.fit] : 2;
+        if (ra !== rb) return ra - rb;
+      }
+      return b.prospect.createdAt.localeCompare(a.prospect.createdAt);
+    });
     const start = (page - 1) * pageSize;
     return { items: rows.slice(start, start + pageSize), total: rows.length, page, pageSize };
   }
@@ -178,6 +192,24 @@ export class MockAdapter implements DataAdapter {
       ...D.followups.filter((r) => r.prospectId === prospectId).map((r) => r.id),
       ...D.opportunities.filter((r) => r.prospectId === prospectId).map((r) => r.id)]);
     return D.audit.filter((a) => ids.has(a.entityId)).sort((a, b) => b.at.localeCompare(a.at));
+  }
+
+  async getAgentSteps(prospectId: string) {
+    await this.gate();
+    const list = this.d.agentSteps.filter((s) => s.prospectId === prospectId);
+    if (list.length) return list;
+    // aprobado localmente en la demo: la lista aparece con todo pendiente hasta que María la ejecute
+    const r = this.row(prospectId);
+    if (r?.reviewState !== 'approved') return [];
+    const keys: AgentStep['key'][] = ['best_contact', 'warm_paths', 'brief', 'draft_email', 'save_gmail', 'update_pipeline', 'schedule_followups'];
+    return keys.map((key, i) => ({ prospectId, key, status: i === 0 ? 'running' as const : 'pending' as const, note: null, at: null }));
+  }
+
+  async getDiscardReasons() {
+    await this.gate();
+    const counts = new Map<string, number>();
+    for (const r of this.d.reviews) if (r.decision === 'discard' && r.reason) counts.set(r.reason, (counts.get(r.reason) ?? 0) + 1);
+    return [...counts.entries()].map(([reason, count]) => ({ reason, count })).sort((a, b) => b.count - a.count);
   }
 
   async saveReview(input: { prospectId: string; decision: Decision; reason?: string; revisitOn?: string }) {

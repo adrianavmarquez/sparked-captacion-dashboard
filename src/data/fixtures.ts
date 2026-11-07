@@ -6,7 +6,7 @@
  */
 import type {
   Dataset, Company, Prospect, Evidence, Contact, Review, Opportunity,
-  PaymentVerification, Draft, Followup, AuditEvent, Offer, Exclusion, Stage, FitAssessment,
+  PaymentVerification, Draft, Followup, AuditEvent, Offer, Exclusion, Stage, FitAssessment, AgentStep,
 } from './model';
 
 /** Hora del Este (ET). */
@@ -60,6 +60,19 @@ const seeds: Seed[] = [
     summary: 'Panadería artesanal. Cerró una venta con Sparked (contrato firmado). Depósito en verificación.' },
 ];
 
+const whyNowOf = (k: string): Prospect['whyNow'] => {
+  const map: Record<string, { fact: string; days: number }> = {
+    A: { fact: 'Abrió segunda terraza y anunció delivery propio en redes.', days: 9 },
+    B: { fact: 'Inauguró segunda sede; la web sigue mostrando una sola dirección.', days: 20 },
+    D: { fact: 'Lanzó colección nueva solo por WhatsApp; sin catálogo en línea.', days: 4 },
+    F: { fact: 'Competidor directo empezó tours en video semanales.', days: 12 },
+    L: { fact: 'Temporada alta (bodas) empieza en 6 semanas; sin pedidos en línea.', days: 3 },
+    M: { fact: 'Abrió inscripciones del nuevo periodo; el formulario es un PDF.', days: 15 },
+  };
+  const w = map[k];
+  return w ? { fact: w.fact, date: date(-w.days), source: `https://noticia.ejemplo.invalid/${k.toLowerCase()}` } : null;
+};
+
 const companies: Company[] = seeds.map((s) => ({
   id: `co_${s.key}`,
   name: s.name,
@@ -81,6 +94,7 @@ const prospects: Prospect[] = seeds.map((s) => ({
   budgetSignal: null,
   exclusion: s.exclusion ?? null,
   createdAt: d(-s.createdAge, 9),
+  whyNow: whyNowOf(s.key),
 }));
 
 const evidence: Evidence[] = seeds.flatMap((s) => {
@@ -104,11 +118,12 @@ const contacts: Contact[] = seeds.flatMap((s) => {
   const k = s.key.toLowerCase();
   const list: Contact[] = [
     { id: `ct_${s.key}_1`, prospectId: `pr_${s.key}`, role: 'decisor', channel: 'email',
-      value: `contacto@${k}-ejemplo.invalid`, verified: ['A', 'B', 'D', 'F', 'N', 'M'].includes(s.key), verifiedAt: ['A', 'B', 'D', 'F', 'N', 'M'].includes(s.key) ? d(-1, 16) : null },
+      value: `contacto@${k}-ejemplo.invalid`, verified: ['A', 'B', 'D', 'F', 'N', 'M'].includes(s.key), verifiedAt: ['A', 'B', 'D', 'F', 'N', 'M'].includes(s.key) ? d(-1, 16) : null,
+      warmPath: s.key === 'A' ? '2 contactos en común en LinkedIn (Chiri)' : s.key === 'F' ? 'Cliente anterior de Chiri conoce a la dueña' : s.key === 'B' ? '1 contacto en común en LinkedIn' : null },
   ];
   if (['B', 'F', 'M', 'H'].includes(s.key)) {
     list.push({ id: `ct_${s.key}_2`, prospectId: `pr_${s.key}`, role: 'ejecutor', channel: 'linkedin',
-      value: `linkedin.ejemplo.invalid/in/persona-${k}`, verified: s.key === 'F', verifiedAt: s.key === 'F' ? d(-2, 12) : null });
+      value: `linkedin.ejemplo.invalid/in/persona-${k}`, verified: s.key === 'F', verifiedAt: s.key === 'F' ? d(-2, 12) : null, warmPath: null });
   }
   return list;
 });
@@ -173,6 +188,23 @@ const fits: FitAssessment[] = [
   { id: 'ft_F', prospectId: 'pr_F', fit: 'buen_fit', services: ['plus'], budget: 'rango_plus', note: null, decidedBy: 'adri', decidedAt: d(-14, 10) },
 ];
 
+const stepsFor = (pid: string, done: number, running: boolean, notes: Partial<Record<AgentStep['key'], string>>, base: number): AgentStep[] => {
+  const keys: AgentStep['key'][] = ['best_contact', 'warm_paths', 'brief', 'draft_email', 'save_gmail', 'update_pipeline', 'schedule_followups'];
+  return keys.map((key, i) => ({
+    prospectId: pid, key,
+    status: i < done ? 'done' : running && i === done ? 'running' : 'pending',
+    note: i <= done ? notes[key] ?? null : null,
+    at: i < done ? d(base, 10 + i) : null,
+  }));
+};
+const agentSteps: AgentStep[] = [
+  ...stepsFor('pr_A', 3, true, { best_contact: 'contacto@a-ejemplo.invalid · decisor', warm_paths: '2 contactos en común en LinkedIn (Chiri)', brief: 'Ángulo: la terraza nueva se ve mejor en persona que en línea; un competidor publica menú y reservas.', draft_email: 'Redactando en formato 3, nivel cotidiano…' }, -1),
+  ...stepsFor('pr_B', 7, false, { best_contact: 'contacto@b-ejemplo.invalid · decisor', warm_paths: '1 contacto en común en LinkedIn', brief: 'Ángulo: citas en línea para dos sedes.', draft_email: 'Borrador listo', save_gmail: 'Guardado en Gmail, destinatario en blanco', update_pipeline: 'New Lead → Contacted', schedule_followups: 'Días 4, 10 y 20 programados' }, -8),
+  ...stepsFor('pr_F', 7, false, { best_contact: 'LinkedIn · ejecutora', warm_paths: 'Intro posible vía cliente anterior', brief: 'Ángulo: listados en video.', draft_email: 'Borrador listo', save_gmail: 'Mensaje LinkedIn preparado', update_pipeline: 'New Lead → Contacted', schedule_followups: 'Días 4, 10 y 20 programados' }, -13),
+  ...stepsFor('pr_M', 7, false, { best_contact: 'contacto@m-ejemplo.invalid', warm_paths: 'Sin camino cálido', brief: 'Ángulo: inscripción en línea.', draft_email: 'Borrador listo', save_gmail: 'Guardado en Gmail', update_pipeline: 'New Lead → Contacted', schedule_followups: 'Secuencia detenida: respondió' }, -25),
+  ...stepsFor('pr_N', 7, false, { best_contact: 'contacto@n-ejemplo.invalid', warm_paths: 'Sin camino cálido', brief: 'Ángulo: pedidos para eventos.', draft_email: 'Borrador listo', save_gmail: 'Guardado en Gmail', update_pipeline: 'Closed', schedule_followups: 'No aplica' }, -40),
+];
+
 const audit: AuditEvent[] = [
   { id: 'au_1', entity: 'prospect', entityId: 'pr_A', action: 'Ficha creada y enriquecida', by: 'maria', at: d(-3, 9) },
   { id: 'au_2', entity: 'evidence', entityId: 'ev_A_2', action: 'Evidencia observada (3 componentes)', by: 'maria', at: d(-2, 11) },
@@ -190,6 +222,6 @@ const audit: AuditEvent[] = [
 ];
 
 export const fixtures: Dataset = {
-  companies, prospects, evidence, contacts, reviews, opportunities, payments, drafts, followups, fits, audit,
+  companies, prospects, evidence, contacts, reviews, opportunities, payments, drafts, followups, fits, agentSteps, audit,
   meta: { updatedAt: d(0, 14), source: 'Fixtures locales de la demo (ficticios)' },
 };

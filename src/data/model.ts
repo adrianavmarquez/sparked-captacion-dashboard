@@ -42,6 +42,8 @@ export interface Prospect {
   budgetSignal: null;
   exclusion: Exclusion | null;
   createdAt: string; // ISO datetime ET
+  /** [PROPUESTO 7 nov] Por qué contactar ahora: hecho con fecha y fuente. Lo alimenta María. */
+  whyNow: { fact: string; date: string; source: string } | null;
 }
 
 export interface Evidence {
@@ -62,6 +64,8 @@ export interface Contact {
   value: string; // ficticio
   verified: boolean;
   verifiedAt: string | null;
+  /** [PROPUESTO 7 nov] camino cálido (conexiones en común, intro posible). Lo alimenta María. */
+  warmPath: string | null;
 }
 
 export interface Review {
@@ -134,6 +138,17 @@ export interface FitAssessment {
   decidedAt: string;
 }
 
+/** [PROPUESTO 7 nov] Pasos que ejecuta María tras la aprobación del contacto. */
+export type AgentStepKey = 'best_contact' | 'warm_paths' | 'brief' | 'draft_email' | 'save_gmail' | 'update_pipeline' | 'schedule_followups';
+export type AgentStepStatus = 'pending' | 'running' | 'done' | 'blocked';
+export interface AgentStep {
+  prospectId: string;
+  key: AgentStepKey;
+  status: AgentStepStatus;
+  note: string | null;
+  at: string | null;
+}
+
 export interface AuditEvent {
   id: string;
   entity: string;
@@ -154,6 +169,7 @@ export interface Dataset {
   drafts: Draft[];
   followups: Followup[];
   fits: FitAssessment[];
+  agentSteps: AgentStep[];
   audit: AuditEvent[];
   /** Fecha y fuente de la última actualización del conjunto. */
   meta: { updatedAt: string; source: string };
@@ -189,6 +205,8 @@ export interface ProspectFilters {
   locality?: string | 'all';
   freshness?: Freshness | 'sin_evidencia' | 'all';
   exclusion?: Exclusion | 'none' | 'all';
+  fit?: FitLevel | 'none' | 'all';
+  sort?: 'recent' | 'fit';
 }
 
 export interface Page<T> {

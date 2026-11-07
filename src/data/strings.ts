@@ -27,6 +27,13 @@ export const es = {
   exclusion: { chain: 'Cadena', franchise: 'Franquicia', recently_renewed: 'Web recién renovada', manual_review: 'Revisión manual', none: 'Sin exclusión' },
   evidence: { social_outdated: 'Presencia social desactualizada', lower_visibility_vs_competitor: 'Menor visibilidad observable frente al competidor', competitor_better: 'Competidor local con mejor presencia', observed: 'Observado', competitor: 'Competidor',
     gapNote: 'Es una brecha observada hoy, no dinero perdido demostrado.' },
+  agent: {
+    title: 'María en marcha', sub: 'Lo que ejecuta tras tu aprobación. Cada paso queda con hora.',
+    best_contact: 'Buscando el mejor contacto', warm_paths: 'Revisando caminos cálidos', brief: 'Escribiendo el brief de outreach', draft_email: 'Redactando el correo', save_gmail: 'Guardando el borrador en Gmail', update_pipeline: 'Actualizando el pipeline', schedule_followups: 'Programando seguimientos',
+    pending: 'Pendiente', running: 'En curso', done: 'Hecho', blocked: 'Bloqueado', waiting: 'Aparece cuando apruebas el contacto.',
+  },
+  whyNow: { title: 'Por qué ahora', none: 'Sin disparador registrado. Lo alimenta María.' },
+  warm: { title: 'Camino cálido', none: 'Sin camino cálido registrado' },
   stage: { new_lead: 'New Lead', contacted: 'Contacted', qualified: 'Qualified', proposal_sent: 'Proposal Sent', negotiation: 'Negotiation', closed: 'Closed' },
   stageCond: {
     new_lead: 'Fit y contacto listo', contacted: 'Envío efectivo', qualified: 'Encaja + confirmó interés', proposal_sent: 'Propuesta enviada', negotiation: 'Condiciones en discusión', closed: 'Contrato firmado + 50% o mes adelantado',
@@ -40,7 +47,7 @@ export const es = {
     seeAll: 'Ver todo', nothingToday: 'Nada pendiente en este bloque.',
   },
   prospectos: {
-    title: 'Prospectos', sub: 'María construye las fichas. Tú decides.', searchPh: 'Buscar negocio, rubro o localidad', fOffer: 'Oferta', fState: 'Revisión', fLocality: 'Localidad', fFresh: 'Evidencia', fExcl: 'Exclusión',
+    title: 'Prospectos', sub: 'María construye las fichas. Tú decides.', searchPh: 'Buscar negocio, rubro o localidad', fOffer: 'Oferta', fState: 'Revisión', fLocality: 'Localidad', fFresh: 'Evidencia', fExcl: 'Exclusión', fFit: 'Fit', sortFit: 'Ordenar por fit', sortRecent: 'Más recientes', tabAll: 'Todos', fitNone: 'Sin valorar',
     cols: { name: 'Negocio', industry: 'Rubro', locality: 'Localidad', offer: 'Oferta', evidence: 'Evidencia', state: 'Revisión', contact: 'Contacto', created: 'Creado' },
   },
   ficha: {
@@ -56,8 +63,8 @@ export const es = {
   budget: { sin_dato: 'Sin dato', bajo: 'Parece bajo (menos que Diagnóstico)', rango_core: 'Rango Core', rango_plus: 'Rango Plus', abierto: 'Abierto a conversar' },
   pipeline: { title: 'Pipeline', sub: 'Etapas del Marketing Pipeline en GHL. Arrastra una tarjeta para cambiarla de etapa.', readFrom: 'Etapas leídas de GHL el 7 nov 2026 · los movimientos se guardan aquí; sincronización con GHL pendiente', moved: 'Movido a', dragHint: 'Mantén pulsado y arrastra. Con teclado: flechas izquierda y derecha.', empty: 'Sin oportunidades en esta etapa', connect: 'Conectar GHL', cond: 'Condición de entrada', lossReasons: 'Ganado/perdido y razones: verificación técnica futura.' },
   seguimientos: { title: 'Seguimientos', sub: 'Días 4, 10 y 20 desde el envío real del primer contacto. Cada uno es un borrador que revisas.', due: 'Toca', overdue: 'Atrasado', upcoming: 'Próximo', stopped: 'Detenido', replied: 'respondió', opt_out: 'pidió baja', noDraft: 'Sin borrador aún', firstSent: 'Primer contacto:', day: 'Día' },
-  borradores: { title: 'Borradores', sub: 'Nada sale sin ti. Guardado no es enviado.', approve: 'Aprobar borrador', send: 'Enviar', sendHint: 'Integración pendiente: el envío lo presiona una persona cuando Gmail/LinkedIn estén conectados.', preview: 'Previsualización', plain: 'Texto plano', proofNote: 'Única prueba citable: sparkedreactions.com. Sin casos, métricas ni resultados.', subject: 'Asunto', approvedOn: 'Aprobado el', sentOn: 'Enviado el' },
-  criterios: { title: 'Criterios y configuración', sub: 'Reglas vigentes y su nivel. Solo lectura en la demo.' },
+  borradores: { title: 'Borradores', sub: 'Nada sale sin ti. Guardado no es enviado.', approve: 'Aprobar borrador', send: 'Enviar', sendHint: 'Integración pendiente: el envío lo presiona una persona cuando Gmail/LinkedIn estén conectados.', preview: 'Previsualización', plain: 'Texto plano', proofNote: 'Única prueba citable: sparkedreactions.com. Sin casos, métricas ni resultados.', subject: 'Asunto', approvedOn: 'Aprobado el', sentOn: 'Enviado el', openGmail: 'Abrir en Gmail', markSent: 'Marcar como enviado', gmailNote: 'María ya tiene acceso al correo. Estos botones los conecta ella.' },
+  criterios: { title: 'Criterios y configuración', sub: 'Reglas vigentes y su nivel. Solo lectura en la demo.', reasons: 'Razones de descarte', reasonsSub: 'Se cuentan solas a partir de tus decisiones.', reasonsEmpty: 'Aún no has descartado ninguna ficha.' },
   ingresos: { title: 'Ingresos', sub: 'Lo que llega a Closed pasa a monto contratado. Tú marcas anticipo, entrega y saldo; lo demás se calcula solo.', body: 'Contratado es facturación, anticipo es caja: no se mezclan. Sin montos estimados ni pronósticos. Sin datos de tarjeta ni cuenta.', contracted: 'Monto contratado', deposit: 'Anticipo cobrado', balance: 'Saldo pendiente', payment: 'Pago verificado' },
 };
 

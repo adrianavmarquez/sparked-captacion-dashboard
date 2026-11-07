@@ -5,25 +5,25 @@ import { useQuery, useStore } from '../lib/store';
 import { freshnessOf } from '../data/adapter';
 import { fmtDate, fmtDateTime, ageDays } from '../lib/format';
 import { Empty, ExclusionPill, FreshnessPill, Loaded, Note, OfferPill, ReviewPill, StagePill, Verified } from '../components/ui';
-import type { Decision, ProspectRow, AuditEvent, FitLevel, BudgetSignal, Offer } from '../data/model';
+import type { Decision, ProspectRow, AuditEvent, FitLevel, BudgetSignal, Offer, AgentStep } from '../data/model';
 
 export function Ficha() {
   const { id = '' } = useParams();
   const q = useQuery(async (a) => {
-    const [row, audit] = await Promise.all([a.getProspect(id), a.getAudit(id)]);
-    return { row, audit };
+    const [row, audit, steps] = await Promise.all([a.getProspect(id), a.getAudit(id), a.getAgentSteps(id)]);
+    return { row, audit, steps };
   }, [id]);
 
   return (
     <Loaded q={q} rows={8}>
-      {({ row, audit }) => row ? <FichaBody row={row} audit={audit} /> : (
+      {({ row, audit, steps }) => row ? <FichaBody row={row} audit={audit} steps={steps} /> : (
         <Empty title={t.states.notFound} action={<Link className="btn btn--secondary btn--sm" to="/prospectos">{t.common.back}</Link>} />
       )}
     </Loaded>
   );
 }
 
-function FichaBody({ row, audit }: { row: ProspectRow; audit: AuditEvent[] }) {
+function FichaBody({ row, audit, steps }: { row: ProspectRow; audit: AuditEvent[]; steps: AgentStep[] }) {
   const { prospect, company, evidence, contacts, review, opportunity } = row;
   const best = contacts.find((c) => c.verified) ?? contacts[0];
   return (
@@ -50,6 +50,14 @@ function FichaBody({ row, audit }: { row: ProspectRow; audit: AuditEvent[] }) {
             <h2 className="card__label">{t.ficha.summary}</h2>
             <p style={{ marginTop: 8, fontSize: 'var(--fs-lg)', lineHeight: 1.4, fontFamily: 'var(--font-display)', maxWidth: '62ch' }}>{prospect.summary}</p>
             <div className="card__foot">{t.common.source}: <a href={prospect.summarySource} target="_blank" rel="noreferrer">{prospect.summarySource}</a></div>
+          </section>
+
+          <section className="card card--sky" aria-labelledby="h-why">
+            <div className="row row--between">
+              <h2 id="h-why" className="card__label" style={{ color: 'var(--espresso)' }}>{t.whyNow.title}</h2>
+              {prospect.whyNow && <span className="page__meta" style={{ color: 'var(--ink-soft)' }}>{fmtDate(prospect.whyNow.date)} · <a href={prospect.whyNow.source} target="_blank" rel="noreferrer">{t.common.source}</a></span>}
+            </div>
+            <p style={{ marginTop: 6, fontSize: 'var(--fs-md)', color: prospect.whyNow ? 'var(--onyx)' : 'var(--ink-muted)' }}>{prospect.whyNow ? prospect.whyNow.fact : t.whyNow.none}</p>
           </section>
 
           {prospect.exclusion && (
@@ -102,6 +110,10 @@ function FichaBody({ row, audit }: { row: ProspectRow; audit: AuditEvent[] }) {
                       <span className="page__meta contact__meta">{t.role[c.role]}{c.verifiedAt && <> · {fmtDate(c.verifiedAt)}</>}</span>
                     </div>
                   ))}
+                  <div className="row" style={{ gap: 8, marginTop: 4 }}>
+                    <span className="pill pill--plain pill--butter">{t.warm.title}</span>
+                    <span style={{ fontSize: 'var(--fs-sm)', color: contacts.some((c) => c.warmPath) ? 'var(--onyx)' : 'var(--ink-muted)' }}>{contacts.find((c) => c.warmPath)?.warmPath ?? t.warm.none}</span>
+                  </div>
                 </div>
               )}
             </section>
@@ -109,6 +121,7 @@ function FichaBody({ row, audit }: { row: ProspectRow; audit: AuditEvent[] }) {
 
         <div className="stack" style={{ gap: 'var(--s-4)' }}>
           <DecisionCard row={row} />
+          <AgentCard steps={steps} approved={row.reviewState === 'approved'} />
           <FitCard row={row} />
           <section className="card card--flat" aria-labelledby="h-hist">
             <h2 id="h-hist" className="card__label">{t.ficha.history}</h2>
@@ -281,6 +294,32 @@ function FitCard({ row }: { row: ProspectRow }) {
           <span className="pill pill--plain pill--ghost">{persistence.short}</span>
         </div>
       </form>
+    </section>
+  );
+}
+
+function AgentCard({ steps, approved }: { steps: AgentStep[]; approved: boolean }) {
+  const done = steps.filter((s) => s.status === 'done').length;
+  return (
+    <section className="card card--flat" aria-labelledby="h-agent">
+      <div className="row row--between">
+        <h2 id="h-agent" className="card__label">{t.agent.title}</h2>
+        {steps.length > 0 && <span className="pill pill--plain pill--outline">{done}/{steps.length}</span>}
+      </div>
+      {!approved || steps.length === 0 ? <p className="page__meta" style={{ marginTop: 8 }}>{t.agent.waiting}</p> : (
+        <ol className="steps">
+          {steps.map((s) => (
+            <li key={s.key} className={`stepi stepi--${s.status}`}>
+              <span className="stepi__dot" aria-hidden="true">{s.status === 'done' ? '✓' : ''}</span>
+              <div style={{ minWidth: 0 }}>
+                <div className="stepi__t">{t.agent[s.key]} <span className="sr-only">· {t.agent[s.status]}</span></div>
+                {s.note && <div className="stepi__n">{s.note}</div>}
+                {s.at && <div className="page__meta">{fmtDateTime(s.at)}</div>}
+              </div>
+            </li>
+          ))}
+        </ol>
+      )}
     </section>
   );
 }

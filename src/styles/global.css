@@ -157,9 +157,30 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .field textarea { min-height: 84px; resize: vertical; font-family: var(--font-body); }
 .field input::placeholder { color: var(--ink-muted); }
 
-.toolbar { display: grid; grid-template-columns: 2fr repeat(5, minmax(110px, 1fr)) auto; gap: 10px; align-items: end; margin-bottom: 14px; }
+.toolbar { display: grid; grid-template-columns: 1.6fr repeat(6, minmax(100px, 1fr)) auto; gap: 10px; align-items: end; margin-bottom: 14px; }
+@media (max-width: 1400px) { .toolbar { grid-template-columns: repeat(4, 1fr); } .toolbar > :first-child { grid-column: 1 / -1; } }
 @media (max-width: 1100px) { .toolbar { grid-template-columns: repeat(3, 1fr); } }
 @media (max-width: 640px) { .toolbar { grid-template-columns: 1fr 1fr; } .toolbar > :first-child { grid-column: 1 / -1; } }
+
+/* ---------- Pestañas ---------- */
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tab { border: 1px solid var(--line-strong); background: transparent; border-radius: var(--r-pill); padding: 7px 14px; font-size: var(--fs-sm); cursor: pointer; color: var(--ink-soft); display: inline-flex; gap: 8px; align-items: center; }
+.tab:hover { background: var(--paper-deep); }
+.tab--on { background: var(--onyx); color: var(--vanilla); border-color: var(--onyx); }
+.tab__n { font-family: var(--font-mono); font-size: var(--fs-xs); opacity: 0.8; }
+
+/* ---------- Pasos del agente ---------- */
+.steps { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 10px; }
+.stepi { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 10px; align-items: start; }
+.stepi__dot { width: 22px; height: 22px; border-radius: 50%; border: 1.5px solid var(--line-strong); display: grid; place-items: center; font-size: 12px; color: var(--vanilla); background: transparent; }
+.stepi--done .stepi__dot { background: var(--espresso); border-color: var(--espresso); }
+.stepi--running .stepi__dot { border-color: var(--espresso); border-top-color: transparent; animation: spin 0.9s linear infinite; }
+.stepi--blocked .stepi__dot { border-color: var(--error-ink); background: var(--error-fill); }
+.stepi--pending { opacity: 0.5; }
+.stepi__t { font-weight: 500; color: var(--onyx); font-size: var(--fs-sm); }
+.stepi__n { font-size: var(--fs-xs); color: var(--ink-soft); text-wrap: pretty; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .stepi--running .stepi__dot { animation: none; border-top-color: var(--espresso); border-style: dashed; } }
 
 /* ---------- Tabla ---------- */
 @media (max-width: 1320px) { .hide-md { display: none; } }

@@ -18,6 +18,8 @@ export function Prospectos() {
     locality: sp.get('loc') ?? 'all',
     freshness: (sp.get('fresh') as ProspectFilters['freshness']) ?? 'all',
     exclusion: (sp.get('excl') as ProspectFilters['exclusion']) ?? 'all',
+    fit: (sp.get('fit') as ProspectFilters['fit']) ?? 'all',
+    sort: (sp.get('sort') as ProspectFilters['sort']) ?? 'recent',
   }), [sp]);
   const page = Math.max(1, Number(sp.get('p') ?? 1));
   const set = (k: string, v: string) => {
@@ -26,11 +28,14 @@ export function Prospectos() {
     if (k !== 'p') n.delete('p');
     setSp(n, { replace: true });
   };
-  const hasFilters = [...sp.keys()].some((k) => k !== 'p');
+  const hasFilters = [...sp.keys()].some((k) => k !== 'p' && k !== 'state');
+  const tabs: [string, string][] = [['pending', t.reviewState.pending], ['approved', t.reviewState.approved], ['maybe', t.reviewState.maybe], ['discarded', t.reviewState.discarded], ['all', t.prospectos.tabAll]];
 
   const q = useQuery(async (a) => {
-    const [res, localities] = await Promise.all([a.listProspects(filters, page, PAGE), a.getLocalities()]);
-    return { res, localities };
+    const [res, localities, all] = await Promise.all([a.listProspects(filters, page, PAGE), a.getLocalities(), a.listProspects({}, 1, 999)]);
+    const counts = { all: all.total, pending: 0, approved: 0, maybe: 0, discarded: 0 };
+    all.items.forEach((r) => { counts[r.reviewState] += 1; });
+    return { res, localities, counts };
   }, [filters, page]);
 
   const open = (r: ProspectRow) => nav(`/prospectos/${r.prospect.id}`);
@@ -38,6 +43,13 @@ export function Prospectos() {
   return (
     <>
       <PageHead title={t.prospectos.title} sub={t.prospectos.sub} />
+      <div className="tabs" role="tablist" aria-label={t.prospectos.fState}>
+        {tabs.map(([v, l]) => (
+          <button key={v} role="tab" aria-selected={filters.reviewState === v} className={`tab ${filters.reviewState === v ? 'tab--on' : ''}`} onClick={() => set('state', v)}>
+            {l} <span className="tab__n">{q.data?.counts[v as keyof typeof q.data.counts] ?? ''}</span>
+          </button>
+        ))}
+      </div>
       <form className="toolbar" role="search" onSubmit={(e) => e.preventDefault()}>
         <div className="field">
           <label htmlFor="q">{t.common.search}</label>
@@ -45,15 +57,17 @@ export function Prospectos() {
         </div>
         <Select id="offer" label={t.prospectos.fOffer} value={filters.offer!} onChange={(v) => set('offer', v)}
           options={[['all', t.common.all], ['diagnostico', t.offer.diagnostico], ['core', t.offer.core], ['plus', t.offer.plus], ['cm', t.offer.cm]]} />
-        <Select id="state" label={t.prospectos.fState} value={filters.reviewState!} onChange={(v) => set('state', v)}
-          options={[['all', t.common.all], ['pending', t.reviewState.pending], ['approved', t.reviewState.approved], ['maybe', t.reviewState.maybe], ['discarded', t.reviewState.discarded]]} />
+        <Select id="fit" label={t.prospectos.fFit} value={filters.fit!} onChange={(v) => set('fit', v)}
+          options={[['all', t.common.all], ['buen_fit', t.fit.buen_fit], ['fit_parcial', t.fit.fit_parcial], ['no_fit', t.fit.no_fit], ['none', t.prospectos.fitNone]]} />
         <Select id="loc" label={t.prospectos.fLocality} value={filters.locality!} onChange={(v) => set('loc', v)}
           options={[['all', t.common.all], ...(q.data?.localities ?? []).map((l) => [l, l] as [string, string])]} />
         <Select id="fresh" label={t.prospectos.fFresh} value={filters.freshness!} onChange={(v) => set('fresh', v)}
           options={[['all', t.common.all], ['fresca', t.freshness.fresca], ['revalidar', t.freshness.revalidar], ['obsoleta', t.freshness.obsoleta], ['sin_evidencia', t.freshness.sin_evidencia]]} />
         <Select id="excl" label={t.prospectos.fExcl} value={filters.exclusion!} onChange={(v) => set('excl', v)}
           options={[['all', t.common.all], ['none', t.exclusion.none], ['chain', t.exclusion.chain], ['franchise', t.exclusion.franchise], ['recently_renewed', t.exclusion.recently_renewed], ['manual_review', t.exclusion.manual_review]]} />
-        <button type="button" className="btn btn--secondary" onClick={() => setSp(new URLSearchParams(), { replace: true })} disabled={!hasFilters}>{t.common.clear}</button>
+        <Select id="sort" label="Orden" value={filters.sort!} onChange={(v) => set('sort', v === 'recent' ? '' : v)}
+          options={[['recent', t.prospectos.sortRecent], ['fit', t.prospectos.sortFit]]} />
+        <button type="button" className="btn btn--secondary" onClick={() => { const n = new URLSearchParams(); if (sp.get('state')) n.set('state', sp.get('state')!); setSp(n, { replace: true }); }} disabled={!hasFilters}>{t.common.clear}</button>
       </form>
 
       <div className="tablewrap">
@@ -83,7 +97,7 @@ export function Prospectos() {
                         onClick={() => open(r)} onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(r); } }}>
                         <td>
                           <div className="row" style={{ gap: 6, flexWrap: 'nowrap', overflow: 'hidden' }}><span className="name" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.company.name}</span>{r.prospect.exclusion && <ExclusionPill value={r.prospect.exclusion} short />}</div>
-                          <div className="page__meta" style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.company.industry} · {r.company.locality}</div>
+                          <div className="page__meta row" style={{ gap: 6, flexWrap: 'nowrap', overflow: 'hidden' }}><span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{r.company.industry} · {r.company.locality}</span>{r.fit && <span className={`pill pill--plain ${r.fit.fit === 'buen_fit' ? 'pill--success' : r.fit.fit === 'fit_parcial' ? 'pill--butter' : 'pill--ghost'}`} style={{ flex: 'none' }}>{t.fit[r.fit.fit]}</span>}</div>
                         </td>
                         <td><OfferPill value={r.prospect.offerInterest} /></td>
                         <td><FreshnessPill value={r.freshness} /></td>

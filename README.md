@@ -79,6 +79,10 @@ Reglas que viven en el front y conviene mantener en la fuente real:
 - Fit y presupuesto: Adri elige fit (buen fit / parcial / no es fit), servicios que encajan (Diagnóstico, Core, Plus, CM) y señal de presupuesto, con nota, y lo guarda. Opciones [PROPUESTO].
 - Logo oficial (icono + wordmark) en el menú lateral y la barra móvil; favicon con el icono. Preparados desde los PNG del brand kit con fondo transparente, sin redibujar.
 - Vistas: Hoy, Prospectos (búsqueda, 5 filtros, paginación local de 8, tarjetas en móvil), Ficha + revisión, Pipeline (solo lectura, 3 columnas por 2 filas), Seguimientos, Borradores, Criterios, Ingresos.
+- Ficha: tarjeta "María en marcha" con los 7 pasos que ejecuta tras la aprobación (hecho / en curso / pendiente, con nota y hora; los escribe María), "Por qué ahora" (hecho con fecha y fuente) y "Camino cálido" en el contacto. Datos demo; los alimenta María.
+- Prospectos: pestañas por estado de revisión con conteo, filtro por fit y orden por fit.
+- Borradores: botones "Abrir en Gmail" y "Marcar como enviado" visibles; hoy solo avisan que los conecta María (ya tiene acceso al correo).
+- Criterios: conteo automático de razones de descarte a partir de las decisiones de Adri.
 - Pipeline: arrastrar y soltar (mouse, o pulsación sostenida en táctil) para cambiar una oportunidad de etapa; con teclado, flechas izquierda/derecha; Enter abre la ficha. El movimiento se guarda (colección `stages`) con fecha y autor; la escritura hacia GHL es parte de la integración pendiente. Pedido por Adri el 7 nov 2026, amplía el "solo lectura" del brief original.
 - Ingresos: toda oportunidad en Closed aparece con su monto contratado (el de la oportunidad o, si no trae, el precio de lista de la oferta, marcado). Tres hitos con fecha por oportunidad: anticipo 50% recibido, entregado, saldo 50% recibido; cobrado y pendiente se calculan solos. El anticipo hace que la venta cuente en la meta de Hoy; "entregado" libera capacidad web (pedido por Adri, 7 nov 2026). Se guarda con la misma persistencia que las decisiones.
 - Clic o Enter en una fila abre la ficha.

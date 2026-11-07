@@ -1,5 +1,6 @@
 import { strings as t } from '../data/strings';
-import { Level, PageHead, Note } from '../components/ui';
+import { Level, PageHead, Note, Loaded, Empty } from '../components/ui';
+import { useQuery } from '../lib/store';
 
 type L = 'confirmado' | 'propuesto' | 'pendiente' | 'operativa';
 interface Rule { t: string; d: string; l: L; date?: string }
@@ -55,11 +56,30 @@ const groups: { title: string; rules: Rule[] }[] = [
 ];
 
 export function Criterios() {
+  const q = useQuery((a) => a.getDiscardReasons());
   return (
     <>
       <PageHead title={t.criterios.title} sub={t.criterios.sub} />
       <div className="stack" style={{ gap: 'var(--s-4)' }}>
         <Note tone="sage">Niveles: <Level level="confirmado" /> decidido por Adri con fecha · <Level level="propuesto" /> sugerencia ajustable · <Level level="operativa" /> elegida por María por delegación · <Level level="pendiente" /> no existe dato.</Note>
+        <section className="card" aria-labelledby="h-reasons">
+          <div className="row row--between">
+            <h2 id="h-reasons" className="card__label">{t.criterios.reasons}</h2>
+            <span className="page__meta">{t.criterios.reasonsSub}</span>
+          </div>
+          <Loaded q={q} rows={2}>
+            {(reasons) => reasons.length === 0 ? <Empty title={t.criterios.reasonsEmpty} small icon={false} /> : (
+              <div className="items items--2">
+                {reasons.map((r) => (
+                  <div className="item" key={r.reason}>
+                    <div className="item__title" style={{ whiteSpace: 'normal' }}>{r.reason}</div>
+                    <span className="pill pill--plain pill--onyx">{r.count}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Loaded>
+        </section>
         <div className="grid grid--2">
           {groups.map((g) => (
             <section className="card" key={g.title} aria-labelledby={`g-${g.title}`}>

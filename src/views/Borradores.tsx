@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { strings as t } from '../data/strings';
 import { useQuery, useStore } from '../lib/store';
 import { fmtDateTime } from '../lib/format';
-import { DisabledBtn, DraftPill, Empty, Loaded, Note, PageHead } from '../components/ui';
+import { DraftPill, Empty, Loaded, Note, PageHead } from '../components/ui';
 import type { Draft, ProspectRow } from '../data/model';
 
 export function Borradores() {
@@ -87,9 +87,10 @@ function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
       <hr className="hr" />
       <div className="row" style={{ gap: 10 }}>
         {draft.status === 'draft' && <button className="btn" onClick={approve} disabled={busy}>{t.borradores.approve}</button>}
-        <DisabledBtn label={t.borradores.send} variant={draft.status === 'approved' ? '' : 'btn--secondary'} hint={t.borradores.sendHint} />
+        <button className="btn btn--secondary" onClick={() => toast(t.borradores.gmailNote)}>↗ {t.borradores.openGmail}</button>
+        <button className={`btn ${draft.status === 'approved' ? 'btn--sky' : 'btn--secondary'}`} onClick={() => toast(t.borradores.gmailNote)} disabled={draft.status === 'sent'}>{t.borradores.markSent}</button>
       </div>
-      <p className="card__foot" style={{ marginTop: 8 }}>{t.borradores.sendHint}</p>
+      <p className="card__foot" style={{ marginTop: 8 }}>{t.borradores.gmailNote} {t.borradores.sendHint}</p>
       <Note tone="paper">{t.borradores.proofNote}</Note>
     </section>
   );

@@ -329,6 +329,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .plain { background: var(--paper-deep); border-radius: var(--r-md); padding: 14px 16px; font-family: var(--font-mono); font-size: var(--fs-xs); white-space: pre-wrap; overflow-wrap: anywhere; }
 .li-msg { background: var(--paper-deep); border-radius: var(--r-md); padding: 16px; font-size: var(--fs-sm); max-width: 560px; white-space: pre-wrap; }
 
+/* ---------- Ingresos ---------- */
+.table--auto { table-layout: auto; }
+.table--auto td { white-space: normal; }
+.step { display: grid; gap: 6px; justify-items: start; }
+.step__date { border: 1px solid var(--line-strong); border-radius: 10px; padding: 4px 8px; font: inherit; font-size: var(--fs-xs); background: var(--paper); width: 132px; }
+.linkbtn { background: none; border: 0; padding: 0; color: var(--ink-muted); text-decoration: underline; cursor: pointer; font: inherit; font-size: inherit; }
+.linkbtn:hover { color: var(--ink); }
+
 /* ---------- Criterios ---------- */
 .rule { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--s-3); padding: 11px 0; border-bottom: 1px solid var(--line); align-items: start; }
 .rule:last-child { border-bottom: 0; }

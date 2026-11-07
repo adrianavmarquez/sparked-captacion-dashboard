@@ -43,7 +43,8 @@ export function Hoy() {
       <Loaded q={q} rows={6}>
         {(d) => {
           const due = d.followups.filter((f) => !f.stopped && daysFromToday(f.dueOn) <= 0 && !isSent(f, d));
-          const activeWebs = d.opportunities.filter((o) => o.stage === 'closed').length;
+          const activeWebs = d.opportunities.filter((o) => o.stage === 'closed' && d.payments.some((p) => p.opportunityId === o.id && p.depositVerified && !p.deliveredAt)).length;
+          const delivered = d.payments.filter((p) => p.deliveredAt && d.opportunities.some((o) => o.id === p.opportunityId && o.stage === 'closed')).length;
           return (
             <div className="stack" style={{ gap: 14 }}>
               <GoalCard goal={d.goal} />
@@ -69,7 +70,7 @@ export function Hoy() {
                       ))}
                     </div>
                   </div>
-                  <div className="metric__foot" title={t.hoy.capacityBody}>{activeWebs === 1 ? `1 ${t.hoy.capacityOne}` : `${activeWebs} ${t.hoy.capacityMany}`} <span className="metric__k">(máx. 4)</span></div>
+                  <div className="metric__foot" title={t.hoy.capacityBody}>{activeWebs === 1 ? `1 ${t.hoy.capacityOne}` : `${activeWebs} ${t.hoy.capacityMany}`} <span className="metric__k">(máx. 4{delivered ? ` · ${delivered} entregada${delivered > 1 ? 's' : ''}` : ''})</span></div>
                 </section>
               </div>
 

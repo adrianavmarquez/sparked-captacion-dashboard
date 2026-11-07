@@ -25,10 +25,10 @@ export interface DataAdapter {
   getAudit(prospectId: string): Promise<AuditEvent[]>;
   saveReview(input: { prospectId: string; decision: Decision; reason?: string; revisitOn?: string }): Promise<Review>;
   saveFit(input: { prospectId: string; fit: FitLevel; services: Offer[]; budget: BudgetSignal; note?: string }): Promise<FitAssessment>;
-  /** Marca el anticipo (50%) como recibido o no, con fecha. Solo para oportunidades en Closed. */
+  /** Hitos de una oportunidad Closed: anticipo 50%, entrega, saldo 50%. Cada uno con fecha. */
+  setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number; on?: string }): Promise<PaymentVerification>;
   /** Mueve una oportunidad de etapa (arrastre). Queda guardado en el dashboard; la sincronización con GHL es futura. */
   moveStage(input: { opportunityId: string; stage: Stage }): Promise<Opportunity>;
-  markDeposit(input: { opportunityId: string; received: boolean; amountContracted: number; verifiedOn?: string }): Promise<PaymentVerification>;
   listDrafts(): Promise<Draft[]>;
   approveDraft(id: string): Promise<Draft>;
   listFollowups(): Promise<Followup[]>;
@@ -108,7 +108,9 @@ export class MockAdapter implements DataAdapter {
     }
     for (const pv of saved.payments ?? []) {
       base.payments = [...base.payments.filter((x) => x.opportunityId !== pv.opportunityId), pv];
-      base.audit.push({ id: `au_pay_${pv.opportunityId}_${pv.verifiedAt ?? 'x'}`, entity: 'payment', entityId: pv.opportunityId, action: pv.depositVerified ? `Anticipo verificado (${pv.depositReceived ?? 0} de ${pv.amountContracted ?? 0})` : 'Anticipo marcado como pendiente', by: 'adri', at: pv.verifiedAt ?? new Date().toISOString() });
+      if (pv.depositVerified && pv.verifiedAt) base.audit.push({ id: `au_pay_d_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: `Anticipo 50% verificado (${pv.depositReceived ?? 0} de ${pv.amountContracted ?? 0})`, by: 'adri', at: pv.verifiedAt });
+      if (pv.deliveredAt) base.audit.push({ id: `au_pay_e_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: 'Entregado', by: 'adri', at: pv.deliveredAt });
+      if (pv.balanceVerifiedAt) base.audit.push({ id: `au_pay_s_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: `Saldo 50% verificado (${pv.balanceReceived ?? 0})`, by: 'adri', at: pv.balanceVerifiedAt });
     }
     this.data = base;
     this.emit();
@@ -220,19 +222,25 @@ export class MockAdapter implements DataAdapter {
     return { ...o };
   }
 
-  async markDeposit(input: { opportunityId: string; received: boolean; amountContracted: number; verifiedOn?: string }) {
+  async setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number; on?: string }) {
     await this.gate();
     const opp = this.data.opportunities.find((o) => o.id === input.opportunityId);
-    if (!opp || opp.stage !== 'closed') throw new AdapterError('unknown', 'Solo se registra anticipo en oportunidades Closed.');
+    if (!opp || opp.stage !== 'closed') throw new AdapterError('unknown', 'Los hitos solo se registran en oportunidades Closed.');
     const prev = this.data.payments.find((p) => p.opportunityId === input.opportunityId);
-    const deposit = Math.round(input.amountContracted * 0.5);
+    const when = input.on ? `${input.on}T12:00:00-05:00` : new Date().toISOString();
+    const half = Math.round(input.amountContracted * 0.5);
     const pv: PaymentVerification = {
-      opportunityId: input.opportunityId, type: prev?.type ?? 'project_50pct', contractSigned: true,
-      depositVerified: input.received, verifiedAt: input.received ? (input.verifiedOn ? `${input.verifiedOn}T12:00:00-05:00` : new Date().toISOString()) : null,
-      amountContracted: input.amountContracted, depositReceived: input.received ? deposit : null, balancePending: input.received ? input.amountContracted - deposit : input.amountContracted,
+      opportunityId: input.opportunityId, type: prev?.type ?? 'project_50pct', contractSigned: true, amountContracted: input.amountContracted,
+      depositVerified: prev?.depositVerified ?? false, verifiedAt: prev?.verifiedAt ?? null, depositReceived: prev?.depositReceived ?? null,
+      deliveredAt: prev?.deliveredAt ?? null, balanceVerifiedAt: prev?.balanceVerifiedAt ?? null, balanceReceived: prev?.balanceReceived ?? null, balancePending: null,
     };
+    if (input.step === 'deposit') { pv.depositVerified = input.done; pv.verifiedAt = input.done ? when : null; pv.depositReceived = input.done ? half : null; }
+    if (input.step === 'delivered') { pv.deliveredAt = input.done ? when : null; }
+    if (input.step === 'balance') { pv.balanceVerifiedAt = input.done ? when : null; pv.balanceReceived = input.done ? input.amountContracted - half : null; }
+    pv.balancePending = input.amountContracted - (pv.depositReceived ?? 0) - (pv.balanceReceived ?? 0);
     this.data.payments = [...this.data.payments.filter((p) => p.opportunityId !== pv.opportunityId), pv];
-    this.data.audit.push({ id: `au_pay_${pv.opportunityId}_${Date.now()}`, entity: 'payment', entityId: pv.opportunityId, action: pv.depositVerified ? `Anticipo verificado (${pv.depositReceived} de ${pv.amountContracted})` : 'Anticipo marcado como pendiente', by: 'adri', at: new Date().toISOString() });
+    const label = { deposit: 'Anticipo 50%', delivered: 'Entrega', balance: 'Saldo 50%' }[input.step];
+    this.data.audit.push({ id: `au_pay_${pv.opportunityId}_${Date.now()}`, entity: 'payment', entityId: pv.opportunityId, action: `${label}: ${input.done ? 'registrado' : 'quitado'}`, by: 'adri', at: new Date().toISOString() });
     this.emit();
     await this.persistence?.savePayment(pv);
     return pv;

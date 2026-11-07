@@ -36,7 +36,7 @@ export const es = {
   role: { decisor: 'Decisor', ejecutor: 'Ejecutor', otro: 'Otro' },
   hoy: {
     title: 'Hoy', sub: 'Lo que pide una decisión tuya.', goalTitle: 'Meta: 10 webs', goalWindow: '7 nov 2026 a 7 feb 2027 (ET)', goalEmpty: 'Aún no hay ventas verificadas', goalEmptyBody: 'Solo cuenta firma + depósito verificados.', goalSigned: 'firmado, depósito en verificación',
-    toReview: 'Fichas por revisar', toApprove: 'Borradores por aprobar', next: 'Siguiente', seeN: 'Ver las', dueFollowups: 'Seguimientos que tocan', revalidate: 'Evidencia por revalidar', capacity: 'Capacidad web', capacityBody: 'Webs activas. Máximo 4. CM no suma.', capacityOne: 'web activa de 3', capacityMany: 'webs activas de 3',
+    toReview: 'Fichas por revisar', toApprove: 'Borradores por aprobar', next: 'Siguiente', seeN: 'Ver las', dueFollowups: 'Seguimientos que tocan', revalidate: 'Evidencia por revalidar', capacity: 'Capacidad web', capacityBody: 'Webs en producción: Closed con anticipo recibido y sin entregar. Máximo 4. CM no suma.', capacityOne: 'web activa de 3', capacityMany: 'webs activas de 3',
     seeAll: 'Ver todo', nothingToday: 'Nada pendiente en este bloque.',
   },
   prospectos: {
@@ -58,7 +58,7 @@ export const es = {
   seguimientos: { title: 'Seguimientos', sub: 'Días 4, 10 y 20 desde el envío real del primer contacto. Cada uno es un borrador que revisas.', due: 'Toca', overdue: 'Atrasado', upcoming: 'Próximo', stopped: 'Detenido', replied: 'respondió', opt_out: 'pidió baja', noDraft: 'Sin borrador aún', firstSent: 'Primer contacto:', day: 'Día' },
   borradores: { title: 'Borradores', sub: 'Nada sale sin ti. Guardado no es enviado.', approve: 'Aprobar borrador', send: 'Enviar', sendHint: 'Integración pendiente: el envío lo presiona una persona cuando Gmail/LinkedIn estén conectados.', preview: 'Previsualización', plain: 'Texto plano', proofNote: 'Única prueba citable: sparkedreactions.com. Sin casos, métricas ni resultados.', subject: 'Asunto', approvedOn: 'Aprobado el', sentOn: 'Enviado el' },
   criterios: { title: 'Criterios y configuración', sub: 'Reglas vigentes y su nivel. Solo lectura en la demo.' },
-  ingresos: { title: 'Ingresos', sub: 'Lo que llega a Closed pasa a monto contratado. Tú marcas el anticipo; el saldo se calcula solo.', body: 'Contratado es facturación, anticipo es caja: no se mezclan. Sin montos estimados ni pronósticos. Sin datos de tarjeta ni cuenta.', contracted: 'Monto contratado', deposit: 'Anticipo cobrado', balance: 'Saldo pendiente', payment: 'Pago verificado' },
+  ingresos: { title: 'Ingresos', sub: 'Lo que llega a Closed pasa a monto contratado. Tú marcas anticipo, entrega y saldo; lo demás se calcula solo.', body: 'Contratado es facturación, anticipo es caja: no se mezclan. Sin montos estimados ni pronósticos. Sin datos de tarjeta ni cuenta.', contracted: 'Monto contratado', deposit: 'Anticipo cobrado', balance: 'Saldo pendiente', payment: 'Pago verificado' },
 };
 
 export type Strings = typeof es;

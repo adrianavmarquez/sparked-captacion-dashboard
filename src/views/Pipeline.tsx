@@ -136,6 +136,8 @@ function OppCard({ o, row, pay, dragging, ...handlers }: {
         <span className="opp__pills">
           <span className={`pill ${pay?.contractSigned ? 'pill--success' : 'pill--outline'}`}>{pay?.contractSigned ? 'Firmado' : 'Sin firma'}</span>
           <span className={`pill ${pay?.depositVerified ? 'pill--success' : 'pill--butter'}`}>{pay?.depositVerified ? 'Anticipo ok' : 'Anticipo pendiente'}</span>
+          {pay?.deliveredAt && <span className="pill pill--success">Entregado</span>}
+          {pay?.balanceVerifiedAt && <span className="pill pill--success">Saldo ok</span>}
         </span>
       )}
     </div>

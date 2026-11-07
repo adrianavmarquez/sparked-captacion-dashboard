@@ -91,6 +91,10 @@ export interface PaymentVerification {
   amountContracted: number | null;
   depositReceived: number | null;
   balancePending: number | null;
+  /** [PROPUESTO 7 nov, pedido por Adri] hitos posteriores al cierre */
+  deliveredAt: string | null;
+  balanceVerifiedAt: string | null;
+  balanceReceived: number | null;
 }
 
 export interface Draft {

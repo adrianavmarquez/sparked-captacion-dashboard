@@ -8,7 +8,7 @@ Construido el 7 nov 2026 (ET) a partir de `PROMPT-PARA-CLAUDE.md` y el paquete `
 
 - **Netlify (producción de la maqueta)**: https://sparked-captacion.netlify.app · proyecto `sparked-captacion` en el equipo @adrianavmarquez (https://app.netlify.com/projects/sparked-captacion). Build: `npm run build`, publica `dist/`, redirección SPA en `netlify.toml`. En Netlify las decisiones se guardan en el navegador de cada persona (localStorage) hasta que María conecte el backend.
 - **Artifact en claude.ai**: misma app con guardado en la nube compartido (db del artifact). Se regenera con `npm run build:artifact`.
-- **GitHub**: repositorio `adrianavmarquez/sparked-captacion-dashboard` (código fuente sin `node_modules`, `dist` ni `capturas`).
+- **GitHub**: repositorio `adrianavmarquez/sparked-captacion-dashboard` (código fuente y capturas; sin `node_modules` ni `dist`).
 
 ## Requisitos
 

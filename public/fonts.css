@@ -1,0 +1,8 @@
+/* Fuentes de marca: archivos NO incluidos (ver public/fonts/README.md).
+   Si se copian los .woff2 con estos nombres, se cargan solos. Si no, respaldo del sistema. */
+@font-face { font-family: "Archia"; src: local("Archia Medium"), local("Archia-Medium"), url("./fonts/Archia-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Archia"; src: local("Archia Regular"), local("Archia-Regular"), url("./fonts/Archia-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans"), local("FiraSans-Regular"), url("./fonts/FiraSans-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Fira Sans"; src: local("Fira Sans Medium"), local("FiraSans-Medium"), url("./fonts/FiraSans-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+@font-face { font-family: "Inconsolata"; src: local("Inconsolata"), local("Inconsolata-Regular"), url("./fonts/Inconsolata-Regular.woff2") format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Inconsolata"; src: local("Inconsolata Medium"), local("Inconsolata-Medium"), url("./fonts/Inconsolata-Medium.woff2") format("woff2"); font-weight: 500; font-display: swap; }

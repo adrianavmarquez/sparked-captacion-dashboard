@@ -1,0 +1,63 @@
+/* Tokens como variables CSS. Espejo de src/tokens/tokens.json.
+   Confirmado: paleta de marca. Propuesto: todo lo demás. */
+:root {
+  /* Paleta de marca [CONFIRMADO] */
+  --onyx: #000000;
+  --espresso: #523129;
+  --vanilla: #f5ede3;
+  --sky: #d9ebfa;
+  --butter: #fae6b8;
+  --sage: #dbd2b2;
+
+  /* Derivados [PROPUESTO] */
+  --paper: #fbf7f1;
+  --paper-deep: #efe4d6;
+  --ink: var(--espresso);
+  --ink-soft: #5e4a41;
+  --ink-muted: #6e5e56;
+  --line: rgba(82, 49, 41, 0.14);
+  --line-strong: rgba(82, 49, 41, 0.32);
+  --sky-deep: #2e5c8a;
+  --sage-deep: #5a5e2c;
+  --amber-deep: #7a5300;
+  --error-ink: #8a2e1f;
+  --error-fill: #f6dcd4;
+  --success-ink: #2f5a3a;
+  --success-fill: #ddebd9;
+  --focus: #2e5c8a;
+  --onyx-soft: #161210;
+  --onyx-line: rgba(245, 237, 227, 0.14);
+  --onyx-muted: rgba(245, 237, 227, 0.62);
+
+  /* Tipografía [PROPUESTO] */
+  --font-display: "Archia", "Neutral Face", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Fira Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "Inconsolata", "SF Mono", Menlo, Consolas, monospace;
+  --fs-xs: 0.75rem;
+  --fs-sm: 0.8125rem;
+  --fs-md: 0.9375rem;
+  --fs-lg: 1.125rem;
+  --fs-xl: 1.5rem;
+  --fs-2xl: 2.25rem;
+  --fs-3xl: 3.5rem;
+
+  /* Forma y espacio [PROPUESTO] */
+  --r-sm: 10px;
+  --r-md: 18px;
+  --r-lg: 28px;
+  --r-pill: 999px;
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px; --s-7: 48px; --s-8: 64px;
+  --shadow-card: 0 1px 0 rgba(82, 49, 41, 0.06), 0 12px 32px -20px rgba(82, 49, 41, 0.35);
+  --shadow-float: 0 24px 48px -24px rgba(0, 0, 0, 0.45);
+
+  /* Movimiento [PROPUESTO] */
+  --t-fast: 140ms;
+  --t-base: 220ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+
+  --sidebar-w: 248px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --t-fast: 0ms; --t-base: 0ms; }
+}

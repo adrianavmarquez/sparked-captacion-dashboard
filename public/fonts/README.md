@@ -1,13 +1,11 @@
-# Fuentes de marca (no incluidas)
+# Fuentes de marca
 
-Los archivos viven en la carpeta local de Adri `01-brand-identity/font-files`. No van en este paquete.
+Copiadas de `01-brand-identity/font-files` de la carpeta de marca de Adri (7 nov 2026). Archia tiene licencia webfont (ver `archia-webfont-license.pdf` en esa carpeta); Fira Sans e Inconsolata son OFL.
 
-Para activarlas, copiar aquí los `.woff2` con estos nombres y la app los tomará sola (ver `public/fonts.css`):
-
-| Rol en la UI | Archivo esperado | Familia |
+| Rol en la UI | Archivo | Peso |
 |---|---|---|
-| Titulares y cifras grandes | `Archia-Medium.woff2`, `Archia-Regular.woff2` | Archia (secondary font del inventario) |
-| Texto de interfaz y tablas | `FiraSans-Regular.woff2`, `FiraSans-Medium.woff2` | Fira Sans (body sans) |
-| Etiquetas, fechas, IDs, cifras tabulares | `Inconsolata-Regular.woff2`, `Inconsolata-Medium.woff2` | Inconsolata (body mono) |
+| Titulares y cifras grandes | Archia-Medium.woff2, Archia-Regular.woff2 | 500, 400 |
+| Texto de interfaz y tablas | FiraSans-Regular.ttf, FiraSans-Medium.ttf | 400, 500 |
+| Etiquetas, fechas, IDs | Inconsolata-Variable.ttf | variable |
 
-Sin los archivos, la app usa respaldos del sistema. Neutral Face y Migra no se usan en esta demo: quedan pendientes de definir uso. Los roles anteriores son **propuesta**, no aprobación tipográfica.
+Los roles son propuesta de esta demo, no aprobación tipográfica de marca.

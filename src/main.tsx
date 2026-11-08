@@ -12,6 +12,7 @@ import { Seguimientos } from './views/Seguimientos';
 import { Borradores } from './views/Borradores';
 import { Criterios } from './views/Criterios';
 import { Ingresos } from './views/Ingresos';
+import { Entrar } from './views/Entrar';
 
 // HashRouter: el build funciona abierto desde una carpeta local sin servidor.
 // MemoryRouter: para el build de artifact (claude.ai no conserva rutas en el hash).
@@ -28,6 +29,7 @@ const router = create([
       { path: 'borradores', element: <Borradores /> },
       { path: 'criterios', element: <Criterios /> },
       { path: 'ingresos', element: <Ingresos /> },
+      { path: 'entrar', element: <Entrar /> },
     ],
   },
 ]);

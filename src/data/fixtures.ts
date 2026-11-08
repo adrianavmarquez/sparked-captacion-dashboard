@@ -146,7 +146,7 @@ const opportunities: Opportunity[] = Object.entries(stageOf).map(([k, stage]) =>
 
 const payments: PaymentVerification[] = [
   { opportunityId: 'op_N', type: 'project_50pct', contractSigned: true, depositVerified: false, verifiedAt: null,
-    amountContracted: 2850, depositReceived: null, balancePending: 2850, deliveredAt: null, balanceVerifiedAt: null, balanceReceived: null },
+    amountContracted: 2850, depositReceived: null, balancePending: null, deliveredAt: null, balanceVerifiedAt: null, balanceReceived: null },
 ];
 
 const sentFirstB = d(-7, 9); // B: primer contacto enviado hace 7 días

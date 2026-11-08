@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { strings as t } from '../data/strings';
 import { useQuery } from '../lib/store';
 import { now } from '../data/adapter';
+import { isActiveWebProject } from '../domain/income';
 import { fmtDate, fmtDateShort, fmtDateTime, daysFromToday } from '../lib/format';
 import { Empty, FreshnessPill, Loaded, PageHead, Spark, DraftPill, Waves } from '../components/ui';
 import type { ProspectRow, Draft, Followup, GoalProgress, Opportunity, PaymentVerification } from '../data/model';
@@ -43,8 +44,9 @@ export function Hoy() {
       <Loaded q={q} rows={6}>
         {(d) => {
           const due = d.followups.filter((f) => !f.stopped && daysFromToday(f.dueOn) <= 0 && !isSent(f, d));
-          const activeWebs = d.opportunities.filter((o) => o.stage === 'closed' && d.payments.some((p) => p.opportunityId === o.id && p.depositVerified && !p.deliveredAt)).length;
-          const delivered = d.payments.filter((p) => p.deliveredAt && d.opportunities.some((o) => o.id === p.opportunityId && o.stage === 'closed')).length;
+          const offerOf = (id: string) => d.rows.find((r) => r.prospect.id === id)?.prospect.offerInterest ?? null;
+          const activeWebs = d.opportunities.filter((o) => isActiveWebProject({ offer: offerOf(o.prospectId), stage: o.stage, payment: d.payments.find((p) => p.opportunityId === o.id) ?? null })).length;
+          const delivered = d.payments.filter((p) => p.deliveredAt && d.opportunities.some((o) => o.id === p.opportunityId && o.stage === 'closed' && offerOf(o.prospectId) !== 'cm' && offerOf(o.prospectId) !== null)).length;
           return (
             <div className="stack" style={{ gap: 14 }}>
               <GoalCard goal={d.goal} />

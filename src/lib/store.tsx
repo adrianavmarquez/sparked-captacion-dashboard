@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode, type DependencyList } from 'react';
 import { MockAdapter, AdapterError, type DataAdapter, type DemoMode } from '../data/adapter';
+import { BackendPersistence, clearBackendEnabled, probeBackendSession, shouldProbeBackend } from '../data/backend-persistence';
 import { ClaudeDbPersistence, LocalStoragePersistence, detectClaudeDb, type PersistenceKind } from '../data/persistence';
 
 interface Store {
@@ -10,6 +11,7 @@ interface Store {
   version: number;
   toast: (msg: string) => void;
   persistence: { kind: PersistenceKind; label: string; short: string };
+  reconnect: () => Promise<void>;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -22,18 +24,28 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [persistence, setPersistence] = useState<{ kind: PersistenceKind; label: string; short: string }>({ kind: 'none', label: 'Conectando…', short: '…' });
+  const [persistenceEpoch, setPersistenceEpoch] = useState(0);
   useEffect(() => adapter.subscribe(() => setVersion((v) => v + 1)), [adapter]);
   useEffect(() => {
     let alive = true;
     (async () => {
-      // 1) db del artifact de claude.ai (compartida entre dispositivos) 2) localStorage 3) solo memoria
+      // 1) artifact de claude.ai  2) sesión de servidor, solo si este navegador ya entró  3) localStorage
       const db = await detectClaudeDb();
-      const p = db ? new ClaudeDbPersistence(db) : LocalStoragePersistence.available() ? new LocalStoragePersistence() : null;
-      if (p) await adapter.attachPersistence(p);
+      if (db) {
+        await adapter.attachPersistence(new ClaudeDbPersistence(db));
+      } else if (shouldProbeBackend(localStorage) && await probeBackendSession()) {
+        try { await adapter.attachPersistence(new BackendPersistence()); }
+        catch {
+          clearBackendEnabled(localStorage);
+          if (LocalStoragePersistence.available()) await adapter.attachPersistence(new LocalStoragePersistence());
+        }
+      } else if (LocalStoragePersistence.available()) {
+        await adapter.attachPersistence(new LocalStoragePersistence());
+      }
       if (alive) setPersistence(adapter.persistenceInfo);
     })();
     return () => { alive = false; };
-  }, [adapter]);
+  }, [adapter, persistenceEpoch]);
   useEffect(() => {
     if (!toastMsg) return;
     const t = setTimeout(() => setToastMsg(null), 3200);
@@ -44,6 +56,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     adapter, mode, version, persistence,
     setMode: (m) => { modeRef.current.current = m; setModeState(m); setVersion((v) => v + 1); },
     toast: (m) => setToastMsg(m),
+    reconnect: async () => { setPersistenceEpoch((n) => n + 1); },
   };
   return (
     <Ctx.Provider value={value}>

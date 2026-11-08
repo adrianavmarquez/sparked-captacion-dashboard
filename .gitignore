@@ -3,5 +3,8 @@ dist
 .DS_Store
 *.log
 .env
-.env.local
+.env.*
+!.env.example
 dist-artifact
+.netlify
+coverage

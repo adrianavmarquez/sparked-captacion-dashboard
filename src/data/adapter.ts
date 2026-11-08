@@ -8,8 +8,11 @@ import type {
   Dataset, ProspectRow, ProspectFilters, Page, Review, Draft, Followup,
   Opportunity, PaymentVerification, GoalProgress, AuditEvent, Freshness, ReviewState, Decision, FitAssessment, FitLevel, BudgetSignal, Offer, Stage, AgentStep,
 } from './model';
-import { fixtures, DEMO_NOW, GOAL_WINDOW } from './fixtures';
+import { fixtures, DEMO_NOW } from './fixtures';
 import type { Persistence, SavedState } from './persistence';
+import { DAY_MS, GOAL } from '../domain/constants';
+import { freshnessAt, worstFreshnessAt } from '../domain/freshness';
+import { incomeLine, isVerifiedWebsiteSale } from '../domain/income';
 
 export type DemoMode = 'normal' | 'loading' | 'empty' | 'error' | 'forbidden';
 
@@ -30,7 +33,7 @@ export interface DataAdapter {
   saveReview(input: { prospectId: string; decision: Decision; reason?: string; revisitOn?: string }): Promise<Review>;
   saveFit(input: { prospectId: string; fit: FitLevel; services: Offer[]; budget: BudgetSignal; note?: string }): Promise<FitAssessment>;
   /** Hitos de una oportunidad Closed: anticipo 50%, entrega, saldo 50%. Cada uno con fecha. */
-  setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number; on?: string }): Promise<PaymentVerification>;
+  setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number | null; on?: string; cashReceived?: number | null; offer?: Offer | null }): Promise<PaymentVerification>;
   /** Mueve una oportunidad de etapa (arrastre). Queda guardado en el dashboard; la sincronización con GHL es futura. */
   moveStage(input: { opportunityId: string; stage: Stage }): Promise<Opportunity>;
   listDrafts(): Promise<Draft[]>;
@@ -44,21 +47,16 @@ export interface DataAdapter {
 
 /* ---------- Derivaciones (reglas de negocio visibles en la UI) ---------- */
 
-export const DAY_MS = 86_400_000;
+export { DAY_MS };
 export const now = () => new Date(DEMO_NOW);
 
 /** Frescura: ≤30 días; revalidar si >7 días. Norma operativa elegida por María por delegación (no fijada por Adri). */
 export function freshnessOf(observedAt: string): Freshness {
-  const age = (now().getTime() - new Date(observedAt).getTime()) / DAY_MS;
-  if (age > 30) return 'obsoleta';
-  if (age > 7) return 'revalidar';
-  return 'fresca';
+  return freshnessAt(observedAt, now());
 }
 
 export function worstFreshness(list: { observedAt: string }[]): Freshness | 'sin_evidencia' {
-  if (list.length === 0) return 'sin_evidencia';
-  const order: Freshness[] = ['fresca', 'revalidar', 'obsoleta'];
-  return list.map((e) => freshnessOf(e.observedAt)).sort((a, b) => order.indexOf(b) - order.indexOf(a))[0];
+  return worstFreshnessAt(list, now());
 }
 
 export function reviewStateOf(review: Review | null): ReviewState {
@@ -112,7 +110,7 @@ export class MockAdapter implements DataAdapter {
     }
     for (const pv of saved.payments ?? []) {
       base.payments = [...base.payments.filter((x) => x.opportunityId !== pv.opportunityId), pv];
-      if (pv.depositVerified && pv.verifiedAt) base.audit.push({ id: `au_pay_d_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: `Anticipo 50% verificado (${pv.depositReceived ?? 0} de ${pv.amountContracted ?? 0})`, by: 'adri', at: pv.verifiedAt });
+      if (pv.depositVerified && pv.verifiedAt) base.audit.push({ id: `au_pay_d_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: `Anticipo con caja registrada (${pv.depositReceived == null ? 'monto por definir' : pv.depositReceived} de ${pv.amountContracted == null ? 'monto por definir' : pv.amountContracted})`, by: 'adri', at: pv.verifiedAt });
       if (pv.deliveredAt) base.audit.push({ id: `au_pay_e_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: 'Entregado', by: 'adri', at: pv.deliveredAt });
       if (pv.balanceVerifiedAt) base.audit.push({ id: `au_pay_s_${pv.opportunityId}`, entity: 'payment', entityId: pv.opportunityId, action: `Saldo 50% verificado (${pv.balanceReceived ?? 0})`, by: 'adri', at: pv.balanceVerifiedAt });
     }
@@ -254,22 +252,33 @@ export class MockAdapter implements DataAdapter {
     return { ...o };
   }
 
-  async setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number; on?: string }) {
+  async setClosedStep(input: { opportunityId: string; step: 'deposit' | 'delivered' | 'balance'; done: boolean; amountContracted: number | null; on?: string; cashReceived?: number | null; offer?: Offer | null }) {
     await this.gate();
     const opp = this.data.opportunities.find((o) => o.id === input.opportunityId);
     if (!opp || opp.stage !== 'closed') throw new AdapterError('unknown', 'Los hitos solo se registran en oportunidades Closed.');
     const prev = this.data.payments.find((p) => p.opportunityId === input.opportunityId);
     const when = input.on ? `${input.on}T12:00:00-05:00` : new Date().toISOString();
-    const half = Math.round(input.amountContracted * 0.5);
+    const contracted = input.amountContracted ?? prev?.amountContracted ?? null;
     const pv: PaymentVerification = {
-      opportunityId: input.opportunityId, type: prev?.type ?? 'project_50pct', contractSigned: true, amountContracted: input.amountContracted,
+      opportunityId: input.opportunityId, type: prev?.type ?? (input.offer === 'cm' ? 'monthly_prepaid' : 'project_50pct'), contractSigned: prev?.contractSigned ?? true, amountContracted: contracted,
       depositVerified: prev?.depositVerified ?? false, verifiedAt: prev?.verifiedAt ?? null, depositReceived: prev?.depositReceived ?? null,
       deliveredAt: prev?.deliveredAt ?? null, balanceVerifiedAt: prev?.balanceVerifiedAt ?? null, balanceReceived: prev?.balanceReceived ?? null, balancePending: null,
+      depositMarkedAt: prev?.depositMarkedAt ?? null, balanceMarkedAt: prev?.balanceMarkedAt ?? null, offer: input.offer ?? prev?.offer ?? null,
     };
-    if (input.step === 'deposit') { pv.depositVerified = input.done; pv.verifiedAt = input.done ? when : null; pv.depositReceived = input.done ? half : null; }
-    if (input.step === 'delivered') { pv.deliveredAt = input.done ? when : null; }
-    if (input.step === 'balance') { pv.balanceVerifiedAt = input.done ? when : null; pv.balanceReceived = input.done ? input.amountContracted - half : null; }
-    pv.balancePending = input.amountContracted - (pv.depositReceived ?? 0) - (pv.balanceReceived ?? 0);
+    // Marcar el hito guarda la fecha en el dashboard. No copia el 50% como si fuera caja.
+    if (input.step === 'deposit') {
+      pv.depositMarkedAt = input.done ? when : null;
+      if (input.done && input.cashReceived != null) { pv.depositVerified = true; pv.depositReceived = input.cashReceived; pv.verifiedAt = when; }
+      if (!input.done) { pv.depositVerified = false; pv.depositReceived = null; pv.verifiedAt = null; }
+    }
+    if (input.step === 'delivered') pv.deliveredAt = input.done ? when : null;
+    if (input.step === 'balance') {
+      pv.balanceMarkedAt = input.done ? when : null;
+      if (input.done && input.cashReceived != null) { pv.balanceVerifiedAt = when; pv.balanceReceived = input.cashReceived; }
+      if (!input.done) { pv.balanceVerifiedAt = null; pv.balanceReceived = null; }
+    }
+    const line = incomeLine({ offer: pv.offer ?? null, payment: pv });
+    pv.balancePending = line.balance;
     this.data.payments = [...this.data.payments.filter((p) => p.opportunityId !== pv.opportunityId), pv];
     const label = { deposit: 'Anticipo 50%', delivered: 'Entrega', balance: 'Saldo 50%' }[input.step];
     this.data.audit.push({ id: `au_pay_${pv.opportunityId}_${Date.now()}`, entity: 'payment', entityId: pv.opportunityId, action: `${label}: ${input.done ? 'registrado' : 'quitado'}`, by: 'adri', at: new Date().toISOString() });
@@ -297,11 +306,20 @@ export class MockAdapter implements DataAdapter {
 
   async getGoalProgress(): Promise<GoalProgress> {
     await this.gate();
+    const window = { start: GOAL.windowStart, end: GOAL.windowEnd };
     const closed = this.d.opportunities.filter((o) => o.stage === 'closed');
-    const verified = closed.filter((o) => this.d.payments.some((p) => p.opportunityId === o.id && p.contractSigned && p.depositVerified));
-    const signedPending = closed.filter((o) => this.d.payments.some((p) => p.opportunityId === o.id && p.contractSigned && !p.depositVerified));
+    const offerOf = (id: string) => this.d.prospects.find((p) => p.id === id)?.offerInterest ?? null;
+    const verified = closed.filter((o) => {
+      const payment = this.d.payments.find((p) => p.opportunityId === o.id) ?? null;
+      return isVerifiedWebsiteSale({ offer: payment?.offer ?? offerOf(o.prospectId), payment, window });
+    });
+    const signedPending = closed.filter((o) => {
+      const payment = this.d.payments.find((p) => p.opportunityId === o.id) ?? null;
+      const offer = payment?.offer ?? offerOf(o.prospectId);
+      return !!payment?.contractSigned && !isVerifiedWebsiteSale({ offer, payment, window }) && offer !== 'cm';
+    });
     return {
-      verifiedSales: verified.length, target: 10, windowStart: GOAL_WINDOW.start, windowEnd: GOAL_WINDOW.end,
+      verifiedSales: verified.length, target: GOAL.target, windowStart: window.start, windowEnd: window.end,
       signedPendingDeposit: signedPending.length, updatedAt: this.data.meta.updatedAt, source: this.data.meta.source,
     };
   }

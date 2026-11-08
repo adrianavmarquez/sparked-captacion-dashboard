@@ -99,6 +99,11 @@ export interface PaymentVerification {
   deliveredAt: string | null;
   balanceVerifiedAt: string | null;
   balanceReceived: number | null;
+  /** Fecha en que se marcó el hito en el dashboard. No es prueba de caja. */
+  depositMarkedAt?: string | null;
+  balanceMarkedAt?: string | null;
+  /** Oferta asociada al guardar el hito. CM no entra en la meta de webs. */
+  offer?: Offer | null;
 }
 
 export interface Draft {

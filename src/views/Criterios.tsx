@@ -51,7 +51,7 @@ const groups: { title: string; rules: Rule[] }[] = [
     { t: 'Fit y presupuesto', d: 'No se infiere. Campo "Por definir".', l: 'pendiente' },
     { t: 'Variante de español de la marca', d: '', l: 'pendiente' },
     { t: 'Tokens de UI y usos tipográficos', d: 'La paleta está confirmada; los usos en UI son propuesta de esta demo.', l: 'pendiente' },
-    { t: 'Hitos después de Closed', d: 'Anticipo 50%, entrega y saldo 50%, cada uno con fecha. Entregado libera capacidad web.', l: 'propuesto', date: '7 nov 2026, pedido por Adri' },
+    { t: 'Hitos después de Closed', d: 'El 50% del proyecto y el primer mes del retainer son el requisito, no la prueba de que el dinero entró. Sin monto o fecha, queda por definir. Entregado libera capacidad web.', l: 'propuesto', date: '7 nov 2026, pedido por Adri' },
   ] },
 ];
 

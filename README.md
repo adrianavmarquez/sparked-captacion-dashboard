@@ -1,6 +1,6 @@
 # Sparked Reactions · Dashboard de captación (demo front-end)
 
-Demo **offline** del dashboard interno de captación comercial. Datos **ficticios**. Sin backend, sin login, sin envíos, sin red. Preparado para que María (asistente IA) conecte datos y servicios reales detrás del adaptador sin rehacer la UI.
+Demo **offline** del dashboard interno de captación comercial. Datos **ficticios**. La maqueta no envía nada y no llama a la red al abrirla. El servidor vive en `/api` y queda inactivo hasta que Adri cargue acceso y base; ver `docs/ACTIVACION.md`.
 
 Construido el 7 nov 2026 (ET) a partir de `PROMPT-PARA-CLAUDE.md` y el paquete `sparked-frontend-handoff`.
 
@@ -47,6 +47,10 @@ src/components/ui.tsx      píldoras, estados vacío/error/cargando, Spark, Wave
 src/views/*.tsx            Hoy, Prospectos, Ficha, Pipeline, Seguimientos, Borradores, Criterios (+ Ingresos)
 capturas/                  capturas 1440 y 360 de cada vista y estados
 src/data/persistence.ts    interfaz Persistence + localStorage + db del artifact de claude.ai
+src/domain/                reglas de caja, meta, seguimientos, evidencia (las usa la UI y el API)
+server/                    acceso, almacén, lectura GHL y correo apagado
+netlify/functions/api.ts   API. Inactiva sin variables de servidor
+docs/                      activación, migraciones, despliegue y estado
 src/assets/brand/logos.ts  logo e icono como data URI (PNG con transparencia, derivados del brand kit)
 vite.artifact.config.ts    build de un solo archivo (npm run build:artifact) para publicar como artifact
 .env.example               solo nombres de variables vacías (la demo no las usa)
@@ -71,8 +75,8 @@ La UI solo llama a `DataAdapter` (`src/data/adapter.ts`). Métodos: `listProspec
 Reglas que viven en el front y conviene mantener en la fuente real:
 - Frescura: `freshnessOf()` (≤30 días; revalidar >7 días). Norma operativa de María, no fijada por Adri.
 - Seguimientos: `dueOn = sentAt del primer contacto + 4/10/20`. En la demo vienen precalculados en fixtures.
-- Meta: `verifiedSales` cuenta solo `contractSigned && depositVerified`.
-- Capacidad web: cuenta oportunidades en Closed. Si prefieren contar solo depósito verificado, cambiar una línea en `Hoy.tsx`.
+- Meta: `verifiedSales` cuenta una web solo con contrato firmado, oferta que no sea CM, monto contratado conocido y caja recibida con fecha dentro de la ventana. El 50% exigido no rellena la caja. CM no entra en las 10 webs.
+- Capacidad web: proyectos web en Closed con anticipo realmente registrado y sin entregar. CM no se suma. Tope inicial 3, máximo 4.
 
 ## Qué incluye (checklist del brief)
 
@@ -84,7 +88,7 @@ Reglas que viven en el front y conviene mantener en la fuente real:
 - Borradores: botones "Abrir en Gmail" y "Marcar como enviado" visibles; hoy solo avisan que los conecta María (ya tiene acceso al correo).
 - Criterios: conteo automático de razones de descarte a partir de las decisiones de Adri.
 - Pipeline: arrastrar y soltar (mouse, o pulsación sostenida en táctil) para cambiar una oportunidad de etapa; con teclado, flechas izquierda/derecha; Enter abre la ficha. El movimiento se guarda (colección `stages`) con fecha y autor; la escritura hacia GHL es parte de la integración pendiente. Pedido por Adri el 7 nov 2026, amplía el "solo lectura" del brief original.
-- Ingresos: toda oportunidad en Closed aparece con su monto contratado (el de la oportunidad o, si no trae, el precio de lista de la oferta, marcado). Tres hitos con fecha por oportunidad: anticipo 50% recibido, entregado, saldo 50% recibido; cobrado y pendiente se calculan solos. El anticipo hace que la venta cuente en la meta de Hoy; "entregado" libera capacidad web (pedido por Adri, 7 nov 2026). Se guarda con la misma persistencia que las decisiones.
+- Ingresos: la pantalla sigue siendo la de la maqueta. El cálculo ya no usa precio de lista ni trata un monto ausente como cero. Contratado, anticipo esperado y caja cobrada van aparte. Marcar un hito guarda la fecha en el dashboard; no copia el 50% como si el pago hubiera entrado. "Entregado" libera capacidad web (pedido por Adri, 7 nov 2026).
 - Clic o Enter en una fila abre la ficha.
 - Descartar (razón obligatoria), Maybe (fecha obligatoria) y Aprobar contacto: tres salidas distintas, solo en memoria.
 - Borrador → Aprobado por Adri → Enviado. **Enviar** y **Conectar GHL** deshabilitados con etiqueta "Integración pendiente".
@@ -112,13 +116,14 @@ Todo lo que no es paleta es **propuesta**:
 
 ## Limitaciones conocidas
 
-- Las decisiones persisten según el entorno (tabla arriba). El backend real sigue pendiente.
+- Las decisiones de la demo siguen en el navegador o en el artifact. El servidor (`/api`, ver `docs/ACTIVACION.md`) guarda en Postgres solo cuando `NETLIFY_DB_URL` existe. Esta rama no aprovisiona la base ni conecta GHL: sin credenciales responde que no está configurado.
+- El arranque de la demo no llama a la red. `#/entrar` existe fuera del menú para cuando Adri active el acceso.
 - "Hoy" está fijado en 7 nov 2026 15:00 ET (`DEMO_NOW`) para que capturas y cálculos sean reproducibles.
 - Los seguimientos de la demo vienen precalculados; la fórmula está documentada en `adapter.ts` para la integración.
 - El estado "cargando" del selector de demo es permanente hasta cambiar el modo.
 - No hay autenticación ni roles: "sin permiso" es un estado visual.
 - Inglés: no hay archivo `en` todavía, solo la estructura para añadirlo.
-- Sin tests automatizados en el repo; la verificación funcional se hizo con un script de Playwright externo.
+- `npm test` cubre reglas, autorización, persistencia, GHL, fechas e ingresos. Las capturas de la maqueta se hicieron antes con Playwright.
 
 ## Fuentes
 

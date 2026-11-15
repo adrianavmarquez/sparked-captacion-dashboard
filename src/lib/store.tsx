@@ -1,12 +1,15 @@
 import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type DependencyList } from 'react';
 import { MockAdapter, SourceAdapter, setDataClock, AdapterError, type DataAdapter, type DemoMode } from '../data/adapter';
+import { type AppAccess } from '../data/access';
 import { BackendPersistence, probeBackendSession } from '../data/backend-persistence';
+import { emptyDataset } from '../data/empty';
 import { loadLiveDataset } from '../data/load-live';
+import { clearDemoDrafts, ClaudeDbPersistence, LocalStoragePersistence, detectClaudeDb, type PersistenceKind } from '../data/persistence';
 import { UnavailableAdapter } from '../data/unavailable';
-import { ClaudeDbPersistence, LocalStoragePersistence, detectClaudeDb, type PersistenceKind } from '../data/persistence';
 
 interface Store {
   adapter: DataAdapter;
+  access: AppAccess;
   mode: DemoMode;
   setMode: (m: DemoMode) => void;
   /** versión que cambia cuando el adaptador muta datos o cambia el modo */
@@ -14,6 +17,7 @@ interface Store {
   toast: (msg: string) => void;
   persistence: { kind: PersistenceKind; label: string; short: string };
   reconnect: () => Promise<void>;
+  logout: () => Promise<void>;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -22,7 +26,8 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const modeRef = useRef<{ current: DemoMode }>({ current: 'normal' });
   const [mode, setModeState] = useState<DemoMode>('normal');
   const [version, setVersion] = useState(0);
-  const [adapter, setAdapter] = useState<DataAdapter>(() => new MockAdapter({ current: 'loading' }));
+  const [adapter, setAdapter] = useState<DataAdapter>(() => new MockAdapter({ current: 'normal' }, emptyDataset()));
+  const [access, setAccess] = useState<AppAccess>('checking');
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [persistence, setPersistence] = useState<{ kind: PersistenceKind; label: string; short: string }>({ kind: 'none', label: 'Conectando…', short: '…' });
@@ -35,17 +40,10 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let alive = true;
     (async () => {
-      const db = await detectClaudeDb();
-      if (db) {
-        setDataClock(null);
-        const demo = new MockAdapter(modeRef.current);
-        await demo.attachPersistence(new ClaudeDbPersistence(db));
-        if (!alive) return;
-        setAdapter(demo);
-        setPersistence(demo.persistenceInfo);
-        return;
-      }
-      if (await probeBackendSession()) {
+      const authed = await probeBackendSession();
+      if (!alive) return;
+      if (authed) {
+        clearDemoDrafts();
         try {
           const live = await loadLiveDataset();
           setDataClock(() => new Date());
@@ -54,21 +52,33 @@ export function StoreProvider({ children }: { children: ReactNode }) {
           if (!alive) return;
           setAdapter(source);
           setPersistence(source.persistenceInfo);
-          return;
+          setAccess('live');
         } catch (error) {
           setDataClock(null);
           if (!alive) return;
           setAdapter(new UnavailableAdapter(error instanceof AdapterError ? error : new AdapterError('network', 'No se pudo leer la fuente de datos.')));
           setPersistence({ kind: 'backend', label: 'No se pudo leer el servidor', short: 'Error' });
-          return;
+          setAccess('live');
         }
+        return;
+      }
+      if (import.meta.env.VITE_DEMO === '1') {
+        setDataClock(null);
+        const db = await detectClaudeDb();
+        const { fixtures } = await import('../data/fixtures');
+        const demo = new MockAdapter(modeRef.current, fixtures);
+        if (db) await demo.attachPersistence(new ClaudeDbPersistence(db));
+        else if (LocalStoragePersistence.available()) await demo.attachPersistence(new LocalStoragePersistence());
+        if (!alive) return;
+        setAdapter(demo);
+        setPersistence(demo.persistenceInfo);
+        setAccess('demo');
+        return;
       }
       setDataClock(null);
-      const demo = new MockAdapter(modeRef.current);
-      if (LocalStoragePersistence.available()) await demo.attachPersistence(new LocalStoragePersistence());
-      if (!alive) return;
-      setAdapter(demo);
-      setPersistence(demo.persistenceInfo);
+      setAdapter(new MockAdapter(modeRef.current, emptyDataset()));
+      setPersistence({ kind: 'none', label: 'Sin sesión', short: 'Bloqueado' });
+      setAccess('locked');
     })();
     return () => { alive = false; };
   }, [persistenceEpoch]);
@@ -78,11 +88,22 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(t);
   }, [toastMsg]);
 
+  const logout = async () => {
+    await fetch('/api/session', { method: 'DELETE', credentials: 'same-origin' }).catch(() => undefined);
+    clearDemoDrafts();
+    setDataClock(null);
+    modeRef.current.current = 'normal';
+    setModeState('normal');
+    setAdapter(new MockAdapter(modeRef.current, emptyDataset()));
+    setPersistence({ kind: 'none', label: 'Sin sesión', short: 'Bloqueado' });
+    setAccess('locked');
+  };
   const value: Store = {
-    adapter, mode, version, persistence,
+    adapter, access, mode, version, persistence,
     setMode: (m) => { modeRef.current.current = m; setModeState(m); setVersion((v) => v + 1); },
     toast: (m) => setToastMsg(m),
     reconnect: async () => { setPersistenceEpoch((n) => n + 1); },
+    logout,
   };
   return (
     <Ctx.Provider value={value}>

@@ -8,7 +8,8 @@ import type {
   Dataset, ProspectRow, ProspectFilters, Page, Review, Draft, Followup,
   Opportunity, PaymentVerification, GoalProgress, AuditEvent, Freshness, ReviewState, Decision, FitAssessment, FitLevel, BudgetSignal, Offer, Stage, AgentStep,
 } from './model';
-import { fixtures, DEMO_NOW } from './fixtures';
+import { DEMO_NOW } from './demo-clock';
+import { emptyDataset } from './empty';
 import type { Persistence, SavedState } from './persistence';
 import { DAY_MS, GOAL } from '../domain/constants';
 import { freshnessAt, worstFreshnessAt } from '../domain/freshness';
@@ -78,7 +79,7 @@ export class MockAdapter implements DataAdapter {
   private persistence: Persistence | null = null;
   private seed: Dataset;
 
-  constructor(modeRef: { current: DemoMode }, seed: Dataset = fixtures) {
+  constructor(modeRef: { current: DemoMode }, seed: Dataset = emptyDataset()) {
     // copia profunda: la demo muta en memoria, nunca los fixtures ni el disco
     this.seed = seed;
     this.data = JSON.parse(JSON.stringify(seed));

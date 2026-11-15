@@ -3,10 +3,8 @@ import { describe, expect, it } from 'vitest';
 import { strings } from '../src/data/strings';
 
 const unchanged = [
-  'global.css',
   'tokens.css',
   'tokens.json',
-  'Shell.tsx',
   'ui.tsx',
   'index.html',
   'fonts.css',

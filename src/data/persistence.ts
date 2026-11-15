@@ -47,6 +47,11 @@ const empty = (): SavedState => ({ reviews: [], fits: [], draftApprovals: {}, pa
 /* ---------- localStorage ---------- */
 const LS_KEY = 'sparked.captacion.demo.v1';
 
+/** Quita borradores de ejemplo guardados en este navegador. */
+export function clearDemoDrafts() {
+  try { localStorage.removeItem(LS_KEY); } catch { /* sin almacenamiento */ }
+}
+
 export class LocalStoragePersistence implements Persistence {
   kind: PersistenceKind = 'local';
   label = 'Guardado en este navegador';

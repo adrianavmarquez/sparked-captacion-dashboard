@@ -7,6 +7,9 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 export default defineConfig({
   plugins: [react(), viteSingleFile()],
   base: './',
-  define: { 'import.meta.env.VITE_ROUTER': JSON.stringify('memory') },
+  define: {
+    'import.meta.env.VITE_ROUTER': JSON.stringify('memory'),
+    'import.meta.env.VITE_DEMO': JSON.stringify('1'),
+  },
   build: { outDir: 'dist-artifact', assetsInlineLimit: 100_000_000, cssCodeSplit: false },
 });

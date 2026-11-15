@@ -5,6 +5,7 @@ import { fmtDateTime } from '../lib/format';
 import { Spark, Waves } from './ui';
 import { now, type DemoMode } from '../data/adapter';
 import { wordmarkWhite as wordmark, iconWhite } from '../assets/brand/logos';
+import { LockScreen } from './LockScreen';
 
 const links: { to: string; label: string; key: 'review' | 'drafts' | 'followups' | null }[] = [
   { to: '/', label: t.nav.hoy, key: null },
@@ -61,9 +62,11 @@ function Brand({ compact = false }: { compact?: boolean }) {
 }
 
 export function Shell() {
-  const { mode, setMode, persistence } = useStore();
+  const { access, logout, mode, setMode, persistence } = useStore();
   const meta = useQuery((a) => a.getMeta());
   const modes: DemoMode[] = ['normal', 'loading', 'empty', 'error', 'forbidden'];
+  if (access !== 'live' && access !== 'demo') return <LockScreen checking={access === 'checking'} />;
+  const live = access === 'live';
   return (
     <div className="shell">
       <a className="skip" href="#main">{t.app.skip}</a>
@@ -82,14 +85,23 @@ export function Shell() {
         <div className="topbar"><Brand compact /></div>
         <Nav className="topbar__nav" />
         <div className="banner" role="note">
-          <Spark className="banner__spark" />
-          <span className="banner__text">{t.app.demoBanner} <strong style={{ fontWeight: 500 }}>{persistence.label}.</strong></span>
-          <label className="banner__demo">
-            <span>{t.demo.label}</span>
-            <select value={mode} onChange={(e) => setMode(e.target.value as DemoMode)}>
-              {modes.map((m) => <option key={m} value={m}>{t.demo[m]}</option>)}
-            </select>
-          </label>
+          {live ? (
+            <>
+              <span className="banner__text">En vivo · GHL solo lectura · no envía nada</span>
+              <button type="button" className="linkbtn banner__live" onClick={() => { void logout(); }}>Salir</button>
+            </>
+          ) : (
+            <>
+              <Spark className="banner__spark" />
+              <span className="banner__text">{t.app.demoBanner} <strong style={{ fontWeight: 500 }}>{persistence.label}.</strong></span>
+              <label className="banner__demo">
+                <span>{t.demo.label}</span>
+                <select value={mode} onChange={(e) => setMode(e.target.value as DemoMode)}>
+                  {modes.map((m) => <option key={m} value={m}>{t.demo[m]}</option>)}
+                </select>
+              </label>
+            </>
+          )}
         </div>
         <main id="main" className="page" tabIndex={-1}>
           <Outlet />

@@ -9,9 +9,7 @@ import type {
   PaymentVerification, Draft, Followup, AuditEvent, Offer, Exclusion, Stage, FitAssessment, AgentStep,
 } from './model';
 
-/** Hora del Este (ET). */
-export const DEMO_NOW = '2026-11-07T15:00:00-05:00';
-export const GOAL_WINDOW = { start: '2026-11-07', end: '2027-02-07' };
+export { DEMO_NOW, GOAL_WINDOW } from './demo-clock';
 
 const d = (day: number, hour = 10) => {
   // día relativo a DEMO_NOW (negativo = pasado), en ET

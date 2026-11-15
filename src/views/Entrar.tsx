@@ -7,7 +7,7 @@ import { useStore } from '../lib/store';
 /** Fuera del menú. No cambia las pantallas ya aprobadas. El token no se guarda. */
 export function Entrar() {
   const navigate = useNavigate();
-  const { reconnect } = useStore();
+  const { reconnect, logout } = useStore();
   const [token, setToken] = useState('');
   const [message, setMessage] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -26,9 +26,7 @@ export function Entrar() {
 
   const leave = async () => {
     clearBackendEnabled(localStorage);
-    await fetch('/api/session', { method: 'DELETE', credentials: 'same-origin' }).catch(() => undefined);
-    await reconnect();
-    setMessage('Sesión cerrada en este navegador. La demo sigue en local.');
+    await logout();
   };
 
   return (

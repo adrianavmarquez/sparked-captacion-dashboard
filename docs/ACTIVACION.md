@@ -12,14 +12,12 @@ En el sitio de Netlify, variables de entorno del servidor (no `VITE_`):
 
 | Nombre | Para qué | Estado |
 |---|---|---|
-| `SPARKED_OPERATOR_TOKEN` | Clave que se pega en `#/entrar`. No va al código del navegador. | Falta |
+| `SPARKED_OPERATOR_TOKEN` | Clave de Adri. No va al código del navegador. | Falta |
+| `SPARKED_OPERATOR_TOKEN_CHIRI` | Clave de Chiri. Si no está, esa clave no entra. | Falta |
 | `SPARKED_SESSION_SECRET` | Firma la cookie. 16 caracteres o más. | Falta |
-| `SPARKED_OPERATOR_ACTOR` | `adri` o `chiri`. Si no está, cuenta como `adri`. Las revisiones las firma `adri`. | Opcional |
 | `SPARKED_COOKIE_SECURE` | `false` solo en `http://localhost`. En Netlify se deja vacío. | Opcional |
 
-Después del deploy, Adri abre `#/entrar`, pega la clave y el navegador guarda solo la cookie. La clave no se escribe en localStorage.
-
-Hoy hay una sola clave. Si Chiri necesita otra, es una decisión de Adri: esta versión no inventa un segundo usuario.
+El candado es un solo campo. La clave que coincide decide quién entra: Adri o Chiri. Chiri ve las mismas pantallas y los mismos datos. Aprobar una revisión, un fit o un borrador sigue siendo solo de Adri; en la sesión de Chiri esos controles quedan desactivados. `SPARKED_OPERATOR_ACTOR` ya no elige la identidad. La cookie es `HttpOnly`, `Path=/` y `SameSite=Lax`. La clave no se escribe en localStorage.
 
 ## 3. Base durable
 

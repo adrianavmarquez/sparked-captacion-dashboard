@@ -28,7 +28,8 @@ describe('candado', () => {
     expect(store).toContain('clearDemoDrafts');
     const shell = readFileSync('src/components/Shell.tsx', 'utf8');
     expect(shell).toContain('LockScreen');
-    expect(shell).toContain('En vivo · GHL solo lectura · no envía nada');
+    expect(shell).toContain('GHL solo lectura · no envía nada');
+    expect(shell).toContain("actor === 'chiri' ? 'Chiri' : 'Adri'");
     expect(shell).toContain("access !== 'live' && access !== 'demo'");
   });
 });
@@ -41,5 +42,9 @@ describe('banner', () => {
     expect(block).toContain('position: static');
     expect(block).not.toContain('sticky');
     expect(block).not.toContain('z-index: 20');
+    const mobile = css.slice(css.indexOf('@media (max-width: 959px)'));
+    expect(mobile).toContain('safe-area-inset-top');
+    expect(mobile).not.toContain('position: sticky');
+    expect(mobile).toContain('pointer-events: none');
   });
 });

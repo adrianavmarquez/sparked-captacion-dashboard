@@ -35,16 +35,19 @@ export class BackendPersistence implements Persistence {
   async saveStage(move: StageMove) { await request('/api/stages', move); }
 }
 
-export async function probeBackendSession(): Promise<boolean> {
+export type OperatorActor = 'adri' | 'chiri';
+
+export async function probeBackendSession(): Promise<OperatorActor | null> {
   try {
-    const response = await fetch('/api/session', { credentials: 'same-origin', signal: AbortSignal.timeout(1500) });
-    if (!response.ok) return false;
+    const response = await fetch('/api/session', { credentials: 'same-origin', signal: AbortSignal.timeout(4000) });
+    if (!response.ok) return null;
     const type = response.headers.get('content-type') ?? '';
-    if (!type.includes('application/json')) return false;
-    const body = await response.json() as { authenticated?: boolean };
-    return body.authenticated === true;
+    if (!type.includes('application/json')) return null;
+    const body = await response.json() as { authenticated?: boolean; actor?: string };
+    if (body.authenticated !== true) return null;
+    return body.actor === 'chiri' ? 'chiri' : 'adri';
   } catch {
-    return false;
+    return null;
   }
 }
 

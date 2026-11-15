@@ -149,7 +149,8 @@ function FichaBody({ row, audit, steps }: { row: ProspectRow; audit: AuditEvent[
 }
 
 function DecisionCard({ row }: { row: ProspectRow }) {
-  const { adapter, toast, persistence } = useStore();
+  const { adapter, toast, persistence, actor } = useStore();
+  const soloAdri = actor === 'chiri';
   const [decision, setDecision] = useState<Decision | null>(null);
   const [reason, setReason] = useState('');
   const [revisit, setRevisit] = useState('');
@@ -185,7 +186,8 @@ function DecisionCard({ row }: { row: ProspectRow }) {
         </p>
       )}
       <form className="decision" onSubmit={submit} style={{ marginTop: 14 }}>
-        <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+        {soloAdri && <p className="page__meta" style={{ marginBottom: 8 }}>{t.ficha.soloAdri}</p>}
+        <fieldset disabled={soloAdri} style={{ border: 0, padding: 0, margin: 0 }}>
           <legend className="sr-only">{t.ficha.decision}</legend>
           <div className="decision__opts">
             {opts.map((o) => (
@@ -210,7 +212,7 @@ function DecisionCard({ row }: { row: ProspectRow }) {
         )}
         {err && <p role="alert" style={{ color: 'var(--butter)', fontSize: 'var(--fs-sm)' }}>{err}</p>}
         <div className="row">
-          <button className="btn btn--sky" type="submit" disabled={!decision || busy}>{t.ficha.save}</button>
+          <button className="btn btn--sky" type="submit" disabled={!decision || busy || soloAdri}>{t.ficha.save}</button>
           <span className="pill pill--plain pill--ghost" style={{ color: 'var(--onyx-muted)', borderColor: 'var(--onyx-line)' }}>{persistence.short}</span>
         </div>
         <p className="card__foot">{t.ficha.threeSteps}</p>
@@ -220,7 +222,8 @@ function DecisionCard({ row }: { row: ProspectRow }) {
 }
 
 function FitCard({ row }: { row: ProspectRow }) {
-  const { adapter, toast, persistence } = useStore();
+  const { adapter, toast, persistence, actor } = useStore();
+  const soloAdri = actor === 'chiri';
   const cur = row.fit;
   const [fit, setFit] = useState<FitLevel | null>(cur?.fit ?? null);
   const [services, setServices] = useState<Offer[]>(cur?.services ?? []);
@@ -253,8 +256,9 @@ function FitCard({ row }: { row: ProspectRow }) {
           <span className="page__meta">{t.ficha.fitCurrent}: {fmtDateTime(cur.decidedAt)}</span>
         </p>
       )}
+      {soloAdri && <p className="page__meta" style={{ marginTop: 8 }}>{t.ficha.soloAdri}</p>}
       <form className="decision" onSubmit={submit} style={{ marginTop: 14 }}>
-        <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+        <fieldset disabled={soloAdri} style={{ border: 0, padding: 0, margin: 0 }}>
           <legend className="field" style={{ marginBottom: 8 }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{t.ficha.fitLevel}</span></legend>
           <div className="decision__opts">
             {levels.map((l) => (
@@ -266,7 +270,7 @@ function FitCard({ row }: { row: ProspectRow }) {
           </div>
         </fieldset>
         {fit && fit !== 'no_fit' && (
-          <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
+          <fieldset disabled={soloAdri} style={{ border: 0, padding: 0, margin: 0 }}>
             <legend className="field" style={{ marginBottom: 8 }}><span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--fs-xs)', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--ink-muted)' }}>{t.ficha.fitServices}</span></legend>
             <div className="row">
               {offers.map((o) => (
@@ -280,17 +284,17 @@ function FitCard({ row }: { row: ProspectRow }) {
         )}
         <div className="field">
           <label htmlFor="budget">{t.ficha.fitBudget}</label>
-          <select id="budget" value={budget} onChange={(e) => setBudget(e.target.value as BudgetSignal)}>
+          <select id="budget" value={budget} disabled={soloAdri} onChange={(e) => setBudget(e.target.value as BudgetSignal)}>
             {budgets.map((b) => <option key={b} value={b}>{t.budget[b]}</option>)}
           </select>
         </div>
         <div className="field">
           <label htmlFor="fitnote">{t.ficha.fitNote}</label>
-          <textarea id="fitnote" value={note} onChange={(e) => setNote(e.target.value)} style={{ minHeight: 56 }} />
+          <textarea id="fitnote" value={note} disabled={soloAdri} onChange={(e) => setNote(e.target.value)} style={{ minHeight: 56 }} />
         </div>
         {err && <p role="alert" style={{ color: 'var(--error-ink)', fontSize: 'var(--fs-sm)' }}>{err}</p>}
         <div className="row">
-          <button className="btn" type="submit" disabled={!fit || busy || !dirty}>{busy ? t.common.saving : t.ficha.fitSave}</button>
+          <button className="btn" type="submit" disabled={!fit || busy || !dirty || soloAdri}>{busy ? t.common.saving : t.ficha.fitSave}</button>
           <span className="pill pill--plain pill--ghost">{persistence.short}</span>
         </div>
       </form>

@@ -3,7 +3,7 @@ import { scheduleFollowups } from '../../src/domain/followups';
 import { incomeLine, incomeTotals, isVerifiedWebsiteSale } from '../../src/domain/income';
 import { qualificationOf } from '../../src/domain/qualification';
 import type { Offer } from '../../src/data/model';
-import { authConfig, clearCookie, readSession, sessionCookie, signSession, tokensMatch, type Session } from '../auth';
+import { actorForPassword, authConfig, clearCookie, readSession, sessionCookie, signSession, type Session } from '../auth';
 import type { Env } from '../env';
 import { readEnv } from '../env';
 import { assertGhlWriteDisabled, IntegrationDisabledError } from '../ghl/gates';
@@ -86,6 +86,7 @@ async function route(req: Request, path: string, deps: ApiDeps, session: Session
   }
   const approve = path.match(/^\/api\/drafts\/([A-Za-z0-9_-]{1,80})\/approve$/);
   if (req.method === 'POST' && approve) {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
     const approvedAt = deps.now().toISOString();
     await store.saveDraftApproval(approve[1], approvedAt);
     return json(200, { draftId: approve[1], status: 'approved', approvedAt, sentAt: null, send: 'disabled' });
@@ -189,8 +190,9 @@ async function sessionRoute(req: Request, deps: ApiDeps): Promise<Response> {
   if (req.method !== 'POST') return json(405, { error: 'method' });
   const body = await readBody(req) as { token?: unknown };
   const token = typeof body.token === 'string' ? body.token : '';
-  if (!tokensMatch(token, auth.token)) return json(401, { error: 'unauthorized' });
-  const session: Session = { actor: auth.actor === 'chiri' ? 'chiri' : 'adri', exp: deps.now().getTime() + 12 * 60 * 60 * 1000 };
+  const actor = actorForPassword(token, auth);
+  if (!actor) return json(401, { error: 'unauthorized' });
+  const session: Session = { actor, exp: deps.now().getTime() + 12 * 60 * 60 * 1000 };
   const cookie = sessionCookie(signSession(session, auth.secret), auth.secureCookie);
   return json(200, { authenticated: true, actor: session.actor }, { 'set-cookie': cookie });
 }
@@ -201,8 +203,9 @@ async function requireSession(req: Request, deps: ApiDeps): Promise<Session | Re
   const header = req.headers.get('authorization');
   if (header?.startsWith('Bearer ')) {
     const token = header.slice(7);
-    if (!tokensMatch(token, auth.token)) return json(401, { error: 'unauthorized' });
-    return { actor: auth.actor === 'chiri' ? 'chiri' : 'adri', exp: deps.now().getTime() + 1000 };
+    const actor = actorForPassword(token, auth);
+    if (!actor) return json(401, { error: 'unauthorized' });
+    return { actor, exp: deps.now().getTime() + 1000 };
   }
   const session = readSession(req.headers.get('cookie'), auth.secret, deps.now().getTime());
   if (!session) return json(401, { error: 'unauthorized' });

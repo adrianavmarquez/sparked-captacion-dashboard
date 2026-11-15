@@ -34,6 +34,6 @@ Netlify Blobs no se usa: es para archivos, no para decisiones, borradores ni evi
 
 ## Acceso
 
-`POST /api/session` compara la clave con `SPARKED_OPERATOR_TOKEN` y deja una cookie `HttpOnly`. El resto de `/api` exige esa cookie o `Authorization: Bearer`. Sin sesión, la respuesta es 401 y no incluye filas. Las mutaciones hechas con cookie exigen el encabezado `X-Sparked-Request: 1`.
+`POST /api/session` compara la clave con `SPARKED_OPERATOR_TOKEN` (Adri) y, si existe, con `SPARKED_OPERATOR_TOKEN_CHIRI` (Chiri). Deja una cookie `HttpOnly` con `SameSite=Lax`. El resto de `/api` exige esa cookie o `Authorization: Bearer`. Sin sesión, la respuesta es 401 y no incluye filas. Las mutaciones hechas con cookie exigen el encabezado `X-Sparked-Request: 1`. Revisar, valorar el fit y aprobar un borrador responden 403 si la sesión no es de Adri.
 
 La salud pública (`GET /api/health`) solo dice si el acceso, la base y las compuertas están configurados o apagados. No lista prospectos.

@@ -211,6 +211,7 @@ export interface ProspectFilters {
   offer?: Offer | 'all';
   reviewState?: ReviewState | 'all';
   locality?: string | 'all';
+  industry?: string | 'all';
   freshness?: Freshness | 'sin_evidencia' | 'all';
   exclusion?: Exclusion | 'none' | 'all';
   fit?: FitLevel | 'none' | 'all';

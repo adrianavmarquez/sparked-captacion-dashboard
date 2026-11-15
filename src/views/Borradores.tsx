@@ -44,7 +44,8 @@ export function Borradores() {
 }
 
 function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
-  const { adapter, toast } = useStore();
+  const { adapter, toast, actor } = useStore();
+  const soloAdri = actor === 'chiri';
   const [busy, setBusy] = useState(false);
   const approve = async () => {
     setBusy(true);
@@ -86,7 +87,8 @@ function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
 
       <hr className="hr" />
       <div className="row" style={{ gap: 10 }}>
-        {draft.status === 'draft' && <button className="btn" onClick={approve} disabled={busy}>{t.borradores.approve}</button>}
+        {draft.status === 'draft' && <button className="btn" onClick={approve} disabled={busy || soloAdri}>{t.borradores.approve}</button>}
+        {soloAdri && <span className="page__meta">{t.ficha.soloAdri}</span>}
         <button className="btn btn--secondary" onClick={() => toast(t.borradores.gmailNote)}>↗ {t.borradores.openGmail}</button>
         <button className={`btn ${draft.status === 'approved' ? 'btn--sky' : 'btn--secondary'}`} onClick={() => toast(t.borradores.gmailNote)} disabled={draft.status === 'sent'}>{t.borradores.markSent}</button>
       </div>

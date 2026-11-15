@@ -47,7 +47,7 @@ export const es = {
     seeAll: 'Ver todo', nothingToday: 'Nada pendiente en este bloque.',
   },
   prospectos: {
-    title: 'Prospectos', sub: 'María construye las fichas. Tú decides.', searchPh: 'Buscar negocio, rubro o localidad', fOffer: 'Oferta', fState: 'Revisión', fLocality: 'Localidad', fFresh: 'Evidencia', fExcl: 'Exclusión', fFit: 'Fit', sortFit: 'Ordenar por fit', sortRecent: 'Más recientes', tabAll: 'Todos', fitNone: 'Sin valorar',
+    title: 'Prospectos', sub: 'María construye las fichas. Tú decides.', searchPh: 'Buscar negocio, rubro o localidad', fOffer: 'Oferta', fState: 'Revisión', fLocality: 'Localidad', fIndustry: 'Rubro', fFresh: 'Evidencia', fExcl: 'Exclusión', fFit: 'Fit', sortFit: 'Ordenar por fit', sortRecent: 'Más recientes', tabAll: 'Todos', fitNone: 'Sin valorar',
     cols: { name: 'Negocio', industry: 'Rubro', locality: 'Localidad', offer: 'Oferta', evidence: 'Evidencia', state: 'Revisión', contact: 'Contacto', created: 'Creado' },
   },
   ficha: {
@@ -55,6 +55,7 @@ export const es = {
     reasonLabel: 'Razón (obligatoria)', revisitLabel: 'Volver el (obligatorio)', save: 'Guardar decisión', saved: 'Decisión guardada.', decided: 'Decidido por Adri el',
     renewedOn: 'Web renovada el', renewedNoDate: 'Fecha de renovación dudosa: revisión manual, no descarte automático.', pipeline: 'Etapa en GHL',
     threeSteps: 'Aprobar contacto, aprobar borrador y enviar son tres pasos separados.',
+    soloAdri: 'Solo Adri aprueba',
     fitTitle: 'Fit y presupuesto', fitSub: 'Lo decides tú; nada se infiere.', fitLevel: 'Fit con nuestros servicios', fitServices: 'Qué le vendemos', fitBudget: 'Señal de presupuesto', fitNote: 'Nota (opcional)',
     fitSave: 'Guardar fit', fitSaved: 'Fit guardado.', fitCurrent: 'Última valoración',
   },

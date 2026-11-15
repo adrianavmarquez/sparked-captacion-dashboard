@@ -8,10 +8,7 @@ const unchanged = [
   'ui.tsx',
   'index.html',
   'fonts.css',
-  'Prospectos.tsx',
-  'Ficha.tsx',
   'Seguimientos.tsx',
-  'Borradores.tsx',
 ];
 
 const sources: Record<string, string> = {

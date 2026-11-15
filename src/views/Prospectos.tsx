@@ -16,6 +16,7 @@ export function Prospectos() {
     offer: (sp.get('offer') as ProspectFilters['offer']) ?? 'all',
     reviewState: (sp.get('state') as ProspectFilters['reviewState']) ?? 'all',
     locality: sp.get('loc') ?? 'all',
+    industry: sp.get('ind') ?? 'all',
     freshness: (sp.get('fresh') as ProspectFilters['freshness']) ?? 'all',
     exclusion: (sp.get('excl') as ProspectFilters['exclusion']) ?? 'all',
     fit: (sp.get('fit') as ProspectFilters['fit']) ?? 'all',
@@ -34,8 +35,13 @@ export function Prospectos() {
   const q = useQuery(async (a) => {
     const [res, localities, all] = await Promise.all([a.listProspects(filters, page, PAGE), a.getLocalities(), a.listProspects({}, 1, 999)]);
     const counts = { all: all.total, pending: 0, approved: 0, maybe: 0, discarded: 0 };
-    all.items.forEach((r) => { counts[r.reviewState] += 1; });
-    return { res, localities, counts };
+    const industries = new Map<string, number>();
+    all.items.forEach((r) => {
+      counts[r.reviewState] += 1;
+      const rubro = r.company.industry.trim();
+      if (rubro) industries.set(rubro, (industries.get(rubro) ?? 0) + 1);
+    });
+    return { res, localities, counts, industries: [...industries.entries()].sort((a, b) => a[0].localeCompare(b[0], 'es')) };
   }, [filters, page]);
 
   const open = (r: ProspectRow) => nav(`/prospectos/${r.prospect.id}`);
@@ -61,6 +67,8 @@ export function Prospectos() {
           options={[['all', t.common.all], ['buen_fit', t.fit.buen_fit], ['fit_parcial', t.fit.fit_parcial], ['no_fit', t.fit.no_fit], ['none', t.prospectos.fitNone]]} />
         <Select id="loc" label={t.prospectos.fLocality} value={filters.locality!} onChange={(v) => set('loc', v)}
           options={[['all', t.common.all], ...(q.data?.localities ?? []).map((l) => [l, l] as [string, string])]} />
+        <Select id="ind" label={t.prospectos.fIndustry} value={filters.industry!} onChange={(v) => set('ind', v)}
+          options={[['all', t.prospectos.tabAll], ...(q.data?.industries ?? []).map(([name, n]) => [name, `${name} (${n})`] as [string, string])]} />
         <Select id="fresh" label={t.prospectos.fFresh} value={filters.freshness!} onChange={(v) => set('fresh', v)}
           options={[['all', t.common.all], ['fresca', t.freshness.fresca], ['revalidar', t.freshness.revalidar], ['obsoleta', t.freshness.obsoleta], ['sin_evidencia', t.freshness.sin_evidencia]]} />
         <Select id="excl" label={t.prospectos.fExcl} value={filters.exclusion!} onChange={(v) => set('excl', v)}

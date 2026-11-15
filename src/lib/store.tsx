@@ -3,7 +3,8 @@ import { MockAdapter, SourceAdapter, setDataClock, AdapterError, type DataAdapte
 import { type AppAccess } from '../data/access';
 import { BackendPersistence, probeBackendSession } from '../data/backend-persistence';
 import { emptyDataset } from '../data/empty';
-import { loadLiveDataset } from '../data/load-live';
+import { loadLiveDataset, SessionRequiredError } from '../data/load-live';
+import type { OperatorActor } from '../data/backend-persistence';
 import { clearDemoDrafts, ClaudeDbPersistence, LocalStoragePersistence, detectClaudeDb, type PersistenceKind } from '../data/persistence';
 import { UnavailableAdapter } from '../data/unavailable';
 
@@ -18,6 +19,7 @@ interface Store {
   persistence: { kind: PersistenceKind; label: string; short: string };
   reconnect: () => Promise<void>;
   logout: () => Promise<void>;
+  actor: OperatorActor | null;
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -28,6 +30,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [version, setVersion] = useState(0);
   const [adapter, setAdapter] = useState<DataAdapter>(() => new MockAdapter({ current: 'normal' }, emptyDataset()));
   const [access, setAccess] = useState<AppAccess>('checking');
+  const [actor, setActor] = useState<OperatorActor | null>(null);
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [persistence, setPersistence] = useState<{ kind: PersistenceKind; label: string; short: string }>({ kind: 'none', label: 'Conectando…', short: '…' });
@@ -44,6 +47,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
       if (!alive) return;
       if (authed) {
         clearDemoDrafts();
+        setActor(authed);
         try {
           const live = await loadLiveDataset();
           setDataClock(() => new Date());
@@ -56,12 +60,20 @@ export function StoreProvider({ children }: { children: ReactNode }) {
         } catch (error) {
           setDataClock(null);
           if (!alive) return;
+          if (error instanceof SessionRequiredError) {
+            setActor(null);
+            setAdapter(new MockAdapter(modeRef.current, emptyDataset()));
+            setPersistence({ kind: 'none', label: 'Sin sesión', short: 'Bloqueado' });
+            setAccess('locked');
+            return;
+          }
           setAdapter(new UnavailableAdapter(error instanceof AdapterError ? error : new AdapterError('network', 'No se pudo leer la fuente de datos.')));
           setPersistence({ kind: 'backend', label: 'No se pudo leer el servidor', short: 'Error' });
           setAccess('live');
         }
         return;
       }
+      setActor(null);
       if (import.meta.env.VITE_DEMO === '1') {
         setDataClock(null);
         const db = await detectClaudeDb();
@@ -94,12 +106,13 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setDataClock(null);
     modeRef.current.current = 'normal';
     setModeState('normal');
+    setActor(null);
     setAdapter(new MockAdapter(modeRef.current, emptyDataset()));
     setPersistence({ kind: 'none', label: 'Sin sesión', short: 'Bloqueado' });
     setAccess('locked');
   };
   const value: Store = {
-    adapter, access, mode, version, persistence,
+    adapter, access, actor, mode, version, persistence,
     setMode: (m) => { modeRef.current.current = m; setModeState(m); setVersion((v) => v + 1); },
     toast: (m) => setToastMsg(m),
     reconnect: async () => { setPersistenceEpoch((n) => n + 1); },

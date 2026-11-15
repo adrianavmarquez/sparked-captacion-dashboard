@@ -62,7 +62,7 @@ function Brand({ compact = false }: { compact?: boolean }) {
 }
 
 export function Shell() {
-  const { access, logout, mode, setMode, persistence } = useStore();
+  const { access, actor, logout, mode, setMode, persistence } = useStore();
   const meta = useQuery((a) => a.getMeta());
   const modes: DemoMode[] = ['normal', 'loading', 'empty', 'error', 'forbidden'];
   if (access !== 'live' && access !== 'demo') return <LockScreen checking={access === 'checking'} />;
@@ -87,7 +87,7 @@ export function Shell() {
         <div className="banner" role="note">
           {live ? (
             <>
-              <span className="banner__text">En vivo · GHL solo lectura · no envía nada</span>
+              <span className="banner__text">En vivo · {actor === 'chiri' ? 'Chiri' : 'Adri'} · GHL solo lectura · no envía nada</span>
               <button type="button" className="linkbtn banner__live" onClick={() => { void logout(); }}>Salir</button>
             </>
           ) : (

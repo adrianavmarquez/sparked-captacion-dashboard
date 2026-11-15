@@ -160,6 +160,7 @@ export class MockAdapter implements DataAdapter {
       if (f.offer && f.offer !== 'all' && r.prospect.offerInterest !== f.offer) return false;
       if (f.reviewState && f.reviewState !== 'all' && r.reviewState !== f.reviewState) return false;
       if (f.locality && f.locality !== 'all' && r.company.locality !== f.locality) return false;
+      if (f.industry && f.industry !== 'all' && r.company.industry !== f.industry) return false;
       if (f.freshness && f.freshness !== 'all' && r.freshness !== f.freshness) return false;
       if (f.exclusion && f.exclusion !== 'all') {
         if (f.exclusion === 'none' ? r.prospect.exclusion !== null : r.prospect.exclusion !== f.exclusion) return false;

@@ -58,6 +58,42 @@ describe('autorización', () => {
     expect(text).not.toContain(SECRET);
   });
 
+  it('Chiri entra con su clave, ve los datos y no aprueba', async () => {
+    const { production, deps } = harness({ SPARKED_OPERATOR_TOKEN_CHIRI: 'clave-chiri-test' });
+    const adri = await call(deps, '/api/session', { method: 'POST', body: JSON.stringify({ token: TOKEN }) });
+    expect(adri.status).toBe(200);
+    expect((await adri.json() as { actor: string }).actor).toBe('adri');
+    const chiri = await call(deps, '/api/session', { method: 'POST', body: JSON.stringify({ token: 'clave-chiri-test' }) });
+    expect(chiri.status).toBe(200);
+    const body = await chiri.json() as { actor: string };
+    expect(body.actor).toBe('chiri');
+    const cookie = chiri.headers.get('set-cookie') ?? '';
+    expect(cookie).toContain('SameSite=Lax');
+    const read = await call(deps, '/api/workspace', { headers: { cookie: cookie.split(';')[0] } });
+    expect(read.status).toBe(200);
+    const review = await call(deps, '/api/reviews', {
+      method: 'POST',
+      headers: { authorization: 'Bearer clave-chiri-test', 'content-type': 'application/json' },
+      body: JSON.stringify({ prospectId: 'pr_1', decision: 'approve_contact' }),
+    });
+    expect(review.status).toBe(403);
+    const fit = await call(deps, '/api/fits', {
+      method: 'POST',
+      headers: { authorization: 'Bearer clave-chiri-test', 'content-type': 'application/json' },
+      body: JSON.stringify({ prospectId: 'pr_1', fit: 'buen_fit', services: ['core'], budget: 'sin_dato' }),
+    });
+    expect(fit.status).toBe(403);
+    const draft = await call(deps, '/api/drafts/dr_1/approve', {
+      method: 'POST',
+      headers: { authorization: 'Bearer clave-chiri-test' },
+    });
+    expect(draft.status).toBe(403);
+    expect((await production.load()).reviews).toHaveLength(0);
+    const missing = harness();
+    const rejected = await call(missing.deps, '/api/session', { method: 'POST', body: JSON.stringify({ token: 'clave-chiri-test' }) });
+    expect(rejected.status).toBe(401);
+  });
+
   it('un token incorrecto no abre sesión', async () => {
     const { deps } = harness();
     const response = await call(deps, '/api/session', { method: 'POST', body: JSON.stringify({ token: 'no' }) });
@@ -71,6 +107,7 @@ describe('autorización', () => {
     expect(login.status).toBe(200);
     const cookie = login.headers.get('set-cookie') ?? '';
     expect(cookie).toContain('HttpOnly');
+    expect(cookie).toContain('SameSite=Lax');
     expect(cookie).not.toContain(TOKEN);
     const read = await call(deps, '/api/state', { headers: { cookie: cookie.split(';')[0] } });
     expect(read.status).toBe(200);

@@ -14,19 +14,28 @@ export interface Session {
 export interface AuthConfig {
   configured: boolean;
   token?: string;
+  chiriToken?: string;
   secret?: string;
-  actor: Actor;
   secureCookie: boolean;
 }
 
 export function authConfig(env: Env): AuthConfig {
   const token = readEnv(env, 'SPARKED_OPERATOR_TOKEN');
+  const chiriToken = readEnv(env, 'SPARKED_OPERATOR_TOKEN_CHIRI');
   const secret = readEnv(env, 'SPARKED_SESSION_SECRET');
-  const actorRaw = readEnv(env, 'SPARKED_OPERATOR_ACTOR') ?? 'adri';
-  const actor: Actor = actorRaw === 'chiri' || actorRaw === 'maria' ? actorRaw : 'adri';
   const secure = readEnv(env, 'SPARKED_COOKIE_SECURE') !== 'false';
   const configured = Boolean(token && secret && secret.length >= 16);
-  return { configured, token, secret, actor, secureCookie: secure };
+  return { configured, token, chiriToken, secret, secureCookie: secure };
+}
+
+/** Compara las dos claves aunque una no exista, para no filtrar cuál falta. */
+export function actorForPassword(password: string, config: Pick<AuthConfig, 'token' | 'chiriToken'>): 'adri' | 'chiri' | null {
+  const unset = 'sparked-operator-unset';
+  const adriOk = tokensMatch(password, config.token ?? unset) && Boolean(config.token);
+  const chiriOk = tokensMatch(password, config.chiriToken ?? unset) && Boolean(config.chiriToken);
+  if (adriOk) return 'adri';
+  if (chiriOk) return 'chiri';
+  return null;
 }
 
 export function tokensMatch(left: string, right: string): boolean {
@@ -62,13 +71,13 @@ export function readSession(cookieHeader: string | null, secret: string, nowMs: 
 }
 
 export function sessionCookie(value: string, secure: boolean): string {
-  const parts = [`${COOKIE}=${value}`, 'HttpOnly', 'Path=/', 'SameSite=Strict', `Max-Age=${MAX_AGE_SEC}`];
+  const parts = [`${COOKIE}=${value}`, 'HttpOnly', 'Path=/', 'SameSite=Lax', `Max-Age=${MAX_AGE_SEC}`];
   if (secure) parts.push('Secure');
   return parts.join('; ');
 }
 
 export function clearCookie(secure: boolean): string {
-  const parts = [`${COOKIE}=`, 'HttpOnly', 'Path=/', 'SameSite=Strict', 'Max-Age=0'];
+  const parts = [`${COOKIE}=`, 'HttpOnly', 'Path=/', 'SameSite=Lax', 'Max-Age=0'];
   if (secure) parts.push('Secure');
   return parts.join('; ');
 }

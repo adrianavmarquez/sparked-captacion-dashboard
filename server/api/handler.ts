@@ -7,7 +7,8 @@ import { authConfig, clearCookie, readSession, sessionCookie, signSession, token
 import type { Env } from '../env';
 import { readEnv } from '../env';
 import { assertGhlWriteDisabled, IntegrationDisabledError } from '../ghl/gates';
-import { ghlOpportunities, ghlStatus, type GhlDeps } from '../ghl/readonly';
+import { prepareImport } from '../catalog/prepare';
+import { ghlOpportunities, ghlStatus, type GhlDeps, type GhlOpportunity } from '../ghl/readonly';
 import { prepareMail, sendMail } from '../mail/port';
 import { redact } from '../redact';
 import type { StoreResult } from '../store/types';
@@ -57,6 +58,16 @@ export async function handleApi(req: Request, deps: ApiDeps): Promise<Response> 
 
 async function route(req: Request, path: string, deps: ApiDeps, session: Session, opened: Extract<StoreResult, { ok: true }>): Promise<Response> {
   const store = opened.store;
+  if (req.method === 'GET' && path === '/api/workspace') {
+    const ghl = await ghlOpportunities(ghlDeps(deps));
+    const body = await workspaceBody(store, ghl, deps.now().toISOString());
+    return json(200, body);
+  }
+  if (req.method === 'POST' && path === '/api/import/prospects') {
+    if (opened.realm !== 'production') return json(403, { error: 'import_production_only' });
+    const counts = await store.importProspects(prepareImport(await readBody(req, 2_000_000)));
+    return json(200, counts);
+  }
   if (req.method === 'GET' && path === '/api/state') {
     const state = await store.load();
     return json(200, { realm: opened.realm, durable: opened.durable, live: false, state });
@@ -151,12 +162,14 @@ function ghlDeps(deps: ApiDeps): GhlDeps {
 async function health(deps: ApiDeps): Promise<Response> {
   const auth = authConfig(deps.env);
   const production = await deps.stores.production();
+  const ghl = await ghlStatus(ghlDeps(deps));
+  const liveReads = ghl.status === 'ok' && ghl.data.verified === true;
   return json(200, {
     ok: true,
     auth: auth.configured ? 'configured' : 'not_configured',
     persistence: production.ok ? (production.durable ? 'durable' : 'ephemeral') : production.error,
-    ghl: readEnv(deps.env, 'GHL_API_TOKEN') ? 'configured' : 'not_configured',
-    liveReads: false,
+    ghl: ghl.status === 'ok' ? 'verified' : ghl.status === 'not_configured' ? 'not_configured' : ghl.status === 'pipeline_not_verified' ? 'pipeline_not_verified' : 'error',
+    liveReads,
     sends: 'disabled',
     ghlWrites: 'disabled',
   });
@@ -223,15 +236,49 @@ function originAllowed(req: Request, url: URL): boolean {
   return origin === url.origin;
 }
 
-async function readBody(req: Request): Promise<unknown> {
+async function readBody(req: Request, max = 65_536): Promise<unknown> {
   const text = await req.text();
-  if (text.length > 65_536) throw new InputError(['body_too_large']);
+  if (text.length > max) throw new InputError(['body_too_large']);
   if (!text) return {};
   try {
     return JSON.parse(text) as unknown;
   } catch {
     throw new InputError(['json']);
   }
+}
+
+async function workspaceBody(store: { load(): Promise<import('../store/types').StoredState>; loadCatalog(): Promise<import('../store/types').CatalogSnapshot> }, ghl: Awaited<ReturnType<typeof ghlOpportunities>>, updatedAt: string) {
+  const [catalog, state] = await Promise.all([store.loadCatalog(), store.load()]);
+  const ghlOk = ghl.status === 'ok';
+  const opportunities: GhlOpportunity[] = ghlOk ? ghl.data : [];
+  return {
+    companies: catalog.companies.map((company) => ({
+      id: company.id, name: company.name, locality: company.locality, industry: company.industry,
+      isChainOrFranchise: company.isChainOrFranchise, websiteUrl: company.websiteUrl,
+      websiteRenewedOn: company.websiteRenewedOn, websiteRenewedSource: company.websiteRenewedSource,
+    })),
+    prospects: catalog.prospects.map((prospect) => ({
+      id: prospect.id, companyId: prospect.companyId, summary: prospect.summary, summarySource: prospect.summarySource,
+      offerInterest: prospect.offerInterest, fit: null, budgetSignal: null, exclusion: prospect.exclusion,
+      createdAt: prospect.createdAt, whyNow: null,
+    })),
+    evidence: catalog.evidence,
+    contacts: catalog.contacts.map((contact) => ({
+      id: contact.id, prospectId: contact.prospectId, role: contact.role, channel: contact.channel,
+      value: contact.value, verified: contact.verified, verifiedAt: contact.verifiedAt, warmPath: null,
+    })),
+    reviews: state.reviews,
+    fits: state.fits,
+    payments: state.payments,
+    stages: state.stages,
+    opportunities: opportunities.map((row) => ({
+      id: row.id, stage: row.stage, stageName: row.stageName, outcome: row.outcome,
+      ghlStatus: row.ghlStatus, name: row.name, updatedAt: row.updatedAt,
+    })),
+    ghlOk,
+    updatedAt,
+    source: ghlOk ? 'Base de captación + lectura GHL' : 'Base de captación (GHL no disponible)',
+  };
 }
 
 function json(status: number, body: unknown, extra: Record<string, string> = {}): Response {

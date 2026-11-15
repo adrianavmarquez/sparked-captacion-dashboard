@@ -1,5 +1,6 @@
 import type { Evidence, FitAssessment, PaymentVerification, Review, Stage } from '../../src/data/model';
 import type { SavedState, StageMove } from '../../src/data/persistence';
+import type { CatalogCompany, CatalogContact, CatalogProspect, ImportCounts, PreparedImport } from '../catalog/prepare';
 
 export interface FollowupStop {
   prospectId: string;
@@ -10,6 +11,13 @@ export interface FollowupStop {
 export interface StoredState extends SavedState {
   evidence: Evidence[];
   followupStops: FollowupStop[];
+}
+
+export interface CatalogSnapshot {
+  companies: CatalogCompany[];
+  prospects: CatalogProspect[];
+  evidence: Evidence[];
+  contacts: CatalogContact[];
 }
 
 export interface ReviewStore {
@@ -23,6 +31,8 @@ export interface ReviewStore {
   saveStage(move: StageMove): Promise<void>;
   saveEvidence(evidence: Evidence): Promise<void>;
   stopFollowups(stop: FollowupStop): Promise<void>;
+  loadCatalog(): Promise<CatalogSnapshot>;
+  importProspects(batch: PreparedImport): Promise<ImportCounts>;
 }
 
 export interface StoreHandle {

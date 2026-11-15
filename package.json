@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.server.json",
     "test": "vitest run",
+    "import:prospects": "node scripts/import-prospects.mjs",
     "build:artifact": "vite build --config vite.artifact.config.ts"
   },
   "engines": {

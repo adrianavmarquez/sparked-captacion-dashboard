@@ -28,9 +28,13 @@ export interface GhlOpportunity {
   stageId: string;
   stage: Stage | null;
   stageName: string | null;
-  /** Siempre unverified: Closed no significa ganado. */
-  outcome: 'unverified';
+  /**
+   * won y open no prueban una venta: sigue unverified hasta contrato + anticipo.
+   * abandoned y lost se muestran, no se borran.
+   */
+  outcome: 'unverified' | 'lost';
   ghlStatus: string | null;
+  name: string | null;
   updatedAt: string | null;
   /** Valor declarado por GHL. No es caja ni contratado verificado. */
   statedValue: number | null;
@@ -91,14 +95,16 @@ export async function ghlOpportunities(deps: GhlDeps): Promise<GhlResult<GhlOppo
         const stageId = String(row.pipelineStageId ?? '');
         const stage = stageById.get(stageId);
         const monetary = typeof row.monetaryValue === 'number' && Number.isFinite(row.monetaryValue) ? row.monetaryValue : null;
+        const ghlStatus = row.status == null ? null : String(row.status);
         rows.push({
           id: String(row.id ?? ''),
           pipelineId: String(row.pipelineId ?? cfg.pipelineId),
           stageId,
           stage: stage?.mapped ?? null,
           stageName: stage?.name ?? null,
-          outcome: 'unverified',
-          ghlStatus: row.status == null ? null : String(row.status),
+          outcome: ghlOutcome(ghlStatus),
+          ghlStatus,
+          name: row.name == null ? null : String(row.name),
           updatedAt: row.updatedAt == null ? null : String(row.updatedAt),
           statedValue: monetary,
           statedValueUse: 'ignored_until_verified',
@@ -162,6 +168,12 @@ async function ghlGet(cfg: GhlConfig, path: string, fetchImpl: typeof fetch = fe
   } catch {
     throw new GhlHttpError(502);
   }
+}
+
+export function ghlOutcome(status: string | null): 'unverified' | 'lost' {
+  const value = (status ?? '').trim().toLowerCase();
+  if (value === 'lost' || value === 'abandoned') return 'lost';
+  return 'unverified';
 }
 
 function mapStage(name: string): Stage | null {

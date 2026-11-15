@@ -50,7 +50,8 @@ src/data/persistence.ts    interfaz Persistence + localStorage + db del artifact
 src/domain/                reglas de caja, meta, seguimientos, evidencia (las usa la UI y el API)
 server/                    acceso, almacén, lectura GHL y correo apagado
 netlify/functions/api.ts   API. Inactiva sin variables de servidor
-docs/                      activación, migraciones, despliegue y estado
+docs/                      activación, importación, migraciones, despliegue y estado
+data/imports/              lote Charlotte 15 nov 2026, para `npm run import:prospects`
 src/assets/brand/logos.ts  logo e icono como data URI (PNG con transparencia, derivados del brand kit)
 vite.artifact.config.ts    build de un solo archivo (npm run build:artifact) para publicar como artifact
 .env.example               solo nombres de variables vacías (la demo no las usa)

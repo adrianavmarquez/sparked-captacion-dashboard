@@ -1,6 +1,8 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode, type DependencyList } from 'react';
-import { MockAdapter, AdapterError, type DataAdapter, type DemoMode } from '../data/adapter';
-import { BackendPersistence, clearBackendEnabled, probeBackendSession, shouldProbeBackend } from '../data/backend-persistence';
+import { createContext, useContext, useEffect, useRef, useState, type ReactNode, type DependencyList } from 'react';
+import { MockAdapter, SourceAdapter, setDataClock, AdapterError, type DataAdapter, type DemoMode } from '../data/adapter';
+import { BackendPersistence, probeBackendSession } from '../data/backend-persistence';
+import { loadLiveDataset } from '../data/load-live';
+import { UnavailableAdapter } from '../data/unavailable';
 import { ClaudeDbPersistence, LocalStoragePersistence, detectClaudeDb, type PersistenceKind } from '../data/persistence';
 
 interface Store {
@@ -20,32 +22,56 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const modeRef = useRef<{ current: DemoMode }>({ current: 'normal' });
   const [mode, setModeState] = useState<DemoMode>('normal');
   const [version, setVersion] = useState(0);
-  const adapter = useMemo(() => new MockAdapter(modeRef.current), []);
+  const [adapter, setAdapter] = useState<DataAdapter>(() => new MockAdapter({ current: 'loading' }));
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [persistence, setPersistence] = useState<{ kind: PersistenceKind; label: string; short: string }>({ kind: 'none', label: 'Conectando…', short: '…' });
   const [persistenceEpoch, setPersistenceEpoch] = useState(0);
-  useEffect(() => adapter.subscribe(() => setVersion((v) => v + 1)), [adapter]);
+  useEffect(() => {
+    const source = adapter as MockAdapter;
+    if (typeof source.subscribe !== 'function') return;
+    return source.subscribe(() => setVersion((v) => v + 1));
+  }, [adapter]);
   useEffect(() => {
     let alive = true;
     (async () => {
-      // 1) artifact de claude.ai  2) sesión de servidor, solo si este navegador ya entró  3) localStorage
       const db = await detectClaudeDb();
       if (db) {
-        await adapter.attachPersistence(new ClaudeDbPersistence(db));
-      } else if (shouldProbeBackend(localStorage) && await probeBackendSession()) {
-        try { await adapter.attachPersistence(new BackendPersistence()); }
-        catch {
-          clearBackendEnabled(localStorage);
-          if (LocalStoragePersistence.available()) await adapter.attachPersistence(new LocalStoragePersistence());
-        }
-      } else if (LocalStoragePersistence.available()) {
-        await adapter.attachPersistence(new LocalStoragePersistence());
+        setDataClock(null);
+        const demo = new MockAdapter(modeRef.current);
+        await demo.attachPersistence(new ClaudeDbPersistence(db));
+        if (!alive) return;
+        setAdapter(demo);
+        setPersistence(demo.persistenceInfo);
+        return;
       }
-      if (alive) setPersistence(adapter.persistenceInfo);
+      if (await probeBackendSession()) {
+        try {
+          const live = await loadLiveDataset();
+          setDataClock(() => new Date());
+          const source = new SourceAdapter(modeRef.current, live.dataset, live.ghlOk);
+          await source.attachPersistence(new BackendPersistence());
+          if (!alive) return;
+          setAdapter(source);
+          setPersistence(source.persistenceInfo);
+          return;
+        } catch (error) {
+          setDataClock(null);
+          if (!alive) return;
+          setAdapter(new UnavailableAdapter(error instanceof AdapterError ? error : new AdapterError('network', 'No se pudo leer la fuente de datos.')));
+          setPersistence({ kind: 'backend', label: 'No se pudo leer el servidor', short: 'Error' });
+          return;
+        }
+      }
+      setDataClock(null);
+      const demo = new MockAdapter(modeRef.current);
+      if (LocalStoragePersistence.available()) await demo.attachPersistence(new LocalStoragePersistence());
+      if (!alive) return;
+      setAdapter(demo);
+      setPersistence(demo.persistenceInfo);
     })();
     return () => { alive = false; };
-  }, [adapter, persistenceEpoch]);
+  }, [persistenceEpoch]);
   useEffect(() => {
     if (!toastMsg) return;
     const t = setTimeout(() => setToastMsg(null), 3200);

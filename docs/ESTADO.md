@@ -17,13 +17,12 @@ Nada. No hay `NETLIFY_DB_URL`, token de operadora, token de GHL ni ubicación. N
 
 ## Verificado en vivo
 
-Nada contra GHL, Gmail, Netlify Database ni el sitio de producción. Los tests cubren las reglas, el API y un Postgres embebido. La build de Vite typechequea la UI. No hay una sesión real ni un pipeline leído hoy.
+El deploy `6af9ee22184455f66c5b6ec3` ya tiene base, acceso y lectura de GHL (4 oportunidades). Esta actualización del catálogo y de las vistas autenticadas no está desplegada ni importada. Los tests locales no vuelven a llamar a ese GHL.
 
 ## Decisiones que siguen siendo de Adri
 
-1. Crear o no Netlify Database en el sitio actual. El costo del plan no se verificó aquí.
-2. Elegir la clave de operadora y si Chiri tiene una clave distinta.
+1. Publicar esta rama y correr la importación del lote Charlotte.
+2. Si Chiri tiene una clave distinta.
 3. Aprobar, en otro momento, el envío de correo y cualquier escritura en GHL.
-4. Confirmar en vivo el id del Marketing Pipeline y qué significan ganado y perdido en esa cuenta.
-5. Decidir si algún `monetaryValue` de GHL puede llegar a ser monto contratado. Hoy se ignora.
-6. Si quiere un campo en Ingresos para anotar la caja real. Hoy el botón guarda la fecha del hito y no inventa el monto. La caja real se puede registrar por el API.
+4. Si algún `monetaryValue` de GHL puede llegar a ser monto contratado. Hoy se ignora. `won` no es una venta.
+5. Si quiere un campo en Ingresos para anotar la caja real. Hoy el botón guarda la fecha del hito y no inventa el monto.

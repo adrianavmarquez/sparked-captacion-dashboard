@@ -54,7 +54,15 @@ No hay variables de Gmail. Preparar un texto es `POST /api/mail/prepare`. Enviar
 
 `SPARKED_ALLOW_DEMO_API=true` permite el encabezado `X-Sparked-Realm: demo`. Ese reino es memoria de proceso y no toca Postgres. La maqueta pública no lo envía. En producción déjalo vacío.
 
-## 7. Comprobar sin conectar servicios de pago
+## 7. Importar prospectos y volver a publicar
+
+El detalle está en `docs/IMPORTACION.md`. Orden, sin merge automático:
+
+1. `npm test` y `npm run build`.
+2. Publicar el ZIP o el build de esta rama en el sitio existente. El deploy aplica la migración nueva del catálogo. No hace falta crear otra base.
+3. `SPARKED_OPERATOR_TOKEN` y `SPARKED_API_BASE` en la terminal, luego `npm run import:prospects`.
+
+## 8. Comprobar sin conectar servicios de pago
 
 ```bash
 npm install

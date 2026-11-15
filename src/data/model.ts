@@ -84,6 +84,9 @@ export interface Opportunity {
   stage: Stage;
   source: 'ghl';
   updatedAt: string;
+  /** won/open siguen unverified hasta contrato + pago. lost/abandoned no se borran. */
+  outcome?: 'unverified' | 'lost';
+  ghlStatus?: string | null;
 }
 
 export interface PaymentVerification {

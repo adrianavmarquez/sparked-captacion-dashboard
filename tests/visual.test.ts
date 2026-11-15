@@ -1,25 +1,41 @@
-import { execSync } from 'node:child_process';
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { strings } from '../src/data/strings';
 
 const unchanged = [
-  'src/styles/global.css',
-  'src/styles/tokens.css',
-  'src/tokens/tokens.json',
-  'src/components/Shell.tsx',
-  'src/components/ui.tsx',
+  'global.css',
+  'tokens.css',
+  'tokens.json',
+  'Shell.tsx',
+  'ui.tsx',
   'index.html',
-  'public/fonts.css',
-  'src/views/Prospectos.tsx',
-  'src/views/Ficha.tsx',
-  'src/views/Pipeline.tsx',
-  'src/views/Seguimientos.tsx',
-  'src/views/Borradores.tsx',
+  'fonts.css',
+  'Prospectos.tsx',
+  'Ficha.tsx',
+  'Seguimientos.tsx',
+  'Borradores.tsx',
 ];
 
-function fromMain(path: string): string {
-  return execSync(`git show main:${path}`, { encoding: 'utf8' });
+const sources: Record<string, string> = {
+  'global.css': 'src/styles/global.css',
+  'tokens.css': 'src/styles/tokens.css',
+  'tokens.json': 'src/tokens/tokens.json',
+  'Shell.tsx': 'src/components/Shell.tsx',
+  'ui.tsx': 'src/components/ui.tsx',
+  'index.html': 'index.html',
+  'fonts.css': 'public/fonts.css',
+  'Prospectos.tsx': 'src/views/Prospectos.tsx',
+  'Ficha.tsx': 'src/views/Ficha.tsx',
+  'Pipeline.tsx': 'src/views/Pipeline.tsx',
+  'Seguimientos.tsx': 'src/views/Seguimientos.tsx',
+  'Borradores.tsx': 'src/views/Borradores.tsx',
+  'Hoy.tsx': 'src/views/Hoy.tsx',
+  'Criterios.tsx': 'src/views/Criterios.tsx',
+  'Ingresos.tsx': 'src/views/Ingresos.tsx',
+};
+
+function baseline(name: string): string {
+  return readFileSync(`tests/baselines/${name}`, 'utf8');
 }
 
 function classTokens(source: string): string[] {
@@ -29,15 +45,15 @@ function classTokens(source: string): string[] {
 
 describe('la interfaz aprobada no cambia de diseño', () => {
   it('conserva estilos, navegación y vistas que no necesitaban texto de cálculo', () => {
-    for (const path of unchanged) {
-      expect(readFileSync(path, 'utf8')).toBe(fromMain(path));
+    for (const name of unchanged) {
+      expect(readFileSync(sources[name], 'utf8')).toBe(baseline(name));
     }
   });
 
-  it('Hoy, Criterios e Ingresos no introducen clases nuevas', () => {
-    for (const path of ['src/views/Hoy.tsx', 'src/views/Criterios.tsx', 'src/views/Ingresos.tsx']) {
-      const before = new Set(classTokens(fromMain(path)));
-      for (const token of classTokens(readFileSync(path, 'utf8'))) expect(before.has(token)).toBe(true);
+  it('Hoy, Criterios, Ingresos y Pipeline no introducen clases nuevas', () => {
+    for (const name of ['Hoy.tsx', 'Criterios.tsx', 'Ingresos.tsx', 'Pipeline.tsx']) {
+      const before = new Set(classTokens(baseline(name)));
+      for (const token of classTokens(readFileSync(sources[name], 'utf8'))) expect(before.has(token)).toBe(true);
     }
   });
 

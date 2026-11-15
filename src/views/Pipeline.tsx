@@ -132,6 +132,7 @@ function OppCard({ o, row, pay, dragging, ...handlers }: {
       <span className="opp__grip" aria-hidden="true">⋮⋮</span>
       <span className="opp__name">{row?.company.name ?? o.prospectId}</span>
       <span className="opp__meta">{row?.company.industry} · {fmtDate(o.updatedAt)}</span>
+      {o.outcome === 'lost' && <span className="opp__pills"><span className={`pill pill--outline`}>Perdida</span></span>}
       {o.stage === 'closed' && (
         <span className="opp__pills">
           <span className={`pill ${pay?.contractSigned ? 'pill--success' : 'pill--outline'}`}>{pay?.contractSigned ? 'Firmado' : 'Sin firma'}</span>

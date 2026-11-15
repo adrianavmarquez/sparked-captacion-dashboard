@@ -11,5 +11,6 @@
     "noEmit": true,
     "types": ["node"]
   },
-  "include": ["server", "netlify/functions", "tests", "src/domain", "src/data"]
+  "include": ["server", "netlify/functions", "tests", "src/domain", "src/data"],
+  "exclude": ["tests/baselines"]
 }

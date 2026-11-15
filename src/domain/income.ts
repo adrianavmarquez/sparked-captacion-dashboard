@@ -103,8 +103,10 @@ export function isVerifiedWebsiteSale(input: {
   offer: Offer | null;
   payment: PaymentVerification | null;
   window: { start: string; end: string };
+  outcome?: 'unverified' | 'lost' | null;
 }): boolean {
   const { payment } = input;
+  if (input.outcome === 'lost') return false;
   if (!isWebsiteOffer(input.offer)) return false;
   if (!payment?.contractSigned) return false;
   if (!payment.depositVerified || payment.depositReceived == null || !payment.verifiedAt) return false;
@@ -120,7 +122,9 @@ export function isActiveWebProject(input: {
   offer: Offer | null;
   stage: Stage;
   payment: PaymentVerification | null;
+  outcome?: 'unverified' | 'lost' | null;
 }): boolean {
+  if (input.outcome === 'lost') return false;
   if (!isWebsiteOffer(input.offer)) return false;
   if (input.stage !== 'closed') return false;
   const payment = input.payment;

@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { PGlite } from '@electric-sql/pglite';
+import { prepareImport } from '../server/catalog/prepare';
 import type { SqlDb } from '../server/db/sql';
 import { SqlReviewStore } from '../server/store/sql';
 
@@ -53,6 +54,19 @@ describe('postgres embebido', () => {
       `INSERT INTO payments (opportunity_id, type, contract_signed, deposit_verified) VALUES ('op_bad', 'project_50pct', true, true)`,
     )).rejects.toThrow();
     expect(() => new SqlReviewStore(db, 'demo')).toThrow(/demo/);
+    const batch = prepareImport({
+      companies: [{ id: 'co-SP-001', name: 'Americana', locality: 'Charlotte', industry: 'Taller', is_chain_or_franchise: false, website_url: 'https://ejemplo.invalid', website_renewed_on: null, website_renewed_source: null, address: null }],
+      prospects: [{ id: 'pr-SP-001', company_id: 'co-SP-001', summary: 'Resumen de prueba con fuente.', summary_source: 'https://ejemplo.invalid/a', offer_interest: null, exclusion: null, status_proposed: 'Descartado', note: 'Cadena de prueba.', confidence: 'Alta' }],
+      evidence: [{ id: 'ev-SP-001-1', prospect_id: 'pr-SP-001', component: 'social_outdated', fact: 'Última publicación observada el 2022-04-30.', url: 'https://ejemplo.invalid/post', observed_at: '2026-11-15T12:26:00-05:00', competitor_url: null }],
+      contacts: [],
+    });
+    const once = await store.importProspects(batch);
+    const twice = await store.importProspects(batch);
+    expect(once.reviewsCreated).toBe(1);
+    expect(twice.reviewsCreated).toBe(0);
+    expect(twice.evidence.inserted).toBe(0);
+    expect((await store.loadCatalog()).evidence[0].url).toBe('https://ejemplo.invalid/post');
+    expect((await store.load()).reviews.filter((review) => review.prospectId === 'pr-SP-001')).toHaveLength(1);
     await pg.close();
   });
 });

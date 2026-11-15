@@ -104,6 +104,21 @@ describe('autorización', () => {
     expect(body.liveReads).toBe(false);
     expect(body.sends).toBe('disabled');
   });
+
+  it('liveReads refleja una lectura GHL verificada y no un valor fijo', async () => {
+    const fetchImpl: typeof fetch = async () => new Response(JSON.stringify({
+      pipelines: [{ id: 'pipe_live', name: 'Marketing Pipeline', stages: [{ id: 'st', name: 'New Lead' }] }],
+    }), { status: 200 });
+    const deps = createDefaultDeps(envOf({
+      GHL_API_TOKEN: TOKEN, GHL_LOCATION_ID: 'loc', GHL_PIPELINE_ID: 'pipe_live',
+    }), fetchImpl);
+    const response = await handleApi(new Request('https://dashboard.example/api/health'), deps);
+    const body = await response.json() as { liveReads: boolean; ghl: string; sends: string };
+    expect(body.liveReads).toBe(true);
+    expect(body.ghl).toBe('verified');
+    expect(body.sends).toBe('disabled');
+    expect(JSON.stringify(body)).not.toContain(TOKEN);
+  });
 });
 
 describe('persistencia y compuertas', () => {
@@ -247,7 +262,10 @@ describe('adaptador GHL de solo lectura', () => {
         }],
       },
       { opportunities: [{ id: 'o1', pipelineId: 'pipe_live', pipelineStageId: 'st_closed', status: 'won', monetaryValue: 2850, updatedAt: '2026-11-01T15:00:00Z' }], meta: { startAfter: '1', startAfterId: 'o1' } },
-      { opportunities: [{ id: 'o2', pipelineId: 'pipe_live', pipelineStageId: 'st_won', status: 'open', monetaryValue: 10 }], meta: {} },
+      { opportunities: [
+        { id: 'o2', pipelineId: 'pipe_live', pipelineStageId: 'st_won', status: 'open', monetaryValue: 10 },
+        { id: 'o3', pipelineId: 'pipe_live', pipelineStageId: 'st_closed', status: 'abandoned', name: 'Trato viejo' },
+      ], meta: {} },
     ];
     let i = 0;
     const seen: string[] = [];
@@ -261,12 +279,15 @@ describe('adaptador GHL de solo lectura', () => {
     const result = await ghlOpportunities({ env, fetchImpl });
     expect(result.status).toBe('ok');
     if (result.status !== 'ok') return;
-    expect(result.data.map((row) => row.id)).toEqual(['o1', 'o2']);
+    expect(result.data.map((row) => row.id)).toEqual(['o1', 'o2', 'o3']);
     expect(result.data[0].stage).toBe('closed');
     expect(result.data[0].outcome).toBe('unverified');
     expect(result.data[0].ghlStatus).toBe('won');
     expect(result.data[0].statedValueUse).toBe('ignored_until_verified');
     expect(result.data[1].stage).toBeNull();
+    expect(result.data[1].outcome).toBe('unverified');
+    expect(result.data[2].outcome).toBe('lost');
+    expect(result.data[2].ghlStatus).toBe('abandoned');
     expect(seen.every((line) => line.startsWith('GET '))).toBe(true);
     expect(seen.some((line) => line.includes('pipe_live'))).toBe(true);
     expect(seen.some((line) => line.includes(UNVERIFIED_PIPELINE_CANDIDATE.id))).toBe(false);

@@ -1,4 +1,4 @@
-import { readFileSync } from 'node:fs';
+import { readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import type { Evidence, FitAssessment, Offer, PaymentVerification, Review } from '../../src/data/model';
 import type { StageMove } from '../../src/data/persistence';
@@ -6,12 +6,15 @@ import { centsToDollars, dollarsToCents } from '../../src/domain/income';
 import type { SqlDb } from '../db/sql';
 import { applySqlMigrations } from '../db/sql';
 import type { FollowupStop, ReviewStore, StoredState } from './types';
+import { discardReason, type CatalogCompany, type CatalogContact, type CatalogProspect, type ImportCounts, type PreparedImport } from '../catalog/prepare';
+import type { CatalogSnapshot } from './types';
 
-const MIGRATION_ID = '20261108000000_review_state';
-
-export function migrationSql(): { id: string; sql: string } {
-  const sql = readFileSync(path.join(process.cwd(), 'netlify/database/migrations/20261108000000_review_state/migration.sql'), 'utf8');
-  return { id: MIGRATION_ID, sql };
+export function migrationFiles(): { id: string; sql: string }[] {
+  const dir = path.join(process.cwd(), 'netlify/database/migrations');
+  return readdirSync(dir).filter((name) => /^\d+/.test(name)).sort().map((name) => ({
+    id: name,
+    sql: readFileSync(path.join(dir, name, 'migration.sql'), 'utf8'),
+  }));
 }
 
 /** Postgres de producción. Rechaza el reino demo para no mezclarlo con datos reales. */
@@ -24,7 +27,7 @@ export class SqlReviewStore implements ReviewStore {
   }
 
   static async migrate(db: SqlDb) {
-    await applySqlMigrations(db, [migrationSql()]);
+    await applySqlMigrations(db, migrationFiles());
   }
 
   async load(): Promise<StoredState> {
@@ -136,6 +139,107 @@ export class SqlReviewStore implements ReviewStore {
     );
   }
 
+  async loadCatalog(): Promise<CatalogSnapshot> {
+    const [companies, prospects, evidence, contacts] = await Promise.all([
+      this.db.query<Record<string, unknown>>('SELECT * FROM companies ORDER BY name'),
+      this.db.query<Record<string, unknown>>('SELECT * FROM prospects ORDER BY created_at, id'),
+      this.db.query<Record<string, unknown>>('SELECT * FROM evidence ORDER BY id'),
+      this.db.query<Record<string, unknown>>('SELECT * FROM contacts ORDER BY id'),
+    ]);
+    return {
+      companies: companies.map(mapCompany),
+      prospects: prospects.map(mapProspect),
+      evidence: evidence.map(mapEvidence),
+      contacts: contacts.map(mapContact),
+    };
+  }
+
+  async importProspects(batch: PreparedImport): Promise<ImportCounts> {
+    return this.db.transaction(async (tx) => {
+      const counts: ImportCounts = {
+        companies: { inserted: 0, updated: 0 },
+        prospects: { inserted: 0, updated: 0 },
+        evidence: { inserted: 0, updated: 0 },
+        contacts: { inserted: 0, updated: 0 },
+        reviewsCreated: 0,
+        ghlWrites: 'disabled',
+      };
+      for (const company of batch.companies) {
+        const found = await tx.query('SELECT id FROM companies WHERE id = $1', [company.id]);
+        if (found.length) {
+          counts.companies.updated += 1;
+          await tx.query(
+            `UPDATE companies SET name=$2, locality=$3, industry=$4, is_chain_or_franchise=$5, website_url=$6, website_renewed_on=$7, website_renewed_source=$8, address=$9, updated_at=now() WHERE id=$1`,
+            [company.id, company.name, company.locality, company.industry, company.isChainOrFranchise, company.websiteUrl, company.websiteRenewedOn, company.websiteRenewedSource, company.address],
+          );
+        } else {
+          counts.companies.inserted += 1;
+          await tx.query(
+            `INSERT INTO companies (id, name, locality, industry, is_chain_or_franchise, website_url, website_renewed_on, website_renewed_source, address) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            [company.id, company.name, company.locality, company.industry, company.isChainOrFranchise, company.websiteUrl, company.websiteRenewedOn, company.websiteRenewedSource, company.address],
+          );
+        }
+      }
+      for (const prospect of batch.prospects) {
+        const found = await tx.query('SELECT id FROM prospects WHERE id = $1', [prospect.id]);
+        const params = [prospect.id, prospect.companyId, prospect.summary, prospect.summarySource, prospect.offerInterest, prospect.exclusion, prospect.statusProposed, prospect.confidence, prospect.note, prospect.createdAt];
+        if (found.length) {
+          counts.prospects.updated += 1;
+          await tx.query(
+            `UPDATE prospects SET company_id=$2, summary=$3, summary_source=$4, offer_interest=$5, exclusion=$6, status_proposed=$7, confidence=$8, note=$9, created_at=$10 WHERE id=$1`,
+            params,
+          );
+        } else {
+          counts.prospects.inserted += 1;
+          await tx.query(
+            `INSERT INTO prospects (id, company_id, summary, summary_source, offer_interest, exclusion, status_proposed, confidence, note, created_at) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10)`,
+            params,
+          );
+        }
+      }
+      for (const evidence of batch.evidence) {
+        const found = await tx.query('SELECT id FROM evidence WHERE id = $1', [evidence.id]);
+        if (found.length) counts.evidence.updated += 1;
+        else counts.evidence.inserted += 1;
+        await tx.query(
+          `INSERT INTO evidence (id, prospect_id, component, fact, url, observed_at, competitor_url, recorded_at)
+           VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
+           ON CONFLICT (id) DO UPDATE SET prospect_id=EXCLUDED.prospect_id, component=EXCLUDED.component, fact=EXCLUDED.fact, url=EXCLUDED.url, observed_at=EXCLUDED.observed_at, competitor_url=EXCLUDED.competitor_url`,
+          [evidence.id, evidence.prospectId, evidence.component, evidence.fact, evidence.url, evidence.observedAt, evidence.competitorUrl, evidence.observedAt],
+        );
+      }
+      for (const contact of batch.contacts) {
+        const found = await tx.query('SELECT id FROM contacts WHERE id = $1', [contact.id]);
+        const params = [contact.id, contact.prospectId, contact.role, contact.channel, contact.value, contact.verified, contact.verifiedAt, contact.source];
+        if (found.length) {
+          counts.contacts.updated += 1;
+          await tx.query(
+            `UPDATE contacts SET prospect_id=$2, role=$3, channel=$4, value=$5, verified=$6, verified_at=$7, source=$8 WHERE id=$1`,
+            params,
+          );
+        } else {
+          counts.contacts.inserted += 1;
+          await tx.query(
+            `INSERT INTO contacts (id, prospect_id, role, channel, value, verified, verified_at, source) VALUES ($1,$2,$3,$4,$5,$6,$7,$8)`,
+            params,
+          );
+        }
+      }
+      for (const prospect of batch.prospects) {
+        if (prospect.statusProposed !== 'Descartado') continue;
+        const existing = await tx.query('SELECT id FROM reviews WHERE prospect_id = $1 LIMIT 1', [prospect.id]);
+        if (existing.length) continue;
+        const id = `rv_import_${prospect.id}`;
+        await tx.query(
+          `INSERT INTO reviews (id, prospect_id, decision, reason, revisit_on, decided_by, decided_at) VALUES ($1,$2,'discard',$3,NULL,'adri',$4)`,
+          [id, prospect.id, discardReason(prospect), prospect.createdAt],
+        );
+        counts.reviewsCreated += 1;
+      }
+      return counts;
+    });
+  }
+
   private async audit(entity: string, entityId: string, action: string, actor: string, at: string) {
     await this.db.query(
       'INSERT INTO audit_log (id, entity, entity_id, action, actor, at) VALUES ($1,$2,$3,$4,$5,$6)',
@@ -234,5 +338,51 @@ function mapEvidence(row: Record<string, unknown>): Evidence {
     url: String(row.url),
     observedAt: iso(row.observed_at),
     competitorUrl: row.competitor_url == null ? null : String(row.competitor_url),
+  };
+}
+
+function flag(value: unknown): boolean {
+  return value === true || value === 't' || value === 'true';
+}
+
+function mapCompany(row: Record<string, unknown>): CatalogCompany {
+  return {
+    id: String(row.id),
+    name: String(row.name),
+    locality: String(row.locality),
+    industry: String(row.industry),
+    isChainOrFranchise: flag(row.is_chain_or_franchise),
+    websiteUrl: row.website_url == null ? null : String(row.website_url),
+    websiteRenewedOn: dateOnly(row.website_renewed_on),
+    websiteRenewedSource: row.website_renewed_source == null ? null : String(row.website_renewed_source),
+    address: row.address == null ? null : String(row.address),
+  };
+}
+
+function mapProspect(row: Record<string, unknown>): CatalogProspect {
+  return {
+    id: String(row.id),
+    companyId: String(row.company_id),
+    summary: String(row.summary),
+    summarySource: String(row.summary_source),
+    offerInterest: row.offer_interest == null ? null : row.offer_interest as CatalogProspect['offerInterest'],
+    exclusion: row.exclusion == null ? null : row.exclusion as CatalogProspect['exclusion'],
+    statusProposed: row.status_proposed as CatalogProspect['statusProposed'],
+    confidence: row.confidence == null ? null : String(row.confidence),
+    note: row.note == null ? null : String(row.note),
+    createdAt: iso(row.created_at),
+  };
+}
+
+function mapContact(row: Record<string, unknown>): CatalogContact {
+  return {
+    id: String(row.id),
+    prospectId: String(row.prospect_id),
+    role: row.role as CatalogContact['role'],
+    channel: row.channel === 'linkedin' ? 'linkedin' : 'email',
+    value: String(row.value),
+    verified: flag(row.verified),
+    verifiedAt: row.verified_at == null ? null : iso(row.verified_at),
+    source: row.source == null ? null : String(row.source),
   };
 }

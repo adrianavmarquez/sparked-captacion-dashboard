@@ -1,0 +1,3121 @@
+{
+ "_doc": "Primer lote real de prospectos Sparked (Charlotte NC), observado 2026-11-15 ET. Sigue modelo-datos.json (company, prospect, evidence, contact). Sin reviews, drafts ni opportunities: nada decidido ni contactado.",
+ "companies": [
+  {
+   "id": "co-SP-001",
+   "name": "Americana Autos Tires and Mechanic",
+   "locality": "Ashley Park, Charlotte, NC",
+   "address": "2624 Wilkinson Blvd, Charlotte, NC 28208",
+   "industry": "Used tire shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://mekhan.wixsite.com/americanaauto",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-002",
+   "name": "TTS Auto Service",
+   "locality": "Montclaire South, Charlotte, NC",
+   "address": "4910 Old Pineville Rd, Charlotte, NC 28217",
+   "industry": "Auto repair shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://ttsautoserviceinc.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-003",
+   "name": "B&R Auto Repair & Tire",
+   "locality": "Collingwood, Charlotte, NC",
+   "address": "4400 South Blvd Ste d, Charlotte, NC 28209",
+   "industry": "Auto repair shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.bandrautorepair.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-004",
+   "name": "ALMAR Auto Repair",
+   "locality": "Collingwood, Charlotte, NC",
+   "address": "4127 South Blvd, Charlotte, NC 28209",
+   "industry": "Auto repair shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.almarauto.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-005",
+   "name": "L & D Flowers of Elegance",
+   "locality": "Rockwell Park - Hemphill Heights, Charlotte, NC",
+   "address": "3913 W Sugar Creek Rd, Charlotte, NC 28269",
+   "industry": "Florist",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.ldflowerscharlotte.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-006",
+   "name": "Lux's Nail Lounge",
+   "locality": "Madison Park, Charlotte, NC",
+   "address": "5033 South Blvd B, Charlotte, NC 28217",
+   "industry": "Nail salon",
+   "is_chain_or_franchise": false,
+   "website_url": "https://luxnailsloungecharlotte.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-007",
+   "name": "Aarushi Salon",
+   "locality": "East Forest, Charlotte, NC",
+   "address": "1627 Sardis Rd N #4c, Charlotte, NC 28270",
+   "industry": "Beauty salon",
+   "is_chain_or_franchise": false,
+   "website_url": "http://arushisalon.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-008",
+   "name": "Bellezza Boutique",
+   "locality": "Foxcroft, Charlotte, NC",
+   "address": "6822-F Phillips Pl Ct Space 6822-F, Charlotte, NC 28210",
+   "industry": "Women's clothing store",
+   "is_chain_or_franchise": false,
+   "website_url": "https://bellezza-boutique.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-009",
+   "name": "Vivian's Flower Shop",
+   "locality": "Westchester, Charlotte, NC",
+   "address": "Freedom Dr, Charlotte, NC 28208",
+   "industry": "Florist",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.viviansflowershop.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-010",
+   "name": "Queen City Social Space",
+   "locality": "Oakdale South, Charlotte, NC",
+   "address": "8414 Bellhaven Blvd, Charlotte, NC 28216",
+   "industry": "Event venue",
+   "is_chain_or_franchise": false,
+   "website_url": null,
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-011",
+   "name": "M & M Cleaning Services",
+   "locality": "Harwood Lane, Charlotte, NC",
+   "address": "11727 Kilrush Dr, Charlotte, NC 28214",
+   "industry": "House cleaning service",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.mmcleaningservices.biz/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-012",
+   "name": "Blue Ocean Massage Boutique LLC Women Only",
+   "locality": "Mountain Island, Charlotte, NC",
+   "address": "1336 Ashbury St, Charlotte, NC 28216",
+   "industry": "Massage therapist",
+   "is_chain_or_franchise": false,
+   "website_url": "https://blueoceanmassageboutique.glossgenius.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-013",
+   "name": "The Boss Boxx",
+   "locality": "Beatties Ford / Trinity, Charlotte, NC",
+   "address": "9147 Trinity Rd, Charlotte, NC 28216",
+   "industry": "Event venue",
+   "is_chain_or_franchise": false,
+   "website_url": null,
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-014",
+   "name": "Katura® Day Spa",
+   "locality": "Montclaire South, Charlotte, NC",
+   "address": "758 Tyvola Rd, Charlotte, NC 28217",
+   "industry": "Day spa",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.katuradayspa.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-015",
+   "name": "Jolie South Dance Academy",
+   "locality": "Dilworth, Charlotte, NC",
+   "address": "220 E Park Ave, Charlotte, NC 28203",
+   "industry": "Dance school",
+   "is_chain_or_franchise": false,
+   "website_url": "https://joliesouthdance.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-016",
+   "name": "Harris Holt Framing & Art Services",
+   "locality": "Dilworth, Charlotte, NC",
+   "address": "1717 Kenilworth Ave, Charlotte, NC 28203",
+   "industry": "Picture frame shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.harrisholt.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-017",
+   "name": "Applewood Gallery",
+   "locality": "Ashbrook - Clawson Village, Charlotte, NC",
+   "address": "3922 1/2 Park Rd, Charlotte, NC 28209",
+   "industry": "Picture frame shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://applewoodgallerync.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-018",
+   "name": "FazioArt Custom Framing",
+   "locality": "Echo Hills, Charlotte, NC",
+   "address": "3300 Monroe Rd Ste C, Charlotte, NC 28205",
+   "industry": "Picture frame shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.fazioart.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-019",
+   "name": "Uriarte Upholstery",
+   "locality": "Hickory Ridge, Charlotte, NC",
+   "address": "6141 Lawson Ln Unit b, Charlotte, NC 28215",
+   "industry": "Upholstery shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.theuupholstery.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-020",
+   "name": "Queen City upholstery",
+   "locality": "Yorkmount, Charlotte, NC",
+   "address": "5103-b Nations Ford Rd, Charlotte, NC 28217",
+   "industry": "Upholstery shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://qcupholstery.squarespace.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-021",
+   "name": "Charlotte Vibe Photography",
+   "locality": "Clanton Park/Roseland, Charlotte, NC",
+   "address": "4109 Stuart Andrew Blvd F, Charlotte, NC 28217",
+   "industry": "Photographer",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.charlottencphotographers.co/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-022",
+   "name": "Photos by Fatima",
+   "locality": "Thomasboro - Hoskins, Charlotte, NC",
+   "address": "203 Dakota St, Charlotte, NC 28216",
+   "industry": "Photographer",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.photosbyfatima.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-023",
+   "name": "Ultimate Bicycle",
+   "locality": "East Forest, Charlotte, NC",
+   "address": "9129 Monroe Rd #115, Charlotte, NC 28270",
+   "industry": "Bicycle Shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.ultimatebike.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-024",
+   "name": "Caribbean Hut",
+   "locality": "York Road, Charlotte, NC",
+   "address": "200 W Woodlawn Rd Ste D, Charlotte, NC 28217",
+   "industry": "Caribbean restaurant",
+   "is_chain_or_franchise": false,
+   "website_url": "https://caribbean-hut.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-025",
+   "name": "Island Flavors II Restaurant and Catering | Jamaican",
+   "locality": "Eastway, Charlotte, NC",
+   "address": "6307 The Plaza, Charlotte, NC 28215",
+   "industry": "Caribbean restaurant",
+   "is_chain_or_franchise": false,
+   "website_url": "http://islandflavors2.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-026",
+   "name": "Carolina Sports Massage",
+   "locality": "Cherry, Charlotte, NC",
+   "address": "601 S Kings Dr JJ, Charlotte, NC 28204",
+   "industry": "Sports massage therapist",
+   "is_chain_or_franchise": false,
+   "website_url": "http://carolinasportsmassage.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-027",
+   "name": "Queen City Market",
+   "locality": "Charlotte, NC",
+   "address": "5501 Josh Birmingham Pkwy, Charlotte, NC 28208",
+   "industry": "Gift shop",
+   "is_chain_or_franchise": false,
+   "website_url": null,
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-028",
+   "name": "Escape Massage",
+   "locality": "Dilworth, Charlotte, NC",
+   "address": "1200 E Morehead St #20Q, Charlotte, NC 28204",
+   "industry": "Massage therapist",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.escapemassagecharlotte.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-029",
+   "name": "Press Club Dry Cleaners & Laundry",
+   "locality": "Charlotte, NC",
+   "address": "13331 York Center Rd # G, Charlotte, NC 28273",
+   "industry": "Dry cleaner",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.pressclubdrycleaners.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-030",
+   "name": "Goodfellas Barbershop",
+   "locality": "Sunset Road, Charlotte, NC",
+   "address": "4005-B Sunset Rd, Charlotte, NC 28216",
+   "industry": "Barber shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://goodfellasbarbershop.us/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-031",
+   "name": "Prime Jewelers",
+   "locality": "Wedgewood, Charlotte, NC",
+   "address": "6801 Northlake Mall Dr #269, Charlotte, NC 28216",
+   "industry": "Jeweler",
+   "is_chain_or_franchise": true,
+   "website_url": "http://prime-jewelers-charlotte.edan.io/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-032",
+   "name": "TONYS PIZZA",
+   "locality": "Wedgewood, Charlotte, NC",
+   "address": "9548 Mt Holly-Huntersville Rd, Huntersville, NC 28078",
+   "industry": "Italian restaurant",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.tonysbigpizza.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-033",
+   "name": "Dolce Osteria",
+   "locality": "Dilworth, Charlotte, NC",
+   "address": "1710 Kenilworth Ave, Charlotte, NC 28203",
+   "industry": "Italian restaurant",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.dolce-osteria.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-034",
+   "name": "Cassandra's Alterations",
+   "locality": "Ponderosa - Wingate, Charlotte, NC",
+   "address": "Charlotte, NC 28208",
+   "industry": "Tailor",
+   "is_chain_or_franchise": false,
+   "website_url": "http://cassandras.org/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-035",
+   "name": "ZOË Massage at South End",
+   "locality": "Dilworth, Charlotte, NC",
+   "address": "206 E Tremont Ave C, Charlotte, NC 28203",
+   "industry": "Massage therapist",
+   "is_chain_or_franchise": true,
+   "website_url": "http://www.zoebodywork.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-036",
+   "name": "Herndon's Pressure Washing Services",
+   "locality": "Charlotte, NC",
+   "address": "",
+   "industry": "Pressure washing service",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.herndonspw.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-037",
+   "name": "704 Pressure Washing Services",
+   "locality": "Lansdowne, Charlotte, NC",
+   "address": "303 Summermore Dr, Charlotte, NC 28270",
+   "industry": "Pressure washing service",
+   "is_chain_or_franchise": false,
+   "website_url": "https://704pressurewashing.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-038",
+   "name": "Blue Hornet Carpet Cleaning",
+   "locality": "Harwood Lane, Charlotte, NC",
+   "address": "10607 Secret Garden Ln, Charlotte, NC 28214",
+   "industry": "Carpet cleaning service",
+   "is_chain_or_franchise": false,
+   "website_url": "https://bluehornetcarpetcleaning.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-039",
+   "name": "Best Steamer",
+   "locality": "Henderson Circle, Charlotte, NC",
+   "address": "8702 Statesville Rd, Charlotte, NC 28269",
+   "industry": "Carpet cleaning service",
+   "is_chain_or_franchise": false,
+   "website_url": "http://beststeamer.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-040",
+   "name": "The Fête Regale",
+   "locality": "Harwood Lane, Charlotte, NC",
+   "address": "2716 Winding River Dr, Charlotte, NC 28214",
+   "industry": "Cake shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://thefeteregale.ck.page/8b0630ba63",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-041",
+   "name": "Streamline Pro-Wash Pressure Washing",
+   "locality": "Davis Lake - Eastfield, Charlotte, NC",
+   "address": "12443 Cardinal Point Rd, Charlotte, NC 28269",
+   "industry": "Pressure washing service",
+   "is_chain_or_franchise": true,
+   "website_url": "http://streamlineprowash.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-042",
+   "name": "Caffeena Coffee House",
+   "locality": "Southside Park, Charlotte, NC",
+   "address": "3101 Griffith St, Charlotte, NC 28203",
+   "industry": "Coffee shop",
+   "is_chain_or_franchise": true,
+   "website_url": "https://caffeena.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-043",
+   "name": "Lumen Landscape",
+   "locality": "Charlotte, NC",
+   "address": "5113 Kodiak Ct, Charlotte, NC 28215",
+   "industry": "Landscape lighting designer",
+   "is_chain_or_franchise": false,
+   "website_url": "https://lumencarolina.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-044",
+   "name": "Kutzbyjuice",
+   "locality": "Mountain Island, Charlotte, NC",
+   "address": "8142 Mt Holly-Huntersville Rd, Charlotte, NC 28216",
+   "industry": "Barber shop",
+   "is_chain_or_franchise": false,
+   "website_url": "http://kutzbyjuice41.booksy.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-045",
+   "name": "El Patio Unisex salon and barbershop",
+   "locality": "Mountain Island, Charlotte, NC",
+   "address": "3611 Mt Holly-Huntersville Rd, Charlotte, NC 28216",
+   "industry": "Barber shop",
+   "is_chain_or_franchise": false,
+   "website_url": "https://elpatiobarbershop.wordpress.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-046",
+   "name": "Romeo & Juliet Pizzeria",
+   "locality": "Mountain Island, Charlotte, NC",
+   "address": "8142 Mt Holly-Huntersville Rd C, Charlotte, NC 28216",
+   "industry": "Italian restaurant",
+   "is_chain_or_franchise": false,
+   "website_url": "https://romeoandjulietpizzeria.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-047",
+   "name": "Amber's Jewelry",
+   "locality": "Dixie - Berryhill, Charlotte, NC",
+   "address": "5518 New Fashion Way, Charlotte, NC 28278",
+   "industry": "Jewelry store",
+   "is_chain_or_franchise": false,
+   "website_url": "http://www.ambersjewelry.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-048",
+   "name": "Woodhouse Spa - SouthPark",
+   "locality": "Barclay Downs, Charlotte, NC",
+   "address": "4625 Piedmont Row Dr Unit 125, Charlotte, NC 28210",
+   "industry": "Day spa",
+   "is_chain_or_franchise": true,
+   "website_url": "https://southpark.woodhousespas.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-049",
+   "name": "Panther Cleaning (Pressure Washing & Window Cleaning)",
+   "locality": "Henderson Circle, Charlotte, NC",
+   "address": "10806 Reames Rd Ste f, Charlotte, NC 28269",
+   "industry": "Pressure washing service",
+   "is_chain_or_franchise": false,
+   "website_url": "http://pantherpowerwashing.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  },
+  {
+   "id": "co-SP-050",
+   "name": "Body Heal Therapy (South Charlotte)",
+   "locality": "Montclaire South, Charlotte, NC",
+   "address": "820 Tyvola Rd #203, Charlotte, NC 28217",
+   "industry": "Massage therapist",
+   "is_chain_or_franchise": false,
+   "website_url": "https://www.bodyhealtherapy.com/",
+   "website_renewed_on": null,
+   "website_renewed_source": null
+  }
+ ],
+ "prospects": [
+  {
+   "id": "pr-SP-001",
+   "company_id": "co-SP-001",
+   "summary": "Redes sin publicar desde 2022-04-30; posición 16 en Maps (334 reseñas) frente a Compton's Automotive.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Americana%20Autos%20Tires%20and%20Mechanic&query_place_id=ChIJo6uj-OKhVogRFLEI7XFfUaI",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Web en subdominio gratuito wixsite (sin dominio propio), © 2020."
+  },
+  {
+   "id": "pr-SP-002",
+   "company_id": "co-SP-002",
+   "summary": "Redes sin publicar desde 2025-02-21; posición 9 en Maps (317 reseñas) frente a Compton's Automotive.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=TTS%20Auto%20Service&query_place_id=ChIJwRnLZd6eVogRj3Pp5IgIqR0",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": ""
+  },
+  {
+   "id": "pr-SP-003",
+   "company_id": "co-SP-003",
+   "summary": "Redes sin publicar desde 2025-10-28; posición 14 en Maps (275 reseñas) frente a Compton's Automotive.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=B%26R%20Auto%20Repair%20%26%20Tire&query_place_id=ChIJK_MRqRifVogRq90cfW6GbEU",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": ""
+  },
+  {
+   "id": "pr-SP-004",
+   "company_id": "co-SP-004",
+   "summary": "Redes sin publicar desde 2026-07-24; posición 6 en Maps (350 reseñas) frente a Compton's Automotive.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=ALMAR%20Auto%20Repair&query_place_id=ChIJmRC6aBifVogRFEwvWsQ8phQ",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Web gestionada por plataforma Hibu/Duda (posible proveedor actual); solo FB localizado."
+  },
+  {
+   "id": "pr-SP-005",
+   "company_id": "co-SP-005",
+   "summary": "Redes sin publicar desde 2024-10-22; posición 18 en Maps (115 reseñas) frente a Flowers of Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=L%20%26%20D%20Flowers%20of%20Elegance&query_place_id=ChIJ54d8aVccVIgRG-3srI-Rqxk",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Negocio familiar (bio IG: 30 años)."
+  },
+  {
+   "id": "pr-SP-006",
+   "company_id": "co-SP-006",
+   "summary": "Redes sin publicar desde 2024-11-14; posición 14 en Maps (775 reseñas) frente a NAILGO SPA - Nail salon Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Lux's%20Nail%20Lounge&query_place_id=ChIJCc5n-Q6fVogR4yuFzEtu89E",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Brecha de posición pequeña (14 vs 13); brecha de reseñas 775 vs 1,243. Solo FB localizado."
+  },
+  {
+   "id": "pr-SP-007",
+   "company_id": "co-SP-007",
+   "summary": "Redes sin publicar desde 2017-03-01; posición 12 en Maps (625 reseñas) frente a Different By Design Hair Salon-McCullough Commons.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Aarushi%20Salon&query_place_id=ChIJ4_xHWEEhVIgRd3yjIY1rnvY",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Web solo responde por http (sin https) y sin fecha visible."
+  },
+  {
+   "id": "pr-SP-008",
+   "company_id": "co-SP-008",
+   "summary": "Redes sin publicar desde 2025-11-07; posición 10 en Maps (16 reseñas) frente a K|LA Boutique.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Bellezza%20Boutique&query_place_id=ChIJmwCw0AefVogRF2PjzX8gIXM",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Cuenta IG con 11k seguidores sin publicar desde 7 nov 2025; confirmar que no migró a otra cuenta."
+  },
+  {
+   "id": "pr-SP-009",
+   "company_id": "co-SP-009",
+   "summary": "Redes sin publicar desde 2026-05-21; posición 4 en Maps (16 reseñas) frente a Flowers of Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Vivian's%20Flower%20Shop&query_place_id=ChIJGZdxnr-jVogRpYryrRF3S9w",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Estudio floral en casa; 16 reseñas."
+  },
+  {
+   "id": "pr-SP-010",
+   "company_id": "co-SP-010",
+   "summary": "Redes sin publicar desde 2025-09-10; posición 12 en Maps (139 reseñas) frente a Pleasant Grove Farm.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20Social%20Space&query_place_id=ChIJayw8CZejVogRw2B2zH6Q4Qg",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Sin web propia (usa Linktree). Competidor con menos reseñas pero mejor posición y web propia."
+  },
+  {
+   "id": "pr-SP-011",
+   "company_id": "co-SP-011",
+   "summary": "Redes sin publicar desde 2026-01-20; posición 6 en Maps (19 reseñas) frente a Lorena's Cleaning Services.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=M%20%26%20M%20Cleaning%20Services&query_place_id=ChIJL02SLO6-WAsRGPFXibi2RiM",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": ""
+  },
+  {
+   "id": "pr-SP-012",
+   "company_id": "co-SP-012",
+   "summary": "Redes sin publicar desde 2026-06-16; posición 15 en Maps (95 reseñas) frente a Eden Therapy and Massage.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Massage%20Boutique%20LLC%20Women%20Only&query_place_id=ChIJnbRgH82lVogR0UfQMVbxLNw",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Masaje solo para mujeres; IG sin publicar desde jun 2026."
+  },
+  {
+   "id": "pr-SP-013",
+   "company_id": "co-SP-013",
+   "summary": "Redes sin publicar desde 2021-11-30; posición 20 en Maps (4 reseñas) frente a The Rafters at Historic St. Mark's.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=The%20Boss%20Boxx&query_place_id=ChIJQyzHvJmnVogR82whuvSsgwI",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Sin web propia (Linktree); FB sin publicar desde 2021: confirmar que el negocio sigue operando (Maps lo muestra abierto)."
+  },
+  {
+   "id": "pr-SP-014",
+   "company_id": "co-SP-014",
+   "summary": "Redes sin publicar desde 2026-09-11; posición 5 en Maps (147 reseñas) frente a Nature's Spa and Wellness.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Katura%C2%AE%20Day%20Spa&query_place_id=ChIJM_7D3MefVogRjEC-qXJJzfU",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "65 días sin publicar: justo sobre el umbral de 60."
+  },
+  {
+   "id": "pr-SP-015",
+   "company_id": "co-SP-015",
+   "summary": "Redes sin publicar desde 2026-06-12; posición 11 en Maps (7 reseñas) frente a Miss Donna's School of Dancing.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Jolie%20South%20Dance%20Academy&query_place_id=ChIJ_VyhonifVogRr7rl1dpXX1E",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Pocas reseñas en ambos (7 vs 15)."
+  },
+  {
+   "id": "pr-SP-016",
+   "company_id": "co-SP-016",
+   "summary": "Redes sin publicar desde 2026-01-19; posición 20 en Maps (19 reseñas) frente a Frame Warehouse.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Harris%20Holt%20Framing%20%26%20Art%20Services&query_place_id=ChIJP1BX8ZmfVogRo3aVFNePMQQ",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Competidor Frame Warehouse es negocio local con varias sedes en Charlotte."
+  },
+  {
+   "id": "pr-SP-017",
+   "company_id": "co-SP-017",
+   "summary": "Redes sin publicar desde 2025-07-22; posición 18 en Maps (20 reseñas) frente a Frame Warehouse.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Applewood%20Gallery&query_place_id=ChIJzehvI6ufVogR17-degr_HgU",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Competidor Frame Warehouse es negocio local con varias sedes en Charlotte."
+  },
+  {
+   "id": "pr-SP-018",
+   "company_id": "co-SP-018",
+   "summary": "Redes sin publicar desde 2021-03-26; posición 14 en Maps (27 reseñas) frente a Frame Warehouse.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=FazioArt%20Custom%20Framing&query_place_id=ChIJcdrDfQCgVogRpjTPAXzNQno",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "FB sin publicar desde 2021."
+  },
+  {
+   "id": "pr-SP-019",
+   "company_id": "co-SP-019",
+   "summary": "Redes sin publicar desde 2023-05-25; posición 17 en Maps (43 reseñas) frente a Reupholstery Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Uriarte%20Upholstery&query_place_id=ChIJT50_RuohVIgRoiWc_3VnRwQ",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Web © 2017 en GoDaddy."
+  },
+  {
+   "id": "pr-SP-020",
+   "company_id": "co-SP-020",
+   "summary": "Redes sin publicar desde 2025-01-07; posición 19 en Maps (1 reseñas) frente a Reupholstery Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20upholstery&query_place_id=ChIJ_VR1swGfVogRpqj_nfd9uX8",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Web en subdominio squarespace.com (sin dominio propio); 1 reseña."
+  },
+  {
+   "id": "pr-SP-021",
+   "company_id": "co-SP-021",
+   "summary": "Redes sin publicar desde 2026-06-27; posición 20 en Maps (77 reseñas) frente a Moving Mountains Studios.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Charlotte%20Vibe%20Photography&query_place_id=ChIJseA81yygVogRkkfdc0Zuxqk",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": ""
+  },
+  {
+   "id": "pr-SP-022",
+   "company_id": "co-SP-022",
+   "summary": "Redes sin publicar desde 2023-03-08; posición 18 en Maps (42 reseñas) frente a Moving Mountains Studios.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Photos%20by%20Fatima&query_place_id=ChIJVeJkQ-qY-IgRxrHzuTeUefc",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Fotógrafa independiente; IG sin publicar desde mar 2023."
+  },
+  {
+   "id": "pr-SP-023",
+   "company_id": "co-SP-023",
+   "summary": "Redes sin publicar desde 2026-09-03; posición 19 en Maps (303 reseñas) frente a Charlotte Cycles.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Ultimate%20Bicycle&query_place_id=ChIJPd2ssGohVIgRx02MA0dfTY4",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "73 días sin publicar."
+  },
+  {
+   "id": "pr-SP-024",
+   "company_id": "co-SP-024",
+   "summary": "Redes sin publicar desde 2026-03-06; posición 10 en Maps (977 reseñas) frente a Lawrence Caribbean Restaurant.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Caribbean%20Hut&query_place_id=ChIJoVxNHCefVogRrTML5pC-fZc",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Solo FB localizado."
+  },
+  {
+   "id": "pr-SP-025",
+   "company_id": "co-SP-025",
+   "summary": "Redes sin publicar desde 2025-08-20; posición 15 en Maps (445 reseñas) frente a Lawrence Caribbean Restaurant.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Island%20Flavors%20II%20Restaurant%20and%20Catering%20%7C%20Jamaican&query_place_id=ChIJnbC7OM8fVIgRUo5lF5lQtgc",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Restaurante familiar de una sede (web propia). Web devolvió 403 a nuestro lector automático."
+  },
+  {
+   "id": "pr-SP-026",
+   "company_id": "co-SP-026",
+   "summary": "Redes sin publicar desde 2026-04-14; posición 19 en Maps (98 reseñas) frente a Eden Therapy and Massage.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Carolina%20Sports%20Massage&query_place_id=ChIJS1n8zvmfVogRHkRsHG70Mcw",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Web © 2019."
+  },
+  {
+   "id": "pr-SP-027",
+   "company_id": "co-SP-027",
+   "summary": "Redes sin publicar desde 2024-08-16; posición 6 en Maps (45 reseñas) frente a Moxie Mercantile.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20Market&query_place_id=ChIJrcSrNX6YVogRtQcjNH_xq_8",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": "Sin web: usa página de Facebook como sitio en Google Maps."
+  },
+  {
+   "id": "pr-SP-028",
+   "company_id": "co-SP-028",
+   "summary": "Redes sin publicar desde 2026-05-04; posición 14 en Maps (53 reseñas) frente a Eden Therapy and Massage.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Escape%20Massage&query_place_id=ChIJVydzXpefVogRnFI8S6SxcNs",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Alta",
+   "note": ""
+  },
+  {
+   "id": "pr-SP-029",
+   "company_id": "co-SP-029",
+   "summary": "Redes sin publicar desde 2025-12-09; posición 6 en Maps (225 reseñas) frente a American Dry Cleaners.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Press%20Club%20Dry%20Cleaners%20%26%20Laundry&query_place_id=ChIJ8xqAFBSfVogR4rrdjOwXjpg",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Listo para revisión",
+   "confidence": "Media",
+   "note": "Correos en la web inconsistentes (dominio con errata); usar el del dominio propio tras verificar."
+  },
+  {
+   "id": "pr-SP-030",
+   "company_id": "co-SP-030",
+   "summary": "Redes sin publicar desde 2026-04-03; posición 15 en Maps (248 reseñas) frente a No Grease | Northlake.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Goodfellas%20Barbershop&query_place_id=ChIJp5-zfCuhVogRtBi8ggdhGJs",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Competidor No Grease es marca local con varias sedes; el correo de la web (info@goodfellas.com) no coincide con su dominio."
+  },
+  {
+   "id": "pr-SP-031",
+   "company_id": "co-SP-031",
+   "summary": "Redes sin publicar desde 2024-02-07; posición 5 en Maps (91 reseñas) frente a Queen City Jewelers.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Prime%20Jewelers&query_place_id=ChIJnycdKFWmVogRumAVJyNfD4k",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Dueño opera 2 tiendas (Charlotte y Greenville SC) según LinkedIn público del dueño: decidir si cuenta como cadena. Mudó local dentro de Northlake Mall (página del mall, sin fecha)."
+  },
+  {
+   "id": "pr-SP-032",
+   "company_id": "co-SP-032",
+   "summary": "Redes sin publicar desde 2025-10-02; posición 5 en Maps (2035 reseñas) frente a Little Mama’s Italian.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=TONYS%20PIZZA&query_place_id=ChIJ8eY4KFqmVogRnHCqx0ISUU0",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Ubicado en Huntersville (área metropolitana, fuera de Charlotte ciudad); brecha de visibilidad pequeña (posición 5 vs 3)."
+  },
+  {
+   "id": "pr-SP-033",
+   "company_id": "co-SP-033",
+   "summary": "Redes sin publicar desde 2026-07-24; posición 15 en Maps (610 reseñas) frente a Enrico's Ristorante Pizzeria and Bar.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Dolce%20Osteria&query_place_id=ChIJZRAWHpqfVogRYbzr9SYWiWU",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Web moderna en Framer sin fecha de renovación: renovación dudosa."
+  },
+  {
+   "id": "pr-SP-034",
+   "company_id": "co-SP-034",
+   "summary": "Redes sin publicar desde 2025-11-11; posición 7 en Maps (53 reseñas) frente a Ruby Alterations & Cleaners - Best Alterations & Cleaners in Town.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Cassandra's%20Alterations&query_place_id=ChIJNTujhh2gVogRPiu-N-8Gn9M",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Baja",
+   "note": "El IG enlazado (She's Custom) no está claro que sea del mismo negocio."
+  },
+  {
+   "id": "pr-SP-035",
+   "company_id": "co-SP-035",
+   "summary": "Redes sin publicar desde 2026-01-05; posición 17 en Maps (430 reseñas) frente a Eden Therapy and Massage.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=ZO%C3%8B%20Massage%20at%20South%20End&query_place_id=ChIJF7vdhpefVogRxE_s4il8CeM",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "2 sedes en Charlotte (South End y Carmel Commons): decidir si cuenta como cadena. Web moderna; renovación sin fecha."
+  },
+  {
+   "id": "pr-SP-036",
+   "company_id": "co-SP-036",
+   "summary": "Redes sin publicar desde 2026-03-28; posición 10 en Maps (212 reseñas) frente a Power Wash Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Herndon's%20Pressure%20Washing%20Services&query_place_id=ChIJzb0qTYqZVogRgD9yuEunC1Q",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Baja",
+   "note": "Brecha de posición mínima (10 vs 9)."
+  },
+  {
+   "id": "pr-SP-037",
+   "company_id": "co-SP-037",
+   "summary": "Redes sin publicar desde 2026-09-08; posición 8 en Maps (174 reseñas) frente a Bright Brothers of South Charlotte.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=704%20Pressure%20Washing%20Services&query_place_id=ChIJ6x_X-XjFQwgRaVFtSgZ7Www",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Baja",
+   "note": "Web moderna en Netlify sin fecha (renovación dudosa) y 68 días sin publicar (cerca del umbral)."
+  },
+  {
+   "id": "pr-SP-038",
+   "company_id": "co-SP-038",
+   "summary": "Redes sin publicar desde 2025-09-04; posición 22 en Maps (125 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Blue%20Hornet%20Carpet%20Cleaning&query_place_id=ChIJX8ZysValVogRr70mn6cFgrg",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "No hay competidor de limpieza de alfombras con redes activas en la muestra; buscarlo a mano."
+  },
+  {
+   "id": "pr-SP-039",
+   "company_id": "co-SP-039",
+   "summary": "Redes sin publicar desde 2021-10-04; posición 15 en Maps (385 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Best%20Steamer&query_place_id=ChIJu0w2tQ-nVogR40Xvq7wH_CY",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "No hay competidor de limpieza de alfombras con redes activas en la muestra; buscarlo a mano."
+  },
+  {
+   "id": "pr-SP-040",
+   "company_id": "co-SP-040",
+   "summary": "Redes sin publicar desde 2026-07-17; posición 8 en Maps (8 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=The%20F%C3%AAte%20Regale&query_place_id=ChIJRaP8JSclYEMRePYasPQ_FqY",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Sin web real (landing de ConvertKit). No hay pastelería independiente comparable con redes activas en la muestra."
+  },
+  {
+   "id": "pr-SP-041",
+   "company_id": "co-SP-041",
+   "summary": "Redes sin publicar desde 2024-11-13; posición 5 en Maps (200 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Streamline%20Pro-Wash%20Pressure%20Washing&query_place_id=ChIJD1Et676RVogRQrMQK_W1CI0",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "manual_review",
+   "status_proposed": "Revisión manual",
+   "confidence": "Media",
+   "note": "Competidores mejor posicionados (Bright Brothers) pueden ser franquicia; confirmar comparable."
+  },
+  {
+   "id": "pr-SP-042",
+   "company_id": "co-SP-042",
+   "summary": "Redes sin publicar desde 2026-08-26; posición 10 en Maps (53 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Caffeena%20Coffee%20House&query_place_id=ChIJScw1amufVogRKCzecIVbLCQ",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "chain",
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Cadena: marca con sede en Michigan y varias ubicaciones (caffeena.com)."
+  },
+  {
+   "id": "pr-SP-043",
+   "company_id": "co-SP-043",
+   "summary": "Redes sin publicar desde 2026-08-22; posición 2 en Maps (40 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Lumen%20Landscape&query_place_id=ChIJ0Sea86sZVIgRzVOI-NiU5nU",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Media",
+   "note": "Sin brecha de visibilidad: posición 2 en su búsqueda; no hay competidor comparable de iluminación."
+  },
+  {
+   "id": "pr-SP-044",
+   "company_id": "co-SP-044",
+   "summary": "Redes sin publicar desde 2026-05-27; posición 26 en Maps (None reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Kutzbyjuice&query_place_id=ChIJmRoLh6anVogR2P-Ggm9ElKY",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Barbero individual dentro de otra barbería; sin ficha ni reseñas propias."
+  },
+  {
+   "id": "pr-SP-045",
+   "company_id": "co-SP-045",
+   "summary": "Redes sin publicar desde 2026-08-29; posición 1 en Maps (168 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=El%20Patio%20Unisex%20salon%20and%20barbershop&query_place_id=ChIJN7Acf7ilVogRElh0QI2vVNI",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Sin brecha de visibilidad: posición 1 en Maps para \"barbershop\"."
+  },
+  {
+   "id": "pr-SP-046",
+   "company_id": "co-SP-046",
+   "summary": "Redes sin publicar desde 2026-06-16; posición 1 en Maps (515 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Romeo%20%26%20Juliet%20Pizzeria&query_place_id=ChIJW6Qcd--nVogRhCe8WVkp9cQ",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Sin brecha de visibilidad: posición 1 en Maps para \"italian restaurant\"."
+  },
+  {
+   "id": "pr-SP-047",
+   "company_id": "co-SP-047",
+   "summary": "Redes sin publicar desde 2025-07-04; posición 2 en Maps (274 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Amber's%20Jewelry&query_place_id=ChIJddrhhAaZVogRxWC6OZIaJGY",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Sin brecha de visibilidad: posición 2 en Maps para \"jewelry store\"."
+  },
+  {
+   "id": "pr-SP-048",
+   "company_id": "co-SP-048",
+   "summary": "Redes sin publicar desde 2026-08-24; posición 1 en Maps (630 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Woodhouse%20Spa%20-%20SouthPark&query_place_id=ChIJ052Nw76fVogRFipBPbhsqvw",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": "franchise",
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Franquicia (Woodhouse Spas)."
+  },
+  {
+   "id": "pr-SP-049",
+   "company_id": "co-SP-049",
+   "summary": "Redes sin publicar desde 2026-04-08; posición 3 en Maps (436 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Panther%20Cleaning%20(Pressure%20Washing%20%26%20Window%20Cleaning)&query_place_id=ChIJY8Vc5yRRUYgRDo7N8xsb9jc",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Sin brecha de visibilidad: posición 3, con más reseñas que los competidores."
+  },
+  {
+   "id": "pr-SP-050",
+   "company_id": "co-SP-050",
+   "summary": "Redes sin publicar desde 2026-05-27; posición 3 en Maps (129 reseñas) frente a no encontrado en la muestra.",
+   "summary_source": "https://www.google.com/maps/search/?api=1&query=Body%20Heal%20Therapy%20(South%20Charlotte)&query_place_id=ChIJS3_M2AGfVogRGN2ZBOrgaT4",
+   "offer_interest": null,
+   "fit": {
+    "value": null,
+    "label": "Por definir"
+   },
+   "budget_signal": {
+    "value": null
+   },
+   "exclusion": null,
+   "status_proposed": "Descartado",
+   "confidence": "Alta",
+   "note": "Sin brecha de visibilidad: posición 3, por delante de los competidores activos."
+  }
+ ],
+ "evidence": [
+  {
+   "id": "ev-SP-001-1",
+   "prospect_id": "pr-SP-001",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 1660 días (2022-04-30)",
+   "url": "https://www.facebook.com/Americanaautotires/posts/pfbid02TmCYSt3tCMWb6W5rhB8cMhEAhFYTagckeCKsnv54vSpd7zwLDCjAH6Brx9gsnCpdl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-001-2",
+   "prospect_id": "pr-SP-001",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"auto repair shop\", Charlotte): posición 16 con 334 reseñas vs Compton's Automotive en posición 1 con 430 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Americana%20Autos%20Tires%20and%20Mechanic&query_place_id=ChIJo6uj-OKhVogRFLEI7XFfUaI",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Compton's%20Automotive&query_place_id=ChIJZX5-e_eYVogR4igFuS8g9Vk",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-001-3",
+   "prospect_id": "pr-SP-001",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 430 reseñas (4.8★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://comptonsautomotive.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/comptonsautomotive",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-002-1",
+   "prospect_id": "pr-SP-002",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 632 días (2025-02-21)",
+   "url": "https://www.facebook.com/permalink.php?story_fbid=1033870852093848&id=100064128273698&substory_index=616084981051671",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-002-2",
+   "prospect_id": "pr-SP-002",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"auto repair shop\", Charlotte): posición 9 con 317 reseñas vs Compton's Automotive en posición 1 con 430 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=TTS%20Auto%20Service&query_place_id=ChIJwRnLZd6eVogRj3Pp5IgIqR0",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Compton's%20Automotive&query_place_id=ChIJZX5-e_eYVogR4igFuS8g9Vk",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-002-3",
+   "prospect_id": "pr-SP-002",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 430 reseñas (4.8★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://comptonsautomotive.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/comptonsautomotive",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-003-1",
+   "prospect_id": "pr-SP-003",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 383 días (2025-10-28)",
+   "url": "https://www.facebook.com/BandRAutoRepairandTireInc/posts/pfbid02VtcCT8YK6E93UMv4PuDQDPjFcbnfqFUjWYQs7mjBY2MiQEPhzKPG7gBAygaJ4vYAl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-003-2",
+   "prospect_id": "pr-SP-003",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"auto repair shop\", Charlotte): posición 14 con 275 reseñas vs Compton's Automotive en posición 1 con 430 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=B%26R%20Auto%20Repair%20%26%20Tire&query_place_id=ChIJK_MRqRifVogRq90cfW6GbEU",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Compton's%20Automotive&query_place_id=ChIJZX5-e_eYVogR4igFuS8g9Vk",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-003-3",
+   "prospect_id": "pr-SP-003",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 430 reseñas (4.8★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://comptonsautomotive.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/comptonsautomotive",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-004-1",
+   "prospect_id": "pr-SP-004",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 114 días (2026-07-24)",
+   "url": "https://www.facebook.com/AlmarAutoRepair/posts/pfbid02Bd3vUr6t3w4xTZ3D8rFCPM4EvcuzbhsEzqFfNDJMkpf6gKKxEujVvGY3xrM33JuFl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-004-2",
+   "prospect_id": "pr-SP-004",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"auto repair shop\", Charlotte): posición 6 con 350 reseñas vs Compton's Automotive en posición 1 con 430 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=ALMAR%20Auto%20Repair&query_place_id=ChIJmRC6aBifVogRFEwvWsQ8phQ",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Compton's%20Automotive&query_place_id=ChIJZX5-e_eYVogR4igFuS8g9Vk",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-004-3",
+   "prospect_id": "pr-SP-004",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 430 reseñas (4.8★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://comptonsautomotive.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/comptonsautomotive",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-005-1",
+   "prospect_id": "pr-SP-005",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 754 días (2024-10-22)",
+   "url": "https://www.instagram.com/p/DBcHLzyBQQd/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-005-2",
+   "prospect_id": "pr-SP-005",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"florist\", Charlotte): posición 18 con 115 reseñas vs Flowers of Charlotte en posición 1 con 908 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=L%20%26%20D%20Flowers%20of%20Elegance&query_place_id=ChIJ54d8aVccVIgRG-3srI-Rqxk",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Flowers%20of%20Charlotte&query_place_id=ChIJyXJqZFmeVogRxb9ob6V9XDw",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-005-3",
+   "prospect_id": "pr-SP-005",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 908 reseñas (4.3★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://www.flowersofcharlotte.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/flowersofclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-006-1",
+   "prospect_id": "pr-SP-006",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 731 días (2024-11-14)",
+   "url": "https://www.facebook.com/luxnailsloungenc/posts/pfbid079nbjhcyh9XeytWJCFg9UEL6iPcMwqgqSZyVvjWf56ncQyoy5WYcWsVNA4jn6r9ql",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-006-2",
+   "prospect_id": "pr-SP-006",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"nail salon\", Charlotte): posición 14 con 775 reseñas vs NAILGO SPA - Nail salon Charlotte en posición 13 con 1243 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Lux's%20Nail%20Lounge&query_place_id=ChIJCc5n-Q6fVogR4yuFzEtu89E",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=NAILGO%20SPA%20-%20Nail%20salon%20Charlotte&query_place_id=ChIJaSy_cKmfVogR867_aZXt8JE",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-006-3",
+   "prospect_id": "pr-SP-006",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 1243 reseñas (4.8★) y posición 13 en Maps para la misma búsqueda.",
+   "url": "http://nailgospa.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/nailgospa",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-007-1",
+   "prospect_id": "pr-SP-007",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 3546 días (2017-03-01)",
+   "url": "https://www.instagram.com/p/BRFk8unjFrV/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-007-2",
+   "prospect_id": "pr-SP-007",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"hair salon\", Charlotte): posición 12 con 625 reseñas vs Different By Design Hair Salon-McCullough Commons en posición 2 con 834 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Aarushi%20Salon&query_place_id=ChIJ4_xHWEEhVIgRd3yjIY1rnvY",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Different%20By%20Design%20Hair%20Salon-McCullough%20Commons&query_place_id=ChIJy5SLMyEcVIgRnTY4wI9dbo8",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-007-3",
+   "prospect_id": "pr-SP-007",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 834 reseñas (4.7★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "http://www.dbdsalon.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/dbdhairsalon",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-008-1",
+   "prospect_id": "pr-SP-008",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 373 días (2025-11-07)",
+   "url": "https://www.instagram.com/p/DQwdpQIEZPq/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-008-2",
+   "prospect_id": "pr-SP-008",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"women's clothing boutique\", Charlotte): posición 10 con 16 reseñas vs K|LA Boutique en posición 1 con 551 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Bellezza%20Boutique&query_place_id=ChIJmwCw0AefVogRF2PjzX8gIXM",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=K%7CLA%20Boutique&query_place_id=ChIJ53YhslSeVogRShZSiIDFkvc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-008-3",
+   "prospect_id": "pr-SP-008",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 551 reseñas (4.9★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "https://www.shopkla.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/shopkla",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-009-1",
+   "prospect_id": "pr-SP-009",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 178 días (2026-05-21)",
+   "url": "https://www.instagram.com/p/DYna--8xfPi/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-009-2",
+   "prospect_id": "pr-SP-009",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"florist\", Charlotte): posición 4 con 16 reseñas vs Flowers of Charlotte en posición 1 con 908 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Vivian's%20Flower%20Shop&query_place_id=ChIJGZdxnr-jVogRpYryrRF3S9w",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Flowers%20of%20Charlotte&query_place_id=ChIJyXJqZFmeVogRxb9ob6V9XDw",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-009-3",
+   "prospect_id": "pr-SP-009",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 908 reseñas (4.3★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://www.flowersofcharlotte.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/flowersofclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-010-1",
+   "prospect_id": "pr-SP-010",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 431 días (2025-09-10)",
+   "url": "https://www.instagram.com/p/DObgrVuDmeA/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-010-2",
+   "prospect_id": "pr-SP-010",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"event venue\", Charlotte): posición 12 con 139 reseñas vs Pleasant Grove Farm en posición 9 con 92 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20Social%20Space&query_place_id=ChIJayw8CZejVogRw2B2zH6Q4Qg",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Pleasant%20Grove%20Farm&query_place_id=ChIJpRmwuhWlVogRrYOSO16pS9c",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-010-3",
+   "prospect_id": "pr-SP-010",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-10), web propia activa, 92 reseñas (4.9★) y posición 9 en Maps para la misma búsqueda.",
+   "url": "https://www.pleasantgrovefarmvenue.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/pleasantgrovefarmclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-011-1",
+   "prospect_id": "pr-SP-011",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 299 días (2026-01-20)",
+   "url": "https://www.facebook.com/m.m.cleaning.services.2023/posts/pfbid02ZJpkEyPG5nxDR5zGeiFJeNB5DTL2uXJya7SYa9e9ufTmnoR77o5m8sTPXDFYATThl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-011-2",
+   "prospect_id": "pr-SP-011",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"house cleaning service\", Charlotte): posición 6 con 19 reseñas vs Lorena's Cleaning Services en posición 2 con 59 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=M%20%26%20M%20Cleaning%20Services&query_place_id=ChIJL02SLO6-WAsRGPFXibi2RiM",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Lorena's%20Cleaning%20Services&query_place_id=ChIJTzOMmLinVogR4-HQxZRWSog",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-011-3",
+   "prospect_id": "pr-SP-011",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 59 reseñas (4.9★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "https://lorenascleaningservices.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/lorenascleaningservicesllc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-012-1",
+   "prospect_id": "pr-SP-012",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 152 días (2026-06-16)",
+   "url": "https://www.instagram.com/p/DZoJX_Ljsh_/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-012-2",
+   "prospect_id": "pr-SP-012",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps: 95 reseñas vs 408 de Eden Therapy and Massage (posiciones de búsquedas distintas, no comparables).",
+   "url": "https://www.google.com/maps/search/?api=1&query=Blue%20Ocean%20Massage%20Boutique%20LLC%20Women%20Only&query_place_id=ChIJnbRgH82lVogR0UfQMVbxLNw",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Eden%20Therapy%20and%20Massage&query_place_id=ChIJHRFXLHefVogRBWRCWtEVkIc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-012-3",
+   "prospect_id": "pr-SP-012",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 408 reseñas (4.8★).",
+   "url": "https://www.edentherapyandmassage.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/edentherapyandmassage",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-013-1",
+   "prospect_id": "pr-SP-013",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 1811 días (2021-11-30)",
+   "url": "https://www.facebook.com/thebossboxxclt/posts/pfbid02MuzZTPqtgDoUbU7EvyvtWAfoDnYN9o5eTf4wh93pkfXf9ChkmjQAHZ4Vh29HU3mVl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-013-2",
+   "prospect_id": "pr-SP-013",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"event venue\", Charlotte): posición 20 con 4 reseñas vs The Rafters at Historic St. Mark's en posición 7 con 30 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=The%20Boss%20Boxx&query_place_id=ChIJQyzHvJmnVogR82whuvSsgwI",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=The%20Rafters%20at%20Historic%20St.%20Mark's&query_place_id=ChIJExETfYWnVogRnWFSj9q8jCY",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-013-3",
+   "prospect_id": "pr-SP-013",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-12), web propia activa, 30 reseñas (5.0★) y posición 7 en Maps para la misma búsqueda.",
+   "url": "http://theraftersevents.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/the.rafters",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-014-1",
+   "prospect_id": "pr-SP-014",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 65 días (2026-09-11)",
+   "url": "https://www.instagram.com/p/DdKAwmyMWU8/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-014-2",
+   "prospect_id": "pr-SP-014",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"day spa\", Charlotte): posición 5 con 147 reseñas vs Nature's Spa and Wellness en posición 2 con 312 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Katura%C2%AE%20Day%20Spa&query_place_id=ChIJM_7D3MefVogRjEC-qXJJzfU",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Nature's%20Spa%20and%20Wellness&query_place_id=ChIJT4mxkaidVogRpyiXne6Kkcc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-014-3",
+   "prospect_id": "pr-SP-014",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 312 reseñas (4.8★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "http://natures-spa.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/naturesspacharlotte",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-015-1",
+   "prospect_id": "pr-SP-015",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 156 días (2026-06-12)",
+   "url": "https://www.instagram.com/p/DZgTvxqjXEm/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-015-2",
+   "prospect_id": "pr-SP-015",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"dance studio\", Charlotte): posición 11 con 7 reseñas vs Miss Donna's School of Dancing en posición 3 con 15 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Jolie%20South%20Dance%20Academy&query_place_id=ChIJ_VyhonifVogRr7rl1dpXX1E",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Miss%20Donna's%20School%20of%20Dancing&query_place_id=ChIJSUpCYY-mVogRj3T6he68VmM",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-015-3",
+   "prospect_id": "pr-SP-015",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-06), web propia activa, 15 reseñas (4.9★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "https://www.missdonnasschoolofdancing.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/missdonnasschoolofdancing",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-016-1",
+   "prospect_id": "pr-SP-016",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 300 días (2026-01-19)",
+   "url": "https://www.facebook.com/harrisholtframing/posts/pfbid02soV6iLkYgyQbDMW9PdcvaxxMRKuoaMjj28ST2FTaBSXwvevhj8iQU6zEVaUhDf3Nl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-016-2",
+   "prospect_id": "pr-SP-016",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"picture framing shop\", Charlotte): posición 20 con 19 reseñas vs Frame Warehouse en posición 10 con 98 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Harris%20Holt%20Framing%20%26%20Art%20Services&query_place_id=ChIJP1BX8ZmfVogRo3aVFNePMQQ",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Frame%20Warehouse&query_place_id=ChIJf_Wz_R-fVogRxYC2tZAgJTg",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-016-3",
+   "prospect_id": "pr-SP-016",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 98 reseñas (4.9★) y posición 10 en Maps para la misma búsqueda.",
+   "url": "https://www.framewarehouse.net/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/frame_warehouse",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-017-1",
+   "prospect_id": "pr-SP-017",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 481 días (2025-07-22)",
+   "url": "https://www.instagram.com/p/DMak1d4SUAC/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-017-2",
+   "prospect_id": "pr-SP-017",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"picture framing shop\", Charlotte): posición 18 con 20 reseñas vs Frame Warehouse en posición 10 con 98 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Applewood%20Gallery&query_place_id=ChIJzehvI6ufVogR17-degr_HgU",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Frame%20Warehouse&query_place_id=ChIJf_Wz_R-fVogRxYC2tZAgJTg",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-017-3",
+   "prospect_id": "pr-SP-017",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 98 reseñas (4.9★) y posición 10 en Maps para la misma búsqueda.",
+   "url": "https://www.framewarehouse.net/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/frame_warehouse",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-018-1",
+   "prospect_id": "pr-SP-018",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 2060 días (2021-03-26)",
+   "url": "https://www.facebook.com/FazioArt/posts/pfbid0CsZt8e9PvFKNc9nUZpZxBxkruZR8haxRMriHDRAagjTzX2h6UGK4nwGFGGWYJYMgl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-018-2",
+   "prospect_id": "pr-SP-018",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"picture framing shop\", Charlotte): posición 14 con 27 reseñas vs Frame Warehouse en posición 10 con 98 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=FazioArt%20Custom%20Framing&query_place_id=ChIJcdrDfQCgVogRpjTPAXzNQno",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Frame%20Warehouse&query_place_id=ChIJf_Wz_R-fVogRxYC2tZAgJTg",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-018-3",
+   "prospect_id": "pr-SP-018",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 98 reseñas (4.9★) y posición 10 en Maps para la misma búsqueda.",
+   "url": "https://www.framewarehouse.net/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/frame_warehouse",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-019-1",
+   "prospect_id": "pr-SP-019",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 1270 días (2023-05-25)",
+   "url": "https://www.instagram.com/p/CsrhHirJ-r3/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-019-2",
+   "prospect_id": "pr-SP-019",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"upholstery shop\", Charlotte): posición 17 con 43 reseñas vs Reupholstery Charlotte en posición 2 con 117 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Uriarte%20Upholstery&query_place_id=ChIJT50_RuohVIgRoiWc_3VnRwQ",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Reupholstery%20Charlotte&query_place_id=ChIJ4_jtK9-eVogRNfxrDpmm-UA",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-019-3",
+   "prospect_id": "pr-SP-019",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 117 reseñas (4.9★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "https://charlottehomeupholstery.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/reupholsterycharlotte",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-020-1",
+   "prospect_id": "pr-SP-020",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 677 días (2025-01-07)",
+   "url": "https://www.facebook.com/QueenCityUpholstery/posts/pfbid035jss8VQnPkMDSfEsYyWwbyic9N5ssLvFwspG7Z4TEhQqP4HoXqegBoyG4U42Wexml",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-020-2",
+   "prospect_id": "pr-SP-020",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"upholstery shop\", Charlotte): posición 19 con 1 reseñas vs Reupholstery Charlotte en posición 2 con 117 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20upholstery&query_place_id=ChIJ_VR1swGfVogRpqj_nfd9uX8",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Reupholstery%20Charlotte&query_place_id=ChIJ4_jtK9-eVogRNfxrDpmm-UA",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-020-3",
+   "prospect_id": "pr-SP-020",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 117 reseñas (4.9★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "https://charlottehomeupholstery.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/reupholsterycharlotte",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-021-1",
+   "prospect_id": "pr-SP-021",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 141 días (2026-06-27)",
+   "url": "https://www.instagram.com/p/DaGqSCJAW0k/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-021-2",
+   "prospect_id": "pr-SP-021",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"photography studio\", Charlotte): posición 20 con 77 reseñas vs Moving Mountains Studios en posición 4 con 760 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Charlotte%20Vibe%20Photography&query_place_id=ChIJseA81yygVogRkkfdc0Zuxqk",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Moving%20Mountains%20Studios&query_place_id=ChIJz2ZmA5obVIgRI519hUQyqQI",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-021-3",
+   "prospect_id": "pr-SP-021",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-11), web propia activa, 760 reseñas (5.0★) y posición 4 en Maps para la misma búsqueda.",
+   "url": "https://movingmountainsstudios.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/movingmountains.studios",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-022-1",
+   "prospect_id": "pr-SP-022",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 1348 días (2023-03-08)",
+   "url": "https://www.instagram.com/p/CpizmuBOaFD/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-022-2",
+   "prospect_id": "pr-SP-022",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"photography studio\", Charlotte): posición 18 con 42 reseñas vs Moving Mountains Studios en posición 4 con 760 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Photos%20by%20Fatima&query_place_id=ChIJVeJkQ-qY-IgRxrHzuTeUefc",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Moving%20Mountains%20Studios&query_place_id=ChIJz2ZmA5obVIgRI519hUQyqQI",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-022-3",
+   "prospect_id": "pr-SP-022",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-11), web propia activa, 760 reseñas (5.0★) y posición 4 en Maps para la misma búsqueda.",
+   "url": "https://movingmountainsstudios.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/movingmountains.studios",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-023-1",
+   "prospect_id": "pr-SP-023",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 73 días (2026-09-03)",
+   "url": "https://www.instagram.com/p/Dc1LbQgFUKR/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-023-2",
+   "prospect_id": "pr-SP-023",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"bike shop\", Charlotte): posición 19 con 303 reseñas vs Charlotte Cycles en posición 10 con 136 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Ultimate%20Bicycle&query_place_id=ChIJPd2ssGohVIgRx02MA0dfTY4",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Charlotte%20Cycles&query_place_id=ChIJ32k4hROfVogR-Llyvx0ow0c",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-023-3",
+   "prospect_id": "pr-SP-023",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 136 reseñas (5.0★) y posición 10 en Maps para la misma búsqueda.",
+   "url": "https://www.charlottecycles.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/charlottecycles",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-024-1",
+   "prospect_id": "pr-SP-024",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 254 días (2026-03-06)",
+   "url": "https://www.facebook.com/reel/928819352884491/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-024-2",
+   "prospect_id": "pr-SP-024",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"caribbean restaurant\", Charlotte): posición 10 con 977 reseñas vs Lawrence Caribbean Restaurant en posición 3 con 1070 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Caribbean%20Hut&query_place_id=ChIJoVxNHCefVogRrTML5pC-fZc",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Lawrence%20Caribbean%20Restaurant&query_place_id=ChIJuSK_xLuYVogRPHJF5HqDc3A",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-024-3",
+   "prospect_id": "pr-SP-024",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 1070 reseñas (4.2★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "http://lawrencecaribbean.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/lawrencecaribbeanclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-025-1",
+   "prospect_id": "pr-SP-025",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 452 días (2025-08-20)",
+   "url": "https://www.instagram.com/p/DNl8goMoJo6/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-025-2",
+   "prospect_id": "pr-SP-025",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"caribbean restaurant\", Charlotte): posición 15 con 445 reseñas vs Lawrence Caribbean Restaurant en posición 3 con 1070 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Island%20Flavors%20II%20Restaurant%20and%20Catering%20%7C%20Jamaican&query_place_id=ChIJnbC7OM8fVIgRUo5lF5lQtgc",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Lawrence%20Caribbean%20Restaurant&query_place_id=ChIJuSK_xLuYVogRPHJF5HqDc3A",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-025-3",
+   "prospect_id": "pr-SP-025",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-14), web propia activa, 1070 reseñas (4.2★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "http://lawrencecaribbean.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/lawrencecaribbeanclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-026-1",
+   "prospect_id": "pr-SP-026",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 215 días (2026-04-14)",
+   "url": "https://www.facebook.com/Carolinasportsmassage/posts/pfbid0NLMAj3gtyaSxY1FkLFicAPvhvswTuPso6WWFEY4UucQzUxy4bRJgXWWTeVqXkWKSl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-026-2",
+   "prospect_id": "pr-SP-026",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"massage therapist\", Charlotte): posición 19 con 98 reseñas vs Eden Therapy and Massage en posición 4 con 408 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Carolina%20Sports%20Massage&query_place_id=ChIJS1n8zvmfVogRHkRsHG70Mcw",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Eden%20Therapy%20and%20Massage&query_place_id=ChIJHRFXLHefVogRBWRCWtEVkIc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-026-3",
+   "prospect_id": "pr-SP-026",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 408 reseñas (4.8★) y posición 4 en Maps para la misma búsqueda.",
+   "url": "https://www.edentherapyandmassage.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/edentherapyandmassage",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-027-1",
+   "prospect_id": "pr-SP-027",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 821 días (2024-08-16)",
+   "url": "https://www.facebook.com/QCGN94/posts/pfbid0PY2NxMD7Gux4x67kHXX2sjfVPU9rSTTgPDKH3M72BT5L3zraJmHVKnmDLuzCYCXpl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-027-2",
+   "prospect_id": "pr-SP-027",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"gift shop\", Charlotte): posición 6 con 45 reseñas vs Moxie Mercantile en posición 2 con 76 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20Market&query_place_id=ChIJrcSrNX6YVogRtQcjNH_xq_8",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Moxie%20Mercantile&query_place_id=ChIJTwS-RACgVogRN7UleMxSEew",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-027-3",
+   "prospect_id": "pr-SP-027",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 76 reseñas (4.8★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "https://moxiemercantile.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/moxiemercantile",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-028-1",
+   "prospect_id": "pr-SP-028",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 195 días (2026-05-04)",
+   "url": "https://www.facebook.com/reel/1667272931091693/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-028-2",
+   "prospect_id": "pr-SP-028",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"massage therapist\", Charlotte): posición 14 con 53 reseñas vs Eden Therapy and Massage en posición 4 con 408 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Escape%20Massage&query_place_id=ChIJVydzXpefVogRnFI8S6SxcNs",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Eden%20Therapy%20and%20Massage&query_place_id=ChIJHRFXLHefVogRBWRCWtEVkIc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-028-3",
+   "prospect_id": "pr-SP-028",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 408 reseñas (4.8★) y posición 4 en Maps para la misma búsqueda.",
+   "url": "https://www.edentherapyandmassage.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/edentherapyandmassage",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-029-1",
+   "prospect_id": "pr-SP-029",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 341 días (2025-12-09)",
+   "url": "https://www.instagram.com/p/DSDVXj-gS1N/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-029-2",
+   "prospect_id": "pr-SP-029",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"dry cleaner\", Charlotte): posición 6 con 225 reseñas vs American Dry Cleaners en posición 3 con 1104 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Press%20Club%20Dry%20Cleaners%20%26%20Laundry&query_place_id=ChIJ8xqAFBSfVogR4rrdjOwXjpg",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=American%20Dry%20Cleaners&query_place_id=ChIJ8elHA2qgVogRaIvw-FcyNCA",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-029-3",
+   "prospect_id": "pr-SP-029",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-09), web propia activa, 1104 reseñas (4.6★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "https://americandrycleaners.net/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.facebook.com/AmericanCleanersCharlotteNC",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-030-1",
+   "prospect_id": "pr-SP-030",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 226 días (2026-04-03)",
+   "url": "https://www.instagram.com/p/DWrlMdSmIui/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-030-2",
+   "prospect_id": "pr-SP-030",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"barbershop\", Charlotte): posición 15 con 248 reseñas vs No Grease | Northlake en posición 3 con 175 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Goodfellas%20Barbershop&query_place_id=ChIJp5-zfCuhVogRtBi8ggdhGJs",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=No%20Grease%20%7C%20Northlake&query_place_id=ChIJ691U5-ynVogRdpYMT2vYpI0",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-030-3",
+   "prospect_id": "pr-SP-030",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-09), web propia activa, 175 reseñas (4.5★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "http://www.nogreasenorthlake.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/nogreasepremium",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-031-1",
+   "prospect_id": "pr-SP-031",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 1012 días (2024-02-07)",
+   "url": "https://www.facebook.com/primejewelers/posts/pfbid0251HbJfxqm7iARC3ENbycE5cotdoKsFw35BtX9DMYGacArBPfvwuU1QimiXL1tSgJl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-031-2",
+   "prospect_id": "pr-SP-031",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"jewelry store\", Charlotte): posición 5 con 91 reseñas vs Queen City Jewelers en posición 3 con 139 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Prime%20Jewelers&query_place_id=ChIJnycdKFWmVogRumAVJyNfD4k",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Queen%20City%20Jewelers&query_place_id=ChIJebl9JaqnVogRHDNnYck7BO0",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-031-3",
+   "prospect_id": "pr-SP-031",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-10), web propia activa, 139 reseñas (4.5★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "https://qcjclt.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/qcjewelers",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-032-1",
+   "prospect_id": "pr-SP-032",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 409 días (2025-10-02)",
+   "url": "https://www.instagram.com/p/DPUcrx6E7de/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-032-2",
+   "prospect_id": "pr-SP-032",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"italian restaurant\", Charlotte): posición 5 con 2035 reseñas vs Little Mama’s Italian en posición 3 con 2156 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=TONYS%20PIZZA&query_place_id=ChIJ8eY4KFqmVogRnHCqx0ISUU0",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Little%20Mama%E2%80%99s%20Italian&query_place_id=ChIJ9wE84qyfVogR608ap0ZWyyg",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-032-3",
+   "prospect_id": "pr-SP-032",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-10-28), web propia activa, 2156 reseñas (4.6★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "https://littlemamasitalian.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/littlemamasitalian",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-033-1",
+   "prospect_id": "pr-SP-033",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 114 días (2026-07-24)",
+   "url": "https://www.instagram.com/p/DbJ5mnAobko/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-033-2",
+   "prospect_id": "pr-SP-033",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"italian restaurant\", Charlotte): posición 15 con 610 reseñas vs Enrico's Ristorante Pizzeria and Bar en posición 2 con 1689 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Dolce%20Osteria&query_place_id=ChIJZRAWHpqfVogRYbzr9SYWiWU",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Enrico's%20Ristorante%20Pizzeria%20and%20Bar&query_place_id=ChIJM6rhdOmZVogRANqTyUas1z8",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-033-3",
+   "prospect_id": "pr-SP-033",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-10-31), web propia activa, 1689 reseñas (4.3★) y posición 2 en Maps para la misma búsqueda.",
+   "url": "https://enricositalian.net/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/enricos_italian_restaurant",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-034-1",
+   "prospect_id": "pr-SP-034",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 369 días (2025-11-11)",
+   "url": "https://www.instagram.com/p/DQ6yrsSAAxD/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-034-2",
+   "prospect_id": "pr-SP-034",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"tailor\", Charlotte): posición 7 con 53 reseñas vs Ruby Alterations & Cleaners - Best Alterations & Cleaners in Town en posición 1 con 1030 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Cassandra's%20Alterations&query_place_id=ChIJNTujhh2gVogRPiu-N-8Gn9M",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Ruby%20Alterations%20%26%20Cleaners%20-%20Best%20Alterations%20%26%20Cleaners%20in%20Town&query_place_id=ChIJCf7Mn0eaVogR1UAsGGO5Bh4",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-034-3",
+   "prospect_id": "pr-SP-034",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 1030 reseñas (4.8★) y posición 1 en Maps para la misma búsqueda.",
+   "url": "http://rubyalterationsandcleaners.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/rubyalterationscleaners",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-035-1",
+   "prospect_id": "pr-SP-035",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 314 días (2026-01-05)",
+   "url": "https://www.instagram.com/p/DTJcJKsjq_v/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-035-2",
+   "prospect_id": "pr-SP-035",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"massage therapist\", Charlotte): posición 17 con 430 reseñas vs Eden Therapy and Massage en posición 4 con 408 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=ZO%C3%8B%20Massage%20at%20South%20End&query_place_id=ChIJF7vdhpefVogRxE_s4il8CeM",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Eden%20Therapy%20and%20Massage&query_place_id=ChIJHRFXLHefVogRBWRCWtEVkIc",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-035-3",
+   "prospect_id": "pr-SP-035",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-03), web propia activa, 408 reseñas (4.8★) y posición 4 en Maps para la misma búsqueda.",
+   "url": "https://www.edentherapyandmassage.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/edentherapyandmassage",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-036-1",
+   "prospect_id": "pr-SP-036",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 232 días (2026-03-28)",
+   "url": "https://www.facebook.com/herndonspressurewashingservicesllc/posts/pfbid0cXnw5APatBiRT37yRtWpzVHs8jAmbmHXy9zP9wfaeo3GP2pWTC6bV888jq9qr26Fl",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-036-2",
+   "prospect_id": "pr-SP-036",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"pressure washing service\", Charlotte): posición 10 con 212 reseñas vs Power Wash Charlotte en posición 9 con 143 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=Herndon's%20Pressure%20Washing%20Services&query_place_id=ChIJzb0qTYqZVogRgD9yuEunC1Q",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Power%20Wash%20Charlotte&query_place_id=ChIJZWzKNvyjVogRli4rj5kIsb8",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-036-3",
+   "prospect_id": "pr-SP-036",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-15), web propia activa, 143 reseñas (4.9★) y posición 9 en Maps para la misma búsqueda.",
+   "url": "https://powerwashcharlotte.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/power_wash_charlotte",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-037-1",
+   "prospect_id": "pr-SP-037",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 68 días (2026-09-08)",
+   "url": "https://www.instagram.com/p/DdCzhLTlumn/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-037-2",
+   "prospect_id": "pr-SP-037",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Hoy en Google Maps (\"pressure washing service\", Charlotte): posición 8 con 174 reseñas vs Bright Brothers of South Charlotte en posición 3 con 182 reseñas. Es una comparación de hoy; no se afirma caída histórica.",
+   "url": "https://www.google.com/maps/search/?api=1&query=704%20Pressure%20Washing%20Services&query_place_id=ChIJ6x_X-XjFQwgRaVFtSgZ7Www",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.google.com/maps/search/?api=1&query=Bright%20Brothers%20of%20South%20Charlotte&query_place_id=ChIJ_4zk1y6ZVogRFIfSLqinn0A",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-037-3",
+   "prospect_id": "pr-SP-037",
+   "component": "competitor_better",
+   "fact": "Mismo rubro en Charlotte; publica en redes (última 2026-11-13), web propia activa, 182 reseñas (4.9★) y posición 3 en Maps para la misma búsqueda.",
+   "url": "https://www.brightbrothersofsouthcharlotte.com/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": "https://www.instagram.com/brightbrothersofsouthclt",
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-038-1",
+   "prospect_id": "pr-SP-038",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 437 días (2025-09-04)",
+   "url": "https://www.instagram.com/p/DOKa4P9DSlQ/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-038-2",
+   "prospect_id": "pr-SP-038",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 22 en Maps para \"house cleaning service\" con 125 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Blue%20Hornet%20Carpet%20Cleaning&query_place_id=ChIJX8ZysValVogRr70mn6cFgrg",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-039-1",
+   "prospect_id": "pr-SP-039",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 1868 días (2021-10-04)",
+   "url": "https://www.instagram.com/p/CUnHsixrRa0/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-039-2",
+   "prospect_id": "pr-SP-039",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 15 en Maps para \"house cleaning service\" con 385 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Best%20Steamer&query_place_id=ChIJu0w2tQ-nVogR40Xvq7wH_CY",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-040-1",
+   "prospect_id": "pr-SP-040",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 121 días (2026-07-17)",
+   "url": "https://www.instagram.com/p/Da6VqK2Eaip/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-040-2",
+   "prospect_id": "pr-SP-040",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 8 en Maps para \"cake shop\" con 8 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=The%20F%C3%AAte%20Regale&query_place_id=ChIJRaP8JSclYEMRePYasPQ_FqY",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-041-1",
+   "prospect_id": "pr-SP-041",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 732 días (2024-11-13)",
+   "url": "https://www.facebook.com/streamlineprowash/videos/564655456108162/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-041-2",
+   "prospect_id": "pr-SP-041",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 5 en Maps para \"pressure washing service\" con 200 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Streamline%20Pro-Wash%20Pressure%20Washing&query_place_id=ChIJD1Et676RVogRQrMQK_W1CI0",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-042-1",
+   "prospect_id": "pr-SP-042",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 81 días (2026-08-26)",
+   "url": "https://www.instagram.com/p/DchZpT2CT-B/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-042-2",
+   "prospect_id": "pr-SP-042",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 10 en Maps para \"coffee shop\" con 53 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Caffeena%20Coffee%20House&query_place_id=ChIJScw1amufVogRKCzecIVbLCQ",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-043-1",
+   "prospect_id": "pr-SP-043",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 85 días (2026-08-22)",
+   "url": "https://www.instagram.com/p/DcW6nbDKRYK/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-043-2",
+   "prospect_id": "pr-SP-043",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 2 en Maps para \"landscaping company\" con 40 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Lumen%20Landscape&query_place_id=ChIJ0Sea86sZVIgRzVOI-NiU5nU",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-044-1",
+   "prospect_id": "pr-SP-044",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 172 días (2026-05-27)",
+   "url": "https://www.instagram.com/p/DY18_s1hAXK/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-044-2",
+   "prospect_id": "pr-SP-044",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 26 en Maps para \"barbershop\" con None reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Kutzbyjuice&query_place_id=ChIJmRoLh6anVogR2P-Ggm9ElKY",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-045-1",
+   "prospect_id": "pr-SP-045",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 78 días (2026-08-29)",
+   "url": "https://www.instagram.com/p/DcpBIviD0Am/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-045-2",
+   "prospect_id": "pr-SP-045",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 1 en Maps para \"barbershop\" con 168 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=El%20Patio%20Unisex%20salon%20and%20barbershop&query_place_id=ChIJN7Acf7ilVogRElh0QI2vVNI",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-046-1",
+   "prospect_id": "pr-SP-046",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 152 días (2026-06-16)",
+   "url": "https://www.facebook.com/permalink.php?story_fbid=pfbid0b9QyKzuTc3vzHHAwCvmQ69uLuswYrv4t94tpJaqAuBQ2YMbq9BZwDn2LzMGCdxhYl&id=100077654114727",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-046-2",
+   "prospect_id": "pr-SP-046",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 1 en Maps para \"italian restaurant\" con 515 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Romeo%20%26%20Juliet%20Pizzeria&query_place_id=ChIJW6Qcd--nVogRhCe8WVkp9cQ",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-047-1",
+   "prospect_id": "pr-SP-047",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 499 días (2025-07-04)",
+   "url": "https://www.instagram.com/p/DLrYThyzh2n/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-047-2",
+   "prospect_id": "pr-SP-047",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 2 en Maps para \"jewelry store\" con 274 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Amber's%20Jewelry&query_place_id=ChIJddrhhAaZVogRxWC6OZIaJGY",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-048-1",
+   "prospect_id": "pr-SP-048",
+   "component": "social_outdated",
+   "fact": "Última publicación FB hace 83 días (2026-08-24)",
+   "url": "https://www.facebook.com/permalink.php?story_fbid=122293589564193744&id=61555812345156&substory_index=2139559553303729",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-048-2",
+   "prospect_id": "pr-SP-048",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 1 en Maps para \"day spa\" con 630 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Woodhouse%20Spa%20-%20SouthPark&query_place_id=ChIJ052Nw76fVogRFipBPbhsqvw",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-049-1",
+   "prospect_id": "pr-SP-049",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 221 días (2026-04-08)",
+   "url": "https://www.instagram.com/p/DW29AbNFsog/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-049-2",
+   "prospect_id": "pr-SP-049",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 3 en Maps para \"pressure washing service\" con 436 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Panther%20Cleaning%20(Pressure%20Washing%20%26%20Window%20Cleaning)&query_place_id=ChIJY8Vc5yRRUYgRDo7N8xsb9jc",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-050-1",
+   "prospect_id": "pr-SP-050",
+   "component": "social_outdated",
+   "fact": "Última publicación IG hace 172 días (2026-05-27)",
+   "url": "https://www.instagram.com/p/DY0vM3xsulp/",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  },
+  {
+   "id": "ev-SP-050-2",
+   "prospect_id": "pr-SP-050",
+   "component": "lower_visibility_vs_competitor",
+   "fact": "Posición 3 en Maps para \"massage therapist\" con 129 reseñas",
+   "url": "https://www.google.com/maps/search/?api=1&query=Body%20Heal%20Therapy%20(South%20Charlotte)&query_place_id=ChIJS3_M2AGfVogRGN2ZBOrgaT4",
+   "observed_at": "2026-11-15T12:26:00-05:00",
+   "competitor_url": null,
+   "freshness": "fresca"
+  }
+ ],
+ "contacts": [
+  {
+   "id": "ct-SP-001-email",
+   "prospect_id": "pr-SP-001",
+   "role": "otro",
+   "channel": "email",
+   "value": "americanaauto@yahoo.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-002-email",
+   "prospect_id": "pr-SP-002",
+   "role": "otro",
+   "channel": "email",
+   "value": "ttsautoservice@bellsouth.net",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-004-email",
+   "prospect_id": "pr-SP-004",
+   "role": "otro",
+   "channel": "email",
+   "value": "almarautoclt@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-005-email",
+   "prospect_id": "pr-SP-005",
+   "role": "otro",
+   "channel": "email",
+   "value": "ldflowers2008@yahoo.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-006-email",
+   "prospect_id": "pr-SP-006",
+   "role": "otro",
+   "channel": "email",
+   "value": "ttran2511@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-010-email",
+   "prospect_id": "pr-SP-010",
+   "role": "otro",
+   "channel": "email",
+   "value": "queencitysocialspace@gmail.com (bio IG pública)",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-011-email",
+   "prospect_id": "pr-SP-011",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@mmcleaningservices.biz, info@mmcleaningservices.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-012-email",
+   "prospect_id": "pr-SP-012",
+   "role": "otro",
+   "channel": "email",
+   "value": "blueoceanmassage2018@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-014-email",
+   "prospect_id": "pr-SP-014",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@katuradayspa.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-015-email",
+   "prospect_id": "pr-SP-015",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@joliesouthdance.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-016-email",
+   "prospect_id": "pr-SP-016",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@harrisholt.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-017-email",
+   "prospect_id": "pr-SP-017",
+   "role": "otro",
+   "channel": "email",
+   "value": "kassandra@applewoodgallerync.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-018-email",
+   "prospect_id": "pr-SP-018",
+   "role": "otro",
+   "channel": "email",
+   "value": "fazioart@bellsouth.net",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-022-email",
+   "prospect_id": "pr-SP-022",
+   "role": "otro",
+   "channel": "email",
+   "value": "photosbyfatima@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-025-email",
+   "prospect_id": "pr-SP-025",
+   "role": "otro",
+   "channel": "email",
+   "value": "islandflavors.clt@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-026-email",
+   "prospect_id": "pr-SP-026",
+   "role": "otro",
+   "channel": "email",
+   "value": "carolinasportsmassage@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-028-email",
+   "prospect_id": "pr-SP-028",
+   "role": "otro",
+   "channel": "email",
+   "value": "escapemassagecharlotte@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-029-email",
+   "prospect_id": "pr-SP-029",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@pressclubdrycleaners.com (publicado en la web; verificar)",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-031-email",
+   "prospect_id": "pr-SP-031",
+   "role": "otro",
+   "channel": "email",
+   "value": "primejewelersnc@gmail.com (directorio de terceros; no en web propia)",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-031-linkedin",
+   "prospect_id": "pr-SP-031",
+   "role": "otro",
+   "channel": "linkedin",
+   "value": "https://linkedin.com/in/asif-virani-246b07185 (perfil público del dueño)",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-033-email",
+   "prospect_id": "pr-SP-033",
+   "role": "otro",
+   "channel": "email",
+   "value": "dolcetrattoria230@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-034-email",
+   "prospect_id": "pr-SP-034",
+   "role": "otro",
+   "channel": "email",
+   "value": "cassandras_alterations@hotmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-034-linkedin",
+   "prospect_id": "pr-SP-034",
+   "role": "otro",
+   "channel": "linkedin",
+   "value": "https://linkedin.com/in/cassandra-faulk-01012213 (enlazado desde la web)",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-035-email",
+   "prospect_id": "pr-SP-035",
+   "role": "otro",
+   "channel": "email",
+   "value": "booking@zoebodywork.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver nota"
+  },
+  {
+   "id": "ct-SP-036-email",
+   "prospect_id": "pr-SP-036",
+   "role": "otro",
+   "channel": "email",
+   "value": "bbncam@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-038-email",
+   "prospect_id": "pr-SP-038",
+   "role": "otro",
+   "channel": "email",
+   "value": "bluehornetcarpetcleaning@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-039-email",
+   "prospect_id": "pr-SP-039",
+   "role": "otro",
+   "channel": "email",
+   "value": "info@beststeamer.com, vanvu.beststeamer@gmail.com",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-039-linkedin",
+   "prospect_id": "pr-SP-039",
+   "role": "otro",
+   "channel": "linkedin",
+   "value": "https://www.linkedin.com/company/best-steamer-nc",
+   "verified": false,
+   "verified_at": null,
+   "source": "Web propia del negocio (mailto/texto público) leída el 2026-11-15"
+  },
+  {
+   "id": "ct-SP-043-linkedin",
+   "prospect_id": "pr-SP-043",
+   "role": "otro",
+   "channel": "linkedin",
+   "value": "https://www.linkedin.com/company/lumen-lighting",
+   "verified": false,
+   "verified_at": null,
+   "source": "ver valor"
+  }
+ ]
+}

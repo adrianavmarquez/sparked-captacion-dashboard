@@ -48,7 +48,10 @@ export interface DataAdapter {
 /* ---------- Derivaciones (reglas de negocio visibles en la UI) ---------- */
 
 export { DAY_MS };
-export const now = () => new Date(DEMO_NOW);
+let clockOverride: (() => Date) | null = null;
+/** La demo fija el 7 nov 2026. La sesión real usa el reloj del sistema. */
+export const now = () => clockOverride ? clockOverride() : new Date(DEMO_NOW);
+export function setDataClock(clock: (() => Date) | null) { clockOverride = clock; }
 
 /** Frescura: ≤30 días; revalidar si >7 días. Norma operativa elegida por María por delegación (no fijada por Adri). */
 export function freshnessOf(observedAt: string): Freshness {
@@ -311,7 +314,7 @@ export class MockAdapter implements DataAdapter {
     const offerOf = (id: string) => this.d.prospects.find((p) => p.id === id)?.offerInterest ?? null;
     const verified = closed.filter((o) => {
       const payment = this.d.payments.find((p) => p.opportunityId === o.id) ?? null;
-      return isVerifiedWebsiteSale({ offer: payment?.offer ?? offerOf(o.prospectId), payment, window });
+      return isVerifiedWebsiteSale({ offer: payment?.offer ?? offerOf(o.prospectId), payment, window, outcome: o.outcome });
     });
     const signedPending = closed.filter((o) => {
       const payment = this.d.payments.find((p) => p.opportunityId === o.id) ?? null;
@@ -326,4 +329,19 @@ export class MockAdapter implements DataAdapter {
 
   async getLocalities() { await this.gate(); return [...new Set(this.data.companies.map((c) => c.locality))].sort(); }
   async getMeta() { return this.data.meta; }
+}
+
+/** Misma UI. Si la lectura de GHL falla, el pipeline muestra el estado de error. */
+export class SourceAdapter extends MockAdapter {
+  constructor(modeRef: { current: DemoMode }, seed: Dataset, private ghlOk: boolean) {
+    super(modeRef, seed);
+  }
+  async listOpportunities() {
+    if (!this.ghlOk) throw new AdapterError('network', 'No se pudo leer GHL.');
+    return super.listOpportunities();
+  }
+  async getGoalProgress() {
+    if (!this.ghlOk) throw new AdapterError('network', 'No se pudo leer GHL.');
+    return super.getGoalProgress();
+  }
 }

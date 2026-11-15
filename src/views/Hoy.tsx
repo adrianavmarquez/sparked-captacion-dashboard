@@ -45,7 +45,7 @@ export function Hoy() {
         {(d) => {
           const due = d.followups.filter((f) => !f.stopped && daysFromToday(f.dueOn) <= 0 && !isSent(f, d));
           const offerOf = (id: string) => d.rows.find((r) => r.prospect.id === id)?.prospect.offerInterest ?? null;
-          const activeWebs = d.opportunities.filter((o) => isActiveWebProject({ offer: offerOf(o.prospectId), stage: o.stage, payment: d.payments.find((p) => p.opportunityId === o.id) ?? null })).length;
+          const activeWebs = d.opportunities.filter((o) => isActiveWebProject({ offer: offerOf(o.prospectId), stage: o.stage, payment: d.payments.find((p) => p.opportunityId === o.id) ?? null, outcome: o.outcome })).length;
           const delivered = d.payments.filter((p) => p.deliveredAt && d.opportunities.some((o) => o.id === p.opportunityId && o.stage === 'closed' && offerOf(o.prospectId) !== 'cm' && offerOf(o.prospectId) !== null)).length;
           return (
             <div className="stack" style={{ gap: 14 }}>
@@ -148,7 +148,7 @@ function GoalCard({ goal }: { goal: GoalProgress }) {
         </div>
         <div className="card__foot" style={{ marginTop: 8 }}>
           {goal.signedPendingDeposit > 0 ? <>{goal.signedPendingDeposit} {t.hoy.goalSigned}</> : <>Ventas verificadas: {goal.verifiedSales}</>}<br />
-          {t.common.source}: fixtures demo · {fmtDateTime(goal.updatedAt)}
+          {t.common.source}: {goal.source.startsWith('Fixtures') ? 'fixtures demo' : goal.source} · {fmtDateTime(goal.updatedAt)}
         </div>
       </div>
     </section>

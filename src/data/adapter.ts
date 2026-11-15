@@ -10,6 +10,7 @@ import type {
 } from './model';
 import { DEMO_NOW } from './demo-clock';
 import { emptyDataset } from './empty';
+import type { BackendPersistence } from './backend-persistence';
 import type { Persistence, SavedState } from './persistence';
 import { DAY_MS, GOAL } from '../domain/constants';
 import { freshnessAt, worstFreshnessAt } from '../domain/freshness';
@@ -38,7 +39,10 @@ export interface DataAdapter {
   /** Mueve una oportunidad de etapa (arrastre). Queda guardado en el dashboard; la sincronización con GHL es futura. */
   moveStage(input: { opportunityId: string; stage: Stage }): Promise<Opportunity>;
   listDrafts(): Promise<Draft[]>;
-  approveDraft(id: string): Promise<Draft>;
+  approveDraft(id: string, options?: { confirm?: boolean; subject?: string; body?: string }): Promise<Draft>;
+  optOut(email: string): Promise<void>;
+  createOpportunity(input: { prospectId: string; name?: string; stage: Stage; status: string; monetaryValue: number | null }): Promise<void>;
+  updateOpportunity(input: { id: string; name?: string; stage?: Stage; status?: string; monetaryValue: number | null }): Promise<void>;
   listFollowups(): Promise<Followup[]>;
   listOpportunities(): Promise<{ opportunities: Opportunity[]; payments: PaymentVerification[] }>;
   getGoalProgress(): Promise<GoalProgress>;
@@ -73,10 +77,10 @@ export function reviewStateOf(review: Review | null): ReviewState {
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 export class MockAdapter implements DataAdapter {
-  private data: Dataset;
+  protected data: Dataset;
   private modeRef: { current: DemoMode };
   private listeners = new Set<() => void>();
-  private persistence: Persistence | null = null;
+  protected persistence: Persistence | null = null;
   private seed: Dataset;
 
   constructor(modeRef: { current: DemoMode }, seed: Dataset = emptyDataset()) {
@@ -123,9 +127,9 @@ export class MockAdapter implements DataAdapter {
   }
 
   subscribe(fn: () => void) { this.listeners.add(fn); return () => { this.listeners.delete(fn); }; }
-  private emit() { this.listeners.forEach((fn) => fn()); }
+  protected emit() { this.listeners.forEach((fn) => fn()); }
 
-  private async gate() {
+  protected async gate() {
     const mode = this.modeRef.current;
     if (mode === 'loading') { await new Promise(() => {}); } // nunca resuelve: estado "cargando" permanente
     await wait(180);
@@ -305,6 +309,18 @@ export class MockAdapter implements DataAdapter {
     return { ...dr };
   }
 
+  async optOut(_email: string): Promise<void> {
+    throw new AdapterError('unknown', 'Pendiente de activar');
+  }
+
+  async createOpportunity(_input: { prospectId: string; name?: string; stage: Stage; status: string; monetaryValue: number | null }): Promise<void> {
+    throw new AdapterError('unknown', 'Pendiente de activar');
+  }
+
+  async updateOpportunity(_input: { id: string; name?: string; stage?: Stage; status?: string; monetaryValue: number | null }): Promise<void> {
+    throw new AdapterError('unknown', 'Pendiente de activar');
+  }
+
   async listFollowups() { await this.gate(); return [...this.d.followups]; }
 
   async listOpportunities() { await this.gate(); return { opportunities: [...this.d.opportunities], payments: [...this.d.payments] }; }
@@ -345,5 +361,103 @@ export class SourceAdapter extends MockAdapter {
   async getGoalProgress() {
     if (!this.ghlOk) throw new AdapterError('network', 'No se pudo leer GHL.');
     return super.getGoalProgress();
+  }
+
+  async saveReview(input: Parameters<MockAdapter['saveReview']>[0]) {
+    const review = await super.saveReview(input);
+    const persistence = this.persistence as BackendPersistence | undefined;
+    if (persistence?.lastDraft) {
+      const draft = persistence.lastDraft;
+      this.data.drafts = [...this.data.drafts.filter((row) => row.id !== draft.id), draft];
+      persistence.lastDraft = null;
+      this.emit();
+    }
+    return review;
+  }
+
+  async moveStage(input: { opportunityId: string; stage: Stage }) {
+    await this.gate();
+    const opportunity = this.data.opportunities.find((row) => row.id === input.opportunityId);
+    if (!opportunity) throw new AdapterError('unknown', 'Oportunidad no encontrada.');
+    const previous = { stage: opportunity.stage, updatedAt: opportunity.updatedAt, outcome: opportunity.outcome, ghlStatus: opportunity.ghlStatus };
+    if (opportunity.stage !== input.stage) {
+      opportunity.stage = input.stage;
+      opportunity.updatedAt = new Date().toISOString();
+      this.emit();
+    }
+    try {
+      if (this.persistence?.kind === 'backend') {
+        const fresh = await (this.persistence as BackendPersistence).pushStage(input);
+        if (fresh.opportunity?.stage) opportunity.stage = fresh.opportunity.stage;
+        if (fresh.opportunity?.updatedAt) opportunity.updatedAt = fresh.opportunity.updatedAt;
+        if (fresh.opportunity?.outcome) opportunity.outcome = fresh.opportunity.outcome;
+        if (fresh.opportunity) opportunity.ghlStatus = fresh.opportunity.ghlStatus ?? opportunity.ghlStatus;
+        this.emit();
+      } else {
+        await this.persistence?.saveStage({ opportunityId: opportunity.id, stage: opportunity.stage, movedAt: opportunity.updatedAt, by: 'adri' });
+      }
+    } catch (error) {
+      opportunity.stage = previous.stage;
+      opportunity.updatedAt = previous.updatedAt;
+      opportunity.outcome = previous.outcome;
+      opportunity.ghlStatus = previous.ghlStatus;
+      this.emit();
+      throw error;
+    }
+    return { ...opportunity };
+  }
+
+  async approveDraft(id: string, options?: { confirm?: boolean; subject?: string; body?: string }) {
+    if (this.persistence?.kind !== 'backend') return super.approveDraft(id);
+    const result = await (this.persistence as BackendPersistence).approveServerDraft(id, options);
+    const draft = this.data.drafts.find((row) => row.id === id);
+    if (draft) {
+      if (result.status === 'sent' || result.status === 'approved') draft.status = result.status;
+      if (typeof result.sentAt === 'string' || result.sentAt === null) draft.sentAt = result.sentAt;
+      if (typeof result.approvedAt === 'string' || result.approvedAt === null) draft.approvedAt = result.approvedAt;
+      if (typeof result.subject === 'string') draft.subject = result.subject;
+      if (options?.body) draft.body = options.body;
+    }
+    const followups = Array.isArray(result.followups) ? result.followups as Draft[] : [];
+    for (const extra of followups) {
+      if (!this.data.drafts.some((row) => row.id === extra.id)) {
+        this.data.drafts.push({ ...extra, channel: extra.channel ?? 'email' });
+      }
+    }
+    this.emit();
+    if (!draft) throw new AdapterError('unknown', 'Borrador no encontrado.');
+    return { ...draft };
+  }
+
+  async optOut(email: string) {
+    if (this.persistence?.kind !== 'backend') return super.optOut(email);
+    await (this.persistence as BackendPersistence).optOut(email);
+  }
+
+  async createOpportunity(input: { prospectId: string; name?: string; stage: Stage; status: string; monetaryValue: number | null }) {
+    if (this.persistence?.kind !== 'backend') return super.createOpportunity(input);
+    await (this.persistence as BackendPersistence).createOpportunity(input);
+    this.emit();
+  }
+
+  async updateOpportunity(input: { id: string; name?: string; stage?: Stage; status?: string; monetaryValue: number | null }) {
+    if (this.persistence?.kind !== 'backend') return super.updateOpportunity(input);
+    const current = this.data.opportunities.find((row) => row.id === input.id);
+    const previous = current ? { stage: current.stage, ghlStatus: current.ghlStatus, outcome: current.outcome } : null;
+    if (current && input.stage) { current.stage = input.stage; this.emit(); }
+    try {
+      const body = await (this.persistence as BackendPersistence).updateOpportunity(input);
+      const opportunity = body.opportunity as { stage?: Stage | null; ghlStatus?: string | null; outcome?: 'unverified' | 'lost'; updatedAt?: string | null } | undefined;
+      if (current && opportunity) {
+        if (opportunity.stage) current.stage = opportunity.stage;
+        if (opportunity.updatedAt) current.updatedAt = opportunity.updatedAt;
+        if (opportunity.outcome) current.outcome = opportunity.outcome;
+        current.ghlStatus = opportunity.ghlStatus ?? current.ghlStatus;
+        this.emit();
+      }
+    } catch (error) {
+      if (current && previous) { current.stage = previous.stage; current.ghlStatus = previous.ghlStatus; current.outcome = previous.outcome; this.emit(); }
+      throw error;
+    }
   }
 }

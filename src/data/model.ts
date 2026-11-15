@@ -66,6 +66,8 @@ export interface Contact {
   verifiedAt: string | null;
   /** [PROPUESTO 7 nov] camino cálido (conexiones en común, intro posible). Lo alimenta María. */
   warmPath: string | null;
+  /** Origen del dato. Sin esto el correo no se puede enviar. */
+  source?: string | null;
 }
 
 export interface Review {

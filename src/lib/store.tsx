@@ -20,6 +20,7 @@ interface Store {
   reconnect: () => Promise<void>;
   logout: () => Promise<void>;
   actor: OperatorActor | null;
+  capabilities: { ghlConnected: boolean; ghlWrites: boolean; sends: boolean };
 }
 
 const Ctx = createContext<Store | null>(null);
@@ -31,6 +32,7 @@ export function StoreProvider({ children }: { children: ReactNode }) {
   const [adapter, setAdapter] = useState<DataAdapter>(() => new MockAdapter({ current: 'normal' }, emptyDataset()));
   const [access, setAccess] = useState<AppAccess>('checking');
   const [actor, setActor] = useState<OperatorActor | null>(null);
+  const [capabilities, setCapabilities] = useState({ ghlConnected: false, ghlWrites: false, sends: false });
   const [toastMsg, setToastMsg] = useState<string | null>(null);
 
   const [persistence, setPersistence] = useState<{ kind: PersistenceKind; label: string; short: string }>({ kind: 'none', label: 'Conectando…', short: '…' });
@@ -111,8 +113,21 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     setPersistence({ kind: 'none', label: 'Sin sesión', short: 'Bloqueado' });
     setAccess('locked');
   };
+  useEffect(() => {
+    if (access !== 'live') return;
+    let alive = true;
+    fetch('/api/health').then((response) => response.json()).then((body: { ghl?: string; liveReads?: boolean; ghlWrites?: string; sends?: string }) => {
+      if (!alive) return;
+      setCapabilities({
+        ghlConnected: body.ghl === 'verified' || body.liveReads === true,
+        ghlWrites: body.ghlWrites === 'enabled',
+        sends: body.sends === 'enabled',
+      });
+    }).catch(() => undefined);
+    return () => { alive = false; };
+  }, [access]);
   const value: Store = {
-    adapter, access, actor, mode, version, persistence,
+    adapter, access, actor, capabilities, mode, version, persistence,
     setMode: (m) => { modeRef.current.current = m; setModeState(m); setVersion((v) => v + 1); },
     toast: (m) => setToastMsg(m),
     reconnect: async () => { setPersistenceEpoch((n) => n + 1); },

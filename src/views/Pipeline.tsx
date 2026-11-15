@@ -12,19 +12,22 @@ const confirmedStages: Stage[] = ['qualified', 'closed'];
 interface Drag { id: string; name: string; x: number; y: number; w: number; over: Stage | null }
 
 export function Pipeline() {
-  const { adapter, toast, persistence } = useStore();
+  const { adapter, toast, persistence, actor, capabilities } = useStore();
   const nav = useNavigate();
   const q = useQuery(async (a) => {
     const [{ opportunities, payments }, all] = await Promise.all([a.listOpportunities(), a.listProspects({}, 1, 999)]);
     return { opportunities, payments, rows: all.items };
   });
   const [drag, setDrag] = useState<Drag | null>(null);
+  const [syncError, setSyncError] = useState<string | null>(null);
   const dragRef = useRef<Drag | null>(null);
   const press = useRef<{ id: string; name: string; x: number; y: number; w: number; timer: number | null; started: boolean; moved: boolean } | null>(null);
 
   const move = async (id: string, stage: Stage) => {
+    if (actor === 'chiri') { toast(t.ficha.soloAdri); return; }
+    setSyncError(null);
     try { await adapter.moveStage({ opportunityId: id, stage }); toast(`${t.pipeline.moved} ${t.stage[stage]}. ${persistence.label}.`); }
-    catch (e) { toast((e as Error).message); }
+    catch (e) { const message = (e as Error).message; setSyncError(message); toast(message); }
   };
 
   // ----- arrastre con Pointer Events (mouse y táctil) -----
@@ -107,7 +110,8 @@ export function Pipeline() {
                 );
               })}
             </div>
-            <p className="page__meta" style={{ marginTop: 12 }}>{t.pipeline.dragHint} · {t.pipeline.lossReasons} · {t.common.updated} {fmtDateTime(q.data!.opportunities[0]?.updatedAt ?? '2026-11-07T14:00:00-05:00')}</p>
+            {syncError && <p className="page__meta" role="alert" style={{ marginTop: 12 }}>{syncError}</p>}
+            <p className="page__meta" style={{ marginTop: 12 }}>{capabilities.ghlWrites ? 'Los cambios se escriben en GHL y se vuelven a leer.' : t.pipeline.dragHint} · {t.pipeline.lossReasons} · {t.common.updated} {fmtDateTime(q.data!.opportunities[0]?.updatedAt ?? '2026-11-07T14:00:00-05:00')}</p>
             {drag && (
               <div className="opp opp--ghost" style={{ left: drag.x - drag.w / 2, top: drag.y - 24, width: drag.w }} aria-hidden="true">
                 <span className="opp__name">{drag.name}</span>

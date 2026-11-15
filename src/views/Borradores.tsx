@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { strings as t } from '../data/strings';
 import { useQuery, useStore } from '../lib/store';
 import { fmtDateTime } from '../lib/format';
+import { DraftMail } from '../components/DraftMail';
 import { DraftPill, Empty, Loaded, Note, PageHead } from '../components/ui';
 import type { Draft, ProspectRow } from '../data/model';
 
@@ -44,14 +45,14 @@ export function Borradores() {
 }
 
 function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
-  const { adapter, toast, actor } = useStore();
+  const { adapter, toast, actor, capabilities } = useStore();
   const soloAdri = actor === 'chiri';
   const [busy, setBusy] = useState(false);
   const approve = async () => {
     setBusy(true);
-    try { await adapter.approveDraft(draft.id); toast('Borrador aprobado en memoria de la demo. No se envió.'); } finally { setBusy(false); }
+    try { await adapter.approveDraft(draft.id); toast(`${t.borradores.pending}. No se envió.`); } finally { setBusy(false); }
   };
-  const paragraphs = draft.body.split('\n\n');
+  const recipient = row?.contacts.find((contact) => contact.channel === 'email' && contact.source)?.value ?? null;
   return (
     <section className="card" aria-labelledby="h-prev">
       <div className="row row--between">
@@ -68,14 +69,7 @@ function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
       </dl>
 
       {draft.channel === 'email' ? (
-        <div className="email" aria-label="Previsualización esquemática del correo">
-          <h3>{draft.subject}</h3>
-          {paragraphs.map((p, i) => {
-            if (p.trim() === '[Firma]') return <div key={i} className="email__sig">[Firma]</div>;
-            if (i === paragraphs.length - 2 && draft.kind === 'first_contact') return <div key={i} className="email__next">{p}</div>;
-            return <p key={i}>{p}</p>;
-          })}
-        </div>
+        <DraftMail draft={draft} locality={row?.company.locality ?? ''} recipient={recipient} />
       ) : (
         <div className="li-msg">{draft.body}</div>
       )}
@@ -85,15 +79,19 @@ function Preview({ draft, row }: { draft: Draft; row?: ProspectRow }) {
         <pre className="plain" style={{ marginTop: 8 }}>{draft.subject}{'\n\n'}{draft.body}</pre>
       </details>
 
-      <hr className="hr" />
-      <div className="row" style={{ gap: 10 }}>
-        {draft.status === 'draft' && <button className="btn" onClick={approve} disabled={busy || soloAdri}>{t.borradores.approve}</button>}
-        {soloAdri && <span className="page__meta">{t.ficha.soloAdri}</span>}
-        <button className="btn btn--secondary" onClick={() => toast(t.borradores.gmailNote)}>↗ {t.borradores.openGmail}</button>
-        <button className={`btn ${draft.status === 'approved' ? 'btn--sky' : 'btn--secondary'}`} onClick={() => toast(t.borradores.gmailNote)} disabled={draft.status === 'sent'}>{t.borradores.markSent}</button>
-      </div>
-      <p className="card__foot" style={{ marginTop: 8 }}>{t.borradores.gmailNote} {t.borradores.sendHint}</p>
-      <Note tone="paper">{t.borradores.proofNote}</Note>
+      {draft.channel !== 'email' && (
+        <>
+          <hr className="hr" />
+          <div className="row" style={{ gap: 10 }}>
+            {draft.status === 'draft' && <button className="btn" onClick={approve} disabled={busy || soloAdri}>{t.borradores.approve}</button>}
+            {soloAdri && <span className="page__meta">{t.ficha.soloAdri}</span>}
+            {!capabilities.sends && <button className="btn btn--secondary" onClick={() => toast(t.borradores.gmailNote)}>↗ {t.borradores.openGmail}</button>}
+            {!capabilities.sends && <button className={`btn ${draft.status === 'approved' ? 'btn--sky' : 'btn--secondary'}`} onClick={() => toast(t.borradores.gmailNote)} disabled={draft.status === 'sent'}>{t.borradores.markSent}</button>}
+          </div>
+          {!capabilities.sends && <p className="card__foot" style={{ marginTop: 8 }}>{t.borradores.pending}. {t.borradores.gmailNote}</p>}
+          <Note tone="paper">{t.borradores.proofNote}</Note>
+        </>
+      )}
     </section>
   );
 }

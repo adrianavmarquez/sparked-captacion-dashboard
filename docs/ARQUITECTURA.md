@@ -28,7 +28,7 @@ Netlify Blobs no se usa: es para archivos, no para decisiones, borradores ni evi
 
 ## Compuertas apagadas
 
-- Escribir en GHL lanza `IntegrationDisabledError`. Una variable de entorno no lo enciende. Arrastrar una etapa guarda el cambio en el dashboard con `ghl_synced = false` (la tabla ni siquiera acepta `true`).
+- Escribir en GHL solo ocurre con `SPARKED_GHL_WRITES=enabled` y con la sesión de Adri. Si la bandera no está, el movimiento queda en el dashboard y `ghl_synced` sigue en false. Con la bandera, el cambio va a la ubicación y al pipeline configurados, se vuelve a leer y queda en `audit_log` con el antes y el después.
 - Enviar correo o crear un borrador en Gmail lanza la misma compuerta. Aprobar un borrador solo guarda `approved_at`.
 - Los seguimientos calculan fechas y pueden marcar respuesta o baja. No se envían.
 

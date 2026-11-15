@@ -4,26 +4,27 @@ import { strings as t } from '../data/strings';
 import { useQuery, useStore } from '../lib/store';
 import { freshnessOf } from '../data/adapter';
 import { fmtDate, fmtDateTime, ageDays } from '../lib/format';
+import { DraftMail } from '../components/DraftMail';
 import { Empty, ExclusionPill, FreshnessPill, Loaded, Note, OfferPill, ReviewPill, StagePill, Verified } from '../components/ui';
 import type { Decision, ProspectRow, AuditEvent, FitLevel, BudgetSignal, Offer, AgentStep } from '../data/model';
 
 export function Ficha() {
   const { id = '' } = useParams();
   const q = useQuery(async (a) => {
-    const [row, audit, steps] = await Promise.all([a.getProspect(id), a.getAudit(id), a.getAgentSteps(id)]);
-    return { row, audit, steps };
+    const [row, audit, steps, drafts] = await Promise.all([a.getProspect(id), a.getAudit(id), a.getAgentSteps(id), a.listDrafts()]);
+    return { row, audit, steps, drafts: drafts.filter((draft) => draft.prospectId === id && draft.channel === 'email') };
   }, [id]);
 
   return (
     <Loaded q={q} rows={8}>
-      {({ row, audit, steps }) => row ? <FichaBody row={row} audit={audit} steps={steps} /> : (
+      {({ row, audit, steps, drafts }) => row ? <FichaBody row={row} audit={audit} steps={steps} drafts={drafts} /> : (
         <Empty title={t.states.notFound} action={<Link className="btn btn--secondary btn--sm" to="/prospectos">{t.common.back}</Link>} />
       )}
     </Loaded>
   );
 }
 
-function FichaBody({ row, audit, steps }: { row: ProspectRow; audit: AuditEvent[]; steps: AgentStep[] }) {
+function FichaBody({ row, audit, steps, drafts }: { row: ProspectRow; audit: AuditEvent[]; steps: AgentStep[]; drafts: import('../data/model').Draft[] }) {
   const { prospect, company, evidence, contacts, review, opportunity } = row;
   const best = contacts.find((c) => c.verified) ?? contacts[0];
   return (
@@ -121,6 +122,13 @@ function FichaBody({ row, audit, steps }: { row: ProspectRow; audit: AuditEvent[
 
         <div className="stack" style={{ gap: 'var(--s-4)' }}>
           <DecisionCard row={row} />
+          <GhlCard row={row} />
+          {drafts.map((draft) => (
+            <section className="card" key={draft.id}>
+              <h2 className="card__label">{t.borradores.preview}</h2>
+              <DraftMail draft={draft} locality={row.company.locality} recipient={row.contacts.find((contact) => contact.channel === 'email' && contact.source)?.value ?? null} />
+            </section>
+          ))}
           <AgentCard steps={steps} approved={row.reviewState === 'approved'} />
           <FitCard row={row} />
           <section className="card card--flat" aria-labelledby="h-hist">
@@ -298,6 +306,57 @@ function FitCard({ row }: { row: ProspectRow }) {
           <span className="pill pill--plain pill--ghost">{persistence.short}</span>
         </div>
       </form>
+    </section>
+  );
+}
+
+function GhlCard({ row }: { row: ProspectRow }) {
+  const { adapter, toast, actor, capabilities } = useStore();
+  const soloAdri = actor === 'chiri' || !capabilities.ghlWrites;
+  const [name, setName] = useState(row.company.name);
+  const [value, setValue] = useState('');
+  const [status, setStatus] = useState(row.opportunity?.ghlStatus ?? 'open');
+  const [stage, setStage] = useState(row.opportunity?.stage ?? 'new_lead');
+  const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+  const save = async () => {
+    setBusy(true);
+    setError(null);
+    const previous = row.opportunity ? { ...row.opportunity } : null;
+    try {
+      const monetaryValue = value === '' ? null : Number(value);
+      if (!row.opportunity) {
+        await adapter.createOpportunity({ prospectId: row.prospect.id, name, stage, status, monetaryValue });
+      } else {
+        await adapter.updateOpportunity({ id: row.opportunity.id, name, stage, status, monetaryValue });
+      }
+      toast(capabilities.ghlWrites ? 'Escrito en GHL.' : t.borradores.pending);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : t.borradores.pending);
+      if (previous) row.opportunity && Object.assign(row.opportunity, previous);
+    } finally {
+      setBusy(false);
+    }
+  };
+  return (
+    <section className="card">
+      <h2 className="card__label">Oportunidad en GHL</h2>
+      {!capabilities.ghlWrites && <p className="page__meta">{t.borradores.pending}</p>}
+      {soloAdri && actor === 'chiri' && <p className="page__meta">{t.ficha.soloAdri}</p>}
+      <label className="field"><span>Nombre</span><input value={name} disabled={soloAdri || busy} onChange={(event) => setName(event.target.value)} /></label>
+      <label className="field"><span>Valor declarado</span><input value={value} inputMode="decimal" disabled={soloAdri || busy} onChange={(event) => setValue(event.target.value)} /></label>
+      <label className="field"><span>Estado</span>
+        <select value={status} disabled={soloAdri || busy} onChange={(event) => setStatus(event.target.value)}>
+          {['open', 'won', 'lost', 'abandoned'].map((item) => <option key={item} value={item}>{item}</option>)}
+        </select>
+      </label>
+      <label className="field"><span>Etapa</span>
+        <select value={stage} disabled={soloAdri || busy} onChange={(event) => setStage(event.target.value as typeof stage)}>
+          {(['new_lead', 'contacted', 'qualified', 'proposal_sent', 'negotiation', 'closed'] as const).map((item) => <option key={item} value={item}>{t.stage[item]}</option>)}
+        </select>
+      </label>
+      {error && <p className="page__meta" role="alert">{error}</p>}
+      <button className="btn" type="button" disabled={soloAdri || busy} onClick={() => { void save(); }}>{row.opportunity ? 'Guardar en GHL' : 'Crear en GHL'}</button>
     </section>
   );
 }

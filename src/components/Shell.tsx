@@ -40,6 +40,13 @@ function Nav({ className }: { className: string }) {
   );
 }
 
+function liveLine(actor: 'adri' | 'chiri' | null, capabilities: { ghlConnected: boolean; ghlWrites: boolean; sends: boolean }) {
+  const who = actor === 'chiri' ? 'Chiri' : 'Adri';
+  const ghl = !capabilities.ghlConnected ? 'GHL no disponible' : capabilities.ghlWrites ? 'GHL conectado' : 'GHL conectado · solo lectura';
+  const mail = capabilities.sends ? 'Envíos desde Gmail activos' : 'Envíos pendientes de activar';
+  return `En vivo · ${who} · ${ghl} · ${mail}`;
+}
+
 function Brand({ compact = false }: { compact?: boolean }) {
   return (
     <div className="brand">
@@ -62,7 +69,7 @@ function Brand({ compact = false }: { compact?: boolean }) {
 }
 
 export function Shell() {
-  const { access, actor, logout, mode, setMode, persistence } = useStore();
+  const { access, actor, capabilities, logout, mode, setMode, persistence } = useStore();
   const meta = useQuery((a) => a.getMeta());
   const modes: DemoMode[] = ['normal', 'loading', 'empty', 'error', 'forbidden'];
   if (access !== 'live' && access !== 'demo') return <LockScreen checking={access === 'checking'} />;
@@ -87,7 +94,7 @@ export function Shell() {
         <div className="banner" role="note">
           {live ? (
             <>
-              <span className="banner__text">En vivo · {actor === 'chiri' ? 'Chiri' : 'Adri'} · GHL solo lectura · no envía nada</span>
+              <span className="banner__text">{liveLine(actor, capabilities)}</span>
               <button type="button" className="linkbtn banner__live" onClick={() => { void logout(); }}>Salir</button>
             </>
           ) : (

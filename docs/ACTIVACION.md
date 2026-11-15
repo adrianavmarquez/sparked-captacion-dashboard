@@ -44,9 +44,26 @@ Etapas que se reconocen por nombre: New Lead, Contacted, Qualified, Proposal Sen
 
 La UI de la demo no cambia al adaptador de GHL. Sigue en fixtures hasta un cambio explícito posterior.
 
-## 5. Correo
+## 5. Escritura en GHL y envío desde Gmail
 
-No hay variables de Gmail. Preparar un texto es `POST /api/mail/prepare`. Enviar es `POST /api/mail/send` y responde 403. No se crean borradores en el buzón. Hace falta otra aprobación de Adri, y otro cambio de código, para enviar.
+Las dos compuertas salen cerradas. Solo el valor exacto `enabled` las abre. Chiri sigue en solo lectura.
+
+| Nombre | Para qué |
+|---|---|
+| `SPARKED_GHL_WRITES` | `enabled` deja que Adri cree, mueva y ajuste oportunidades en `GHL_LOCATION_ID` y `GHL_PIPELINE_ID`. Si falta, la salud dice `ghlWrites: disabled`. |
+| `SPARKED_SENDS` | `enabled` deja que el clic de Aprobar, después de confirmar, envíe desde Gmail. Si falta, la salud dice `sends: disabled` y la pantalla dice «Pendiente de activar». |
+| `GMAIL_SENDER` | `adriana@sparkedreactions.com`. |
+| `GMAIL_SENDER_NAME` | Nombre que ve el destinatario. Opcional. |
+| `GMAIL_APP_PASSWORD` | Clave de aplicación de esa cuenta. No va al repositorio ni a los logs. |
+| `SPARKED_DAILY_SEND_CAP` | Entero. Si falta, el tope es 20 envíos por día civil ET. |
+
+El token de GHL necesita los alcances `opportunities.write` y `contacts.write`. Si faltan, la pantalla nombra el alcance. `won` en GHL no cuenta como venta: sigue haciendo falta contrato firmado y anticipo registrado.
+
+El correo usa la plantilla de `server/email/templates/` (formato 3, 6 nov 2026) y la firma de Adriana. Sale en HTML y en texto. Cada borrador se envía una sola vez. Los días 4, 10 y 20 nacen como borradores y cada uno pide su propia aprobación. `POST /api/email/verify` (solo Adri) inicia sesión SMTP y no envía nada.
+
+## 5 bis. Correo, cuando la compuerta está cerrada
+
+Preparar un texto sigue siendo `POST /api/mail/prepare`. `POST /api/mail/send` responde 403. Nada sale sin el clic de Aprobar con `SPARKED_SENDS=enabled`.
 
 ## 6. Demo del API
 

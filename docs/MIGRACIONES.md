@@ -1,6 +1,6 @@
 # Migraciones
 
-Hay una migración: `netlify/database/migrations/20261108000000_review_state/migration.sql`.
+Hay migraciones en `netlify/database/migrations/`. La de `20261115190000_ghl_writes_and_sends` agrega borradores de correo, bajas, vínculos con GHL y el antes/después en `audit_log`. También permite `ghl_synced = true` después de una escritura aceptada.
 
 Crea revisiones, valoraciones de fit, aprobaciones de borrador (sin columna de envío), hitos de pago, movimientos de etapa, evidencia, paradas de seguimiento y auditoría.
 

@@ -6,10 +6,14 @@ import type { Offer } from '../../src/data/model';
 import { actorForPassword, authConfig, clearCookie, readSession, sessionCookie, signSession, type Session } from '../auth';
 import type { Env } from '../env';
 import { readEnv } from '../env';
-import { assertGhlWriteDisabled, IntegrationDisabledError } from '../ghl/gates';
+import { ghlWritesEnabled, GhlScopeError, IntegrationDisabledError, PENDING_ACTIVATION } from '../ghl/gates';
 import { prepareImport } from '../catalog/prepare';
 import { ghlOpportunities, ghlStatus, type GhlDeps, type GhlOpportunity } from '../ghl/readonly';
-import { prepareMail, sendMail } from '../mail/port';
+import { prepareMail } from '../mail/port';
+import {
+  approveDraft, capabilityFlags, createPipelineOpportunity, ensureFirstDraft, MailGateError,
+  parseGhlStatus, parseMoney, parseStageKey, previewMessage, rememberOptOut, updatePipelineOpportunity, verifyMailbox,
+} from './delivery';
 import { redact } from '../redact';
 import type { StoreResult } from '../store/types';
 import {
@@ -24,6 +28,7 @@ export interface ApiDeps {
     production: () => Promise<StoreResult>;
   };
   fetchImpl?: typeof fetch;
+  mailer?: import('../mail/smtp').Mailer;
 }
 
 const JSON_HEADERS = {
@@ -50,7 +55,9 @@ export async function handleApi(req: Request, deps: ApiDeps): Promise<Response> 
     return await route(req, path, deps, session, opened);
   } catch (error) {
     if (error instanceof InputError) return json(400, { error: 'validation', issues: error.issues });
-    if (error instanceof IntegrationDisabledError) return json(403, { error: error.gate, send: 'disabled', ghl: 'not_synced' });
+    if (error instanceof IntegrationDisabledError) return json(403, { error: error.gate, send: 'disabled', ghl: 'not_synced', message: error.message });
+    if (error instanceof GhlScopeError) return json(403, { error: 'missing_scope', scope: error.scope, message: error.message });
+    if (error instanceof MailGateError) return json(error.status, { error: error.error, message: error.message });
     if (error instanceof Response) return error;
     return json(500, { error: 'internal', detail: redact(error instanceof Error ? error.name : 'error') });
   }
@@ -76,7 +83,14 @@ async function route(req: Request, path: string, deps: ApiDeps, session: Session
     if (session.actor !== 'adri') return json(403, { error: 'actor' });
     const review = parseReview(await readBody(req), 'adri', deps.now().toISOString());
     await store.saveReview(review);
-    return json(200, { review, ghl: 'not_synced' });
+    let draft = null;
+    if (review.decision === 'approve_contact') {
+      const catalog = await store.loadCatalog();
+      const prospect = catalog.prospects.find((row) => row.id === review.prospectId);
+      const company = catalog.companies.find((row) => row.id === prospect?.companyId);
+      draft = await ensureFirstDraft(store, review.prospectId, company?.name ?? review.prospectId, company?.locality ?? '');
+    }
+    return json(200, { review, draft, ghl: 'not_synced' });
   }
   if (req.method === 'POST' && path === '/api/fits') {
     if (session.actor !== 'adri') return json(403, { error: 'actor' });
@@ -87,13 +101,38 @@ async function route(req: Request, path: string, deps: ApiDeps, session: Session
   const approve = path.match(/^\/api\/drafts\/([A-Za-z0-9_-]{1,80})\/approve$/);
   if (req.method === 'POST' && approve) {
     if (session.actor !== 'adri') return json(403, { error: 'actor' });
-    const approvedAt = deps.now().toISOString();
-    await store.saveDraftApproval(approve[1], approvedAt);
-    return json(200, { draftId: approve[1], status: 'approved', approvedAt, sentAt: null, send: 'disabled' });
+    const payload = await readBody(req) as { confirm?: unknown; subject?: unknown; body?: unknown };
+    const result = await approveDraft({
+      store,
+      env: deps.env,
+      deps: ghlDeps(deps),
+      mailer: deps.mailer,
+      draftId: approve[1],
+      now: deps.now().toISOString(),
+      confirm: payload.confirm === true,
+      subject: typeof payload.subject === 'string' ? payload.subject : undefined,
+      body: typeof payload.body === 'string' ? payload.body : undefined,
+    });
+    return json(200, result);
+  }
+  const draftEdit = path.match(/^\/api\/drafts\/([A-Za-z0-9_-]{1,80})$/);
+  if (req.method === 'POST' && draftEdit) {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
+    const payload = await readBody(req) as { subject?: unknown; body?: unknown };
+    if (typeof payload.subject !== 'string' || typeof payload.body !== 'string') throw new InputError(['draft']);
+    const current = (await store.load()).mailDrafts.find((row) => row.id === draftEdit[1]);
+    if (!current) return json(404, { error: 'not_found' });
+    if (current.status === 'sent') return json(409, { error: 'already_sent', message: 'Ese correo ya se envió.' });
+    const next = { ...current, subject: payload.subject.trim(), body: payload.body.trim() };
+    await store.saveMailDraft(next);
+    const catalog = await store.loadCatalog();
+    const company = catalog.companies.find((row) => catalog.prospects.some((prospect) => prospect.id === current.prospectId && prospect.companyId === row.id));
+    const rendered = previewMessage({ subject: next.subject, body: next.body, locality: company?.locality ?? '' });
+    return json(200, { draft: next, ...rendered });
   }
   const send = path.match(/^\/api\/drafts\/([A-Za-z0-9_-]{1,80})\/send$/);
   if (req.method === 'POST' && send) {
-    sendMail();
+    throw new IntegrationDisabledError('mail_send', 'El envío solo ocurre cuando Adri aprueba el borrador.');
   }
   if (req.method === 'POST' && path === '/api/payments') {
     const payment = parsePayment(await readBody(req));
@@ -102,17 +141,16 @@ async function route(req: Request, path: string, deps: ApiDeps, session: Session
     return json(200, { payment, line });
   }
   if (req.method === 'POST' && path === '/api/stages') {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
     const move = parseStage(await readBody(req), 'adri', deps.now().toISOString());
-    let writeBlocked = false;
-    try {
-      assertGhlWriteDisabled();
-    } catch (error) {
-      if (!(error instanceof IntegrationDisabledError)) throw error;
-      writeBlocked = true;
+    if (!ghlWritesEnabled(deps.env)) {
+      await store.saveStage(move);
+      return json(200, { stage: move, ghl: 'not_synced', writeGate: 'disabled', message: PENDING_ACTIVATION });
     }
-    if (!writeBlocked) return json(500, { error: 'write_gate_open' });
-    await store.saveStage(move);
-    return json(200, { stage: move, ghl: 'not_synced', writeGate: 'disabled' });
+    const after = await updatePipelineOpportunity({
+      store, deps: ghlDeps(deps), now: deps.now().toISOString(), id: move.opportunityId, stage: move.stage,
+    });
+    return json(200, { stage: move, ghl: 'synced', writeGate: 'enabled', opportunity: after });
   }
   if (req.method === 'POST' && path === '/api/evidence') {
     const evidence = parseEvidenceBody(await readBody(req));
@@ -152,7 +190,63 @@ async function route(req: Request, path: string, deps: ApiDeps, session: Session
     }
     return json(200, prepareMail({ channel: body.channel, subject: body.subject, text: body.text }));
   }
-  if (req.method === 'POST' && path === '/api/mail/send') sendMail();
+  if (req.method === 'POST' && path === '/api/mail/send') {
+    throw new IntegrationDisabledError('mail_send', 'El envío solo ocurre cuando Adri aprueba el borrador.');
+  }
+  if (req.method === 'POST' && path === '/api/mail/preview') {
+    const payload = await readBody(req) as { subject?: unknown; body?: unknown; locality?: unknown; firstName?: unknown };
+    if (typeof payload.subject !== 'string' || typeof payload.body !== 'string') throw new InputError(['mail']);
+    return json(200, previewMessage({
+      subject: payload.subject,
+      body: payload.body,
+      locality: typeof payload.locality === 'string' ? payload.locality : '',
+      firstName: typeof payload.firstName === 'string' ? payload.firstName : null,
+    }));
+  }
+  if (req.method === 'POST' && path === '/api/email/verify') {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
+    await verifyMailbox(deps.env, deps.mailer);
+    return json(200, { ok: true, send: 'not_sent' });
+  }
+  if (req.method === 'POST' && path === '/api/opt-outs') {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
+    const payload = await readBody(req) as { email?: unknown };
+    if (typeof payload.email !== 'string') throw new InputError(['email']);
+    const saved = await rememberOptOut(store, payload.email, deps.now().toISOString());
+    return json(200, saved);
+  }
+  if (req.method === 'POST' && path === '/api/ghl/opportunities') {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
+    const payload = await readBody(req) as { prospectId?: unknown; name?: unknown; stage?: unknown; status?: unknown; monetaryValue?: unknown };
+    if (typeof payload.prospectId !== 'string') throw new InputError(['prospect']);
+    const created = await createPipelineOpportunity({
+      store,
+      deps: ghlDeps(deps),
+      now: deps.now().toISOString(),
+      prospectId: payload.prospectId,
+      name: typeof payload.name === 'string' ? payload.name : undefined,
+      stage: parseStageKey(payload.stage ?? 'new_lead'),
+      status: parseGhlStatus(payload.status ?? 'open'),
+      monetaryValue: parseMoney(payload.monetaryValue),
+    });
+    return json(200, { ...created, outcome: 'unverified' });
+  }
+  const ghlOpp = path.match(/^\/api\/ghl\/opportunities\/([A-Za-z0-9_-]{1,80})$/);
+  if ((req.method === 'PUT' || req.method === 'POST') && ghlOpp) {
+    if (session.actor !== 'adri') return json(403, { error: 'actor' });
+    const payload = await readBody(req) as { name?: unknown; stage?: unknown; status?: unknown; monetaryValue?: unknown };
+    const after = await updatePipelineOpportunity({
+      store,
+      deps: ghlDeps(deps),
+      now: deps.now().toISOString(),
+      id: ghlOpp[1],
+      name: typeof payload.name === 'string' ? payload.name : undefined,
+      stage: payload.stage == null ? undefined : parseStageKey(payload.stage),
+      status: payload.status == null ? undefined : parseGhlStatus(payload.status),
+      monetaryValue: payload.monetaryValue === undefined ? undefined : parseMoney(payload.monetaryValue),
+    });
+    return json(200, { opportunity: after, outcome: after.outcome, verifiedSale: false });
+  }
   return json(404, { error: 'not_found' });
 }
 
@@ -171,8 +265,7 @@ async function health(deps: ApiDeps): Promise<Response> {
     persistence: production.ok ? (production.durable ? 'durable' : 'ephemeral') : production.error,
     ghl: ghl.status === 'ok' ? 'verified' : ghl.status === 'not_configured' ? 'not_configured' : ghl.status === 'pipeline_not_verified' ? 'pipeline_not_verified' : 'error',
     liveReads,
-    sends: 'disabled',
-    ghlWrites: 'disabled',
+    ...capabilityFlags(deps.env),
   });
 }
 
@@ -268,12 +361,18 @@ async function workspaceBody(store: { load(): Promise<import('../store/types').S
     evidence: catalog.evidence,
     contacts: catalog.contacts.map((contact) => ({
       id: contact.id, prospectId: contact.prospectId, role: contact.role, channel: contact.channel,
-      value: contact.value, verified: contact.verified, verifiedAt: contact.verifiedAt, warmPath: null,
+      value: contact.value, verified: contact.verified, verifiedAt: contact.verifiedAt, warmPath: null, source: contact.source,
     })),
     reviews: state.reviews,
     fits: state.fits,
     payments: state.payments,
     stages: state.stages,
+    drafts: state.mailDrafts.map((draft) => ({
+      id: draft.id, prospectId: draft.prospectId, kind: draft.kind, followupDay: draft.followupDay,
+      channel: 'email', subject: draft.subject, body: draft.body, status: draft.status,
+      approvedAt: draft.approvedAt, sentAt: draft.sentAt,
+    })),
+    followups: followupsFrom(state),
     opportunities: opportunities.map((row) => ({
       id: row.id, stage: row.stage, stageName: row.stageName, outcome: row.outcome,
       ghlStatus: row.ghlStatus, name: row.name, updatedAt: row.updatedAt,
@@ -282,6 +381,29 @@ async function workspaceBody(store: { load(): Promise<import('../store/types').S
     updatedAt,
     source: ghlOk ? 'Base de captación + lectura GHL' : 'Base de captación (GHL no disponible)',
   };
+}
+
+function followupsFrom(state: import('../store/types').StoredState) {
+  const sentAt = new Map<string, string>();
+  for (const draft of state.mailDrafts) {
+    if (draft.kind === 'first_contact' && draft.sentAt) sentAt.set(draft.prospectId, draft.sentAt);
+  }
+  return state.mailDrafts.flatMap((draft) => {
+    if (draft.kind !== 'followup' || !draft.followupDay) return [];
+    const first = sentAt.get(draft.prospectId) ?? null;
+    const plan = scheduleFollowups(first);
+    const dueOn = Array.isArray(plan) ? plan.find((row) => row.day === draft.followupDay)?.dueOn ?? '' : '';
+    const stopped = state.followupStops.find((row) => row.prospectId === draft.prospectId);
+    return [{
+      id: `fu_${draft.id}`,
+      prospectId: draft.prospectId,
+      day: draft.followupDay,
+      dueOn,
+      stopped: !!stopped,
+      stopReason: stopped?.reason ?? null,
+      draftId: draft.id,
+    }];
+  });
 }
 
 function json(status: number, body: unknown, extra: Record<string, string> = {}): Response {

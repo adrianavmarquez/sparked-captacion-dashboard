@@ -21,6 +21,8 @@ export interface WorkspacePayload {
   payments: Dataset['payments'];
   stages: StageMove[];
   opportunities: LiveGhlOpp[];
+  drafts?: Dataset['drafts'];
+  followups?: Dataset['followups'];
   ghlOk: boolean;
   updatedAt: string;
   source: string;
@@ -77,8 +79,8 @@ export function datasetFromWorkspace(payload: WorkspacePayload): Dataset {
     reviews: payload.reviews,
     opportunities,
     payments: payload.payments,
-    drafts: [],
-    followups: [],
+    drafts: payload.drafts ?? [],
+    followups: payload.followups ?? [],
     fits: payload.fits,
     agentSteps: [],
     audit: payload.reviews.map((review) => ({

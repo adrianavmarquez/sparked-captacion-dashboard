@@ -1,4 +1,4 @@
-import type { FitAssessment, PaymentVerification, Review } from './model';
+import type { Draft, FitAssessment, PaymentVerification, Review, Stage } from './model';
 import type { Persistence, PersistenceKind, SavedState, StageMove } from './persistence';
 
 const FLAG = 'sparked.backend.enabled';
@@ -23,12 +23,32 @@ export class BackendPersistence implements Persistence {
   kind: PersistenceKind = 'backend';
   label = 'Guardado en el servidor';
   short = 'Servidor';
+  lastDraft: Draft | null = null;
 
   async load(): Promise<SavedState> {
     const body = await request<{ state: SavedState }>('/api/state');
     return body.state;
   }
-  async saveReview(review: Review) { await request('/api/reviews', review); }
+  async saveReview(review: Review) {
+    const body = await request<{ draft?: Draft | null }>('/api/reviews', review);
+    this.lastDraft = body.draft ?? null;
+  }
+  async approveServerDraft(id: string, options?: { confirm?: boolean; subject?: string; body?: string }) {
+    return request<Record<string, unknown>>(`/api/drafts/${encodeURIComponent(id)}/approve`, options ?? {});
+  }
+  async pushStage(input: { opportunityId: string; stage: Stage }) {
+    return request<{ ghl: string; message?: string; opportunity?: { stage?: Stage | null; updatedAt?: string | null; outcome?: 'unverified' | 'lost'; ghlStatus?: string | null } }>('/api/stages', input);
+  }
+  async createOpportunity(input: { prospectId: string; name?: string; stage: Stage; status: string; monetaryValue: number | null }) {
+    return request<Record<string, unknown>>('/api/ghl/opportunities', input);
+  }
+  async updateOpportunity(input: { id: string; name?: string; stage?: Stage; status?: string; monetaryValue: number | null }) {
+    const { id, ...body } = input;
+    return request<{ opportunity?: { stage?: Stage | null; ghlStatus?: string | null; outcome?: 'unverified' | 'lost'; updatedAt?: string | null } }>(`/api/ghl/opportunities/${encodeURIComponent(id)}`, body);
+  }
+  async optOut(email: string) {
+    return request<{ email: string; domain: string | null }>('/api/opt-outs', { email });
+  }
   async saveFit(fit: FitAssessment) { await request('/api/fits', fit); }
   async saveDraftApproval(draftId: string, approvedAt: string) { await request(`/api/drafts/${draftId}/approve`, { approvedAt }); }
   async savePayment(payment: PaymentVerification) { await request('/api/payments', payment); }
@@ -77,8 +97,8 @@ async function request<T>(path: string, body?: unknown): Promise<T> {
     body: body === undefined ? undefined : JSON.stringify(body),
   });
   if (!response.ok) {
-    const payload = await response.json().catch(() => ({ error: 'error' })) as { error?: string };
-    throw new Error(payload.error ?? 'No se pudo guardar en el servidor.');
+    const payload = await response.json().catch(() => ({ error: 'error' })) as { error?: string; message?: string };
+    throw new Error(payload.message || payload.error || 'No se pudo guardar en el servidor.');
   }
   return response.json() as Promise<T>;
 }

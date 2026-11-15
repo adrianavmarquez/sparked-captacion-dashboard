@@ -5,7 +5,8 @@ import type { StageMove } from '../../src/data/persistence';
 import { centsToDollars, dollarsToCents } from '../../src/domain/income';
 import type { SqlDb } from '../db/sql';
 import { applySqlMigrations } from '../db/sql';
-import type { FollowupStop, ReviewStore, StoredState } from './types';
+import { civilDateInEt } from '../../src/domain/time';
+import type { FollowupStop, GhlAudit, GhlLink, MailDraft, OptOut, ReviewStore, StoredState } from './types';
 import { discardReason, type CatalogCompany, type CatalogContact, type CatalogProspect, type ImportCounts, type PreparedImport } from '../catalog/prepare';
 import type { CatalogSnapshot } from './types';
 
@@ -51,6 +52,30 @@ export class SqlReviewStore implements ReviewStore {
         prospectId: String(row.prospect_id),
         reason: row.reason === 'opt_out' ? 'opt_out' : 'replied',
         stoppedAt: iso(row.stopped_at),
+      })),
+      mailDrafts: (await this.db.query<Record<string, unknown>>('SELECT * FROM mail_drafts ORDER BY id')).map(mapMail),
+      optOuts: (await this.db.query<Record<string, unknown>>('SELECT * FROM opt_outs ORDER BY created_at')).map((row) => ({
+        id: String(row.id),
+        email: row.email == null ? null : String(row.email),
+        domain: row.domain == null ? null : String(row.domain),
+        at: iso(row.created_at),
+        by: 'adri' as const,
+      })),
+      ghlLinks: (await this.db.query<Record<string, unknown>>('SELECT * FROM ghl_links')).map((row) => ({
+        prospectId: String(row.prospect_id),
+        opportunityId: String(row.opportunity_id),
+        contactId: row.contact_id == null ? null : String(row.contact_id),
+        locationId: String(row.location_id),
+      })),
+      audits: (await this.db.query<Record<string, unknown>>('SELECT * FROM audit_log ORDER BY at')).map((row) => ({
+        id: String(row.id),
+        entity: String(row.entity),
+        entityId: String(row.entity_id),
+        action: String(row.action),
+        actor: String(row.actor),
+        at: iso(row.at),
+        before: row.before_json ?? null,
+        after: row.after_json ?? null,
       })),
     };
   }
@@ -112,12 +137,13 @@ export class SqlReviewStore implements ReviewStore {
     await this.audit('payment', payment.opportunityId, payment.depositVerified ? 'deposit_recorded' : 'milestone', 'adri', new Date().toISOString());
   }
 
-  async saveStage(move: StageMove) {
+  async saveStage(move: StageMove & { ghlSynced?: boolean }) {
+    const synced = move.ghlSynced === true;
     await this.db.query(
       `INSERT INTO stage_moves (opportunity_id, stage, moved_at, moved_by, ghl_synced)
-       VALUES ($1,$2,$3,$4,false)
-       ON CONFLICT (opportunity_id) DO UPDATE SET stage = EXCLUDED.stage, moved_at = EXCLUDED.moved_at, moved_by = EXCLUDED.moved_by, ghl_synced = false`,
-      [move.opportunityId, move.stage, move.movedAt, move.by],
+       VALUES ($1,$2,$3,$4,$5)
+       ON CONFLICT (opportunity_id) DO UPDATE SET stage = EXCLUDED.stage, moved_at = EXCLUDED.moved_at, moved_by = EXCLUDED.moved_by, ghl_synced = EXCLUDED.ghl_synced`,
+      [move.opportunityId, move.stage, move.movedAt, move.by, synced],
     );
     await this.audit('opportunity', move.opportunityId, `stage:${move.stage}`, move.by, move.movedAt);
   }
@@ -238,6 +264,77 @@ export class SqlReviewStore implements ReviewStore {
       }
       return counts;
     });
+  }
+
+  async saveMailDraft(draft: MailDraft) {
+    await this.db.query(
+      `INSERT INTO mail_drafts (id, prospect_id, kind, followup_day, subject, body, status, recipient, message_id, approved_at, sent_at)
+       VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11)
+       ON CONFLICT (id) DO UPDATE SET subject = EXCLUDED.subject, body = EXCLUDED.body, status = EXCLUDED.status,
+         recipient = EXCLUDED.recipient, approved_at = EXCLUDED.approved_at
+       WHERE mail_drafts.status <> 'sent'`,
+      [draft.id, draft.prospectId, draft.kind, draft.followupDay, draft.subject, draft.body, draft.status, draft.recipient, draft.messageId, draft.approvedAt, draft.sentAt],
+    );
+  }
+
+  async reserveSend(draftId: string, claim: string): Promise<'reserved' | 'sent' | 'missing' | 'busy'> {
+    const rows = await this.db.query<{ status: string }>('SELECT status, message_id FROM mail_drafts WHERE id = $1', [draftId]);
+    const row = rows[0] as { status: string; message_id: string | null } | undefined;
+    if (!row) return 'missing';
+    if (row.status === 'sent') return 'sent';
+    const updated = await this.db.query('UPDATE mail_drafts SET send_claim = $2 WHERE id = $1 AND status <> \'sent\' AND send_claim IS NULL RETURNING id', [draftId, claim]);
+    if (updated.length) return 'reserved';
+    const again = await this.db.query<{ status: string; send_claim: string | null }>('SELECT status, send_claim FROM mail_drafts WHERE id = $1', [draftId]);
+    if (again[0]?.status === 'sent') return 'sent';
+    if (again[0]?.send_claim === claim) return 'reserved';
+    return 'busy';
+  }
+
+  async completeSend(draftId: string, messageId: string, sentAt: string, recipient: string): Promise<MailDraft | null> {
+    const rows = await this.db.query<Record<string, unknown>>(
+      `UPDATE mail_drafts SET status = 'sent', message_id = $2, sent_at = $3, approved_at = COALESCE(approved_at, $3), recipient = $4, send_claim = NULL
+       WHERE id = $1 RETURNING *`,
+      [draftId, messageId, sentAt, recipient],
+    );
+    if (!rows[0]) return null;
+    await this.db.query(
+      `INSERT INTO draft_approvals (draft_id, approved_at) VALUES ($1,$2)
+       ON CONFLICT (draft_id) DO UPDATE SET approved_at = EXCLUDED.approved_at`,
+      [draftId, sentAt],
+    );
+    return mapMail(rows[0]);
+  }
+
+  async releaseSend(draftId: string, claim: string) {
+    await this.db.query('UPDATE mail_drafts SET send_claim = NULL WHERE id = $1 AND send_claim = $2 AND status <> \'sent\'', [draftId, claim]);
+  }
+
+  async countSendsOn(day: string) {
+    const rows = await this.db.query<{ sent_at: string | Date }>('SELECT sent_at FROM mail_drafts WHERE status = \'sent\' AND sent_at IS NOT NULL');
+    return rows.filter((row) => civilDateInEt(iso(row.sent_at)) === day).length;
+  }
+
+  async addOptOut(row: OptOut) {
+    await this.db.query(
+      `INSERT INTO opt_outs (id, email, domain, created_by, created_at) VALUES ($1,$2,$3,$4,$5)
+       ON CONFLICT DO NOTHING`,
+      [row.id, row.email, row.domain, row.by, row.at],
+    );
+  }
+
+  async saveGhlLink(link: GhlLink) {
+    await this.db.query(
+      `INSERT INTO ghl_links (prospect_id, opportunity_id, contact_id, location_id) VALUES ($1,$2,$3,$4)
+       ON CONFLICT (prospect_id) DO UPDATE SET opportunity_id = EXCLUDED.opportunity_id, contact_id = EXCLUDED.contact_id, location_id = EXCLUDED.location_id`,
+      [link.prospectId, link.opportunityId, link.contactId, link.locationId],
+    );
+  }
+
+  async recordAudit(entry: GhlAudit) {
+    await this.db.query(
+      `INSERT INTO audit_log (id, entity, entity_id, action, actor, at, before_json, after_json) VALUES ($1,$2,$3,$4,$5,$6,$7::jsonb,$8::jsonb)`,
+      [entry.id, entry.entity, entry.entityId, entry.action, entry.actor, entry.at, JSON.stringify(entry.before), JSON.stringify(entry.after)],
+    );
   }
 
   private async audit(entity: string, entityId: string, action: string, actor: string, at: string) {
@@ -384,5 +481,22 @@ function mapContact(row: Record<string, unknown>): CatalogContact {
     verified: flag(row.verified),
     verifiedAt: row.verified_at == null ? null : iso(row.verified_at),
     source: row.source == null ? null : String(row.source),
+  };
+}
+
+function mapMail(row: Record<string, unknown>): MailDraft {
+  const day = row.followup_day == null ? null : Number(row.followup_day);
+  return {
+    id: String(row.id),
+    prospectId: String(row.prospect_id),
+    kind: row.kind === 'followup' ? 'followup' : 'first_contact',
+    followupDay: day === 4 || day === 10 || day === 20 ? day : null,
+    subject: String(row.subject),
+    body: String(row.body),
+    status: row.status === 'sent' || row.status === 'approved' ? row.status : 'draft',
+    recipient: row.recipient == null ? null : String(row.recipient),
+    messageId: row.message_id == null ? null : String(row.message_id),
+    approvedAt: row.approved_at == null ? null : iso(row.approved_at),
+    sentAt: row.sent_at == null ? null : iso(row.sent_at),
   };
 }

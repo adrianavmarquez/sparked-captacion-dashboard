@@ -19,4 +19,7 @@ export class UnavailableAdapter implements DataAdapter {
   getGoalProgress() { return Promise.reject(this.failure); }
   getLocalities() { return Promise.reject(this.failure); }
   getMeta() { return Promise.reject(this.failure); }
+  optOut() { return Promise.reject(this.failure); }
+  createOpportunity() { return Promise.reject(this.failure); }
+  updateOpportunity() { return Promise.reject(this.failure); }
 }
